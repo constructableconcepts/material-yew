@@ -62,19 +62,17 @@ pub struct Props {
 
 #[function_component]
 pub fn Button(props: &Props) -> Html {
-    use_effect_with((), |_| {
-        crate::import_material_web_module!("/md-web/button.js")
-    });
+    crate::import_material_web_module!("/md-web/button.js");
     html! { <@{props.variant.as_tag_name()}
-        disabled={props.disabled.unwrap_or_default()}
-        ~href={crate::js_value_from_string_or_null(props.href.as_ref())}
-        ~target={crate::js_value_from_string_or_null(props.target.as_ref())}
-        ~trailingIcon={crate::js_value_or_null(props.trailing_icon.clone())}
-        ~hasIcon={crate::js_value_or_null(props.has_icon.clone())}
-        ~type={crate::js_value_from_string_or_null(props.typepe.as_ref())}
+        disabled={props.disabled.unwrap_or(false)}
+        href={props.href.clone()}
+        target={props.target.clone()}
+        trailingIcon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
+        hasIcon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
+        type={props.typepe.clone()}
         value={props.value.clone().unwrap_or_default()}
-        ~name={crate::js_value_from_string_or_null(props.name.as_ref())}
-        ~form={crate::js_value_or_null(props.form.clone())}
+        name={props.name.clone()}
+        // ~form={crate::js_value_or_null(props.form.clone())}
         onclick={props.onclick.clone()}
     > {props.children.clone()} </@> }
 }

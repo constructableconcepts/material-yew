@@ -2,33 +2,31 @@ use yew::prelude::*;
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Buffer amount to display, a fraction between 0 and 1.
-    #[prop_or(Some(1))]
-    pub buffer: Option<usize>,
+    #[prop_or(1)]
+    pub buffer: usize,
     /// Progress to display, a fraction between 0 and <code>max</code>.
-    #[prop_or(Some(0))]
-    pub value: Option<usize>,
+    #[prop_or_default]
+    pub value: usize,
     /// Maximum progress to display, defaults to 1.
-    #[prop_or(Some(1))]
-    pub max: Option<usize>,
+    #[prop_or(1)]
+    pub max: usize,
     /// Whether or not to display indeterminate progress, which gives no indication to how long an
     /// activity will take.
-    #[prop_or(Some(false))]
-    pub indeterminate: Option<bool>,
+    #[prop_or_default]
+    pub indeterminate: bool,
     /// Whether or not to render indeterminate mode using 4 colors instead of one.
-    #[prop_or(Some(false))]
-    pub four_color: Option<bool>,
+    #[prop_or_default]
+    pub four_color: bool,
 }
 
 #[function_component]
 pub fn LinearProgress(props: &Props) -> Html {
-    use_effect_with((), |_| {
-        crate::import_material_web_module!("/md-web/linear-progress.js")
-    });
+    crate::import_material_web_module!("/md-web/linear-progress.js");
     html! { <md-linear-progress
-        ~buffer={crate::js_value_or_null(props.buffer.clone())}
-        // TODO: value={props.value.clone().unwrap_or_default()}
-        ~max={crate::js_value_or_null(props.max.clone())}
-        ~indeterminate={crate::js_value_or_null(props.indeterminate.clone())}
-        ~fourColor={crate::js_value_or_null(props.four_color.clone())}
+        buffer={props.buffer.to_string()}
+        value={props.value.to_string()}
+        max={props.max.to_string()}
+        indeterminate={props.indeterminate.then(|| AttrValue::from(""))}
+        four-color={props.four_color.then(|| AttrValue::from(""))}
     /> }
 }

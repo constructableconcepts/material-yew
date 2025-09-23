@@ -12,7 +12,7 @@ syn = { version = "2.0.58", features = ["full"] }
 textwrap = "0.16.1"
 eyre = "0.6.12"
 
-yew = { git = "https://github.com/yewstack/yew", features = ["csr"] }
-yew-router = { git = "https://github.com/yewstack/yew" }
+yew = { version = "0.21", features = ["csr"] }
+yew-router = "0.18"
 material-yew = { path = "../" }
 prettyplease = "0.2.17"

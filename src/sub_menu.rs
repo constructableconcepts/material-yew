@@ -1,44 +1,34 @@
-use wasm_bindgen::JsValue;
 use yew::prelude::*;
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// The anchorCorner to set on the submenu.
-    #[prop_or(Some(AttrValue::Static("Corner.START_END")))]
+    #[prop_or_default]
     pub anchor_corner: Option<AttrValue>,
     /// The menuCorner to set on the submenu.
-    #[prop_or(Some(AttrValue::Static("Corner.START_START")))]
+    #[prop_or_default]
     pub menu_corner: Option<AttrValue>,
     /// The delay between mouseenter and submenu opening.
-    #[prop_or(Some(400))]
-    pub hover_open_delay: Option<usize>,
+    #[prop_or(400)]
+    pub hover_open_delay: usize,
     /// The delay between ponterleave and the submenu closing.
-    #[prop_or(Some(400))]
-    pub hover_close_delay: Option<usize>,
+    #[prop_or(400)]
+    pub hover_close_delay: usize,
     /// READONLY: self-identifies as a menu item and sets its identifying attribute
-    #[prop_or(Some(true))]
-    pub is_sub_menu: Option<bool>,
-    ///
-    # [prop_or (Some (wasm_bindgen :: JsValue :: NULL . into ()))]
-    pub item: Option<JsValue>,
-    ///
-    # [prop_or (Some (wasm_bindgen :: JsValue :: NULL . into ()))]
-    pub menu: Option<JsValue>,
+    #[prop_or(true)]
+    pub is_sub_menu: bool,
+    #[prop_or_default]
     pub children: Html,
 }
 
 #[function_component]
 pub fn SubMenu(props: &Props) -> Html {
-    use_effect_with((), |_| {
-        crate::import_material_web_module!("/md-web/sub-menu.js")
-    });
+    crate::import_material_web_module!("/md-web/sub-menu.js");
     html! { <md-sub-menu
-       ~anchorCorner={crate::js_value_from_string_or_null(props.anchor_corner.as_ref())}
-       ~menuCorner={crate::js_value_from_string_or_null(props.menu_corner.as_ref())}
-       ~hoverOpenDelay={crate::js_value_or_null(props.hover_open_delay.clone())}
-       ~hoverCloseDelay={crate::js_value_or_null(props.hover_close_delay.clone())}
-       ~isSubMenu={crate::js_value_or_null(props.is_sub_menu.clone())}
-       ~item={crate::js_value_or_null(props.item.clone())}
-       ~menu={crate::js_value_or_null(props.menu.clone())}
+       anchor-corner={props.anchor_corner.clone()}
+       menu-corner={props.menu_corner.clone()}
+       hover-open-delay={props.hover_open_delay.to_string()}
+       hover-close-delay={props.hover_close_delay.to_string()}
+       is-sub-menu={props.is_sub_menu.then(|| AttrValue::from(""))}
     >
         {props.children.clone()}
     </md-sub-menu> }
