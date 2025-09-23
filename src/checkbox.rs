@@ -1,10 +1,11 @@
+use js_sys::Reflect;
 use wasm_bindgen::JsValue;
 use web_sys::{HtmlFormElement as HTMLFormElement, NodeList};
 use yew::prelude::*;
 
 type ValidityState = JsValue;
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Clone)]
 pub struct Props {
     /// Whether or not the checkbox is selected.
     #[prop_or_default]
@@ -45,19 +46,41 @@ pub struct Props {
 
 #[function_component]
 pub fn Checkbox(props: &Props) -> Html {
+    let node_ref = use_node_ref();
+
+    {
+        let node_ref = node_ref.clone();
+        let props = props.clone();
+        use_effect_with(props, move |props| {
+            let element = node_ref.get().unwrap();
+            let form_value = props.form.as_ref().map(|f| f.into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"form".into(), &form_value).unwrap();
+
+            let labels_value = props.labels.as_ref().map(|l| l.into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"labels".into(), &labels_value).unwrap();
+
+            let validity_value = props.validitype.as_ref().map(|v| v.into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"validity".into(), &validity_value).unwrap();
+
+            let validation_message_value = props.validation_message.as_ref().map(|m| m.as_str().into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"validationMessage".into(), &validation_message_value).unwrap();
+
+            let will_validate_value = props.will_validate.map(|v| v.into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"willValidate".into(), &will_validate_value).unwrap();
+
+            move || {}
+        });
+    }
+
     crate::import_material_web_module!("/md-web/checkbox.js");
     html! { <md-checkbox
+        ref={node_ref}
         checked={props.checked.filter(|&v| v).map(|_| AttrValue::from(""))}
         disabled={props.disabled}
         indeterminate={props.indeterminate.filter(|&v| v).map(|_| AttrValue::from(""))}
         required={props.required}
         value={props.value.clone()}
         name={props.name.clone()}
-        // ~form={crate::js_value_or_null(props.form.clone())}
-        // ~labels={crate::js_value_or_null(props.labels.clone())}
-        // ~validity={crate::js_value_or_null(props.validitype.clone())}
-        // ~validationMessage={crate::js_value_from_string_or_null(props.validation_message.as_ref())}
-        // ~willValidate={crate::js_value_or_null(props.will_validate.clone())}
         onclick={props.onclick.clone()}
     /> }
 }

@@ -1242,6 +1242,7 @@ dependencies = [
  "quote",
  "syn 2.0.58",
  "textwrap",
+ "wasm-bindgen",
  "yew",
  "yew-router",
 ]

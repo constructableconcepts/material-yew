@@ -1,3 +1,5 @@
+use js_sys::Reflect;
+use wasm_bindgen::JsValue;
 use web_sys::HtmlFormElement as HTMLFormElement;
 use yew::prelude::*;
 
@@ -51,7 +53,7 @@ pub struct Props {
     #[prop_or(Some(AttrValue::Static("")))]
     pub name: Option<AttrValue>,
     ///
-    # [prop_or (Some (wasm_bindgen::JsValue::NULL . into ()))]
+    #[prop_or_default]
     pub form: Option<HTMLFormElement>,
     /// The variant to use.
     pub variant: ButtonVariants,
@@ -62,8 +64,25 @@ pub struct Props {
 
 #[function_component]
 pub fn Button(props: &Props) -> Html {
+    let node_ref = use_node_ref();
+
+    {
+        let node_ref = node_ref.clone();
+        let form = props.form.clone();
+        use_effect_with(form, move |form| {
+            let element = node_ref.get().unwrap();
+            let value = form
+                .as_ref()
+                .map(|f| f.into())
+                .unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"form".into(), &value).unwrap();
+            move || {}
+        });
+    }
+
     crate::import_material_web_module!("/md-web/button.js");
     html! { <@{props.variant.as_tag_name()}
+        ref={node_ref}
         disabled={props.disabled.unwrap_or(false)}
         href={props.href.clone()}
         target={props.target.clone()}
@@ -72,7 +91,6 @@ pub fn Button(props: &Props) -> Html {
         type={props.typepe.clone()}
         value={props.value.clone().unwrap_or_default()}
         name={props.name.clone()}
-        // ~form={crate::js_value_or_null(props.form.clone())}
         onclick={props.onclick.clone()}
     > {props.children.clone()} </@> }
 }

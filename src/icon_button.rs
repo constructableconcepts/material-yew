@@ -1,5 +1,8 @@
+use js_sys::Reflect;
+use wasm_bindgen::JsValue;
+use web_sys::HtmlFormElement;
 use yew::prelude::*;
-#[derive(PartialEq)]
+#[derive(PartialEq, Clone)]
 pub enum IconButtonVariants {
     Standard,
     Filled,
@@ -18,7 +21,7 @@ impl IconButtonVariants {
     }
 }
 
-#[derive(Properties, PartialEq)]
+#[derive(Properties, PartialEq, Clone)]
 pub struct Props {
     /// Disables the icon button and makes it non-interactive.
     #[prop_or_default]
@@ -52,6 +55,8 @@ pub struct Props {
     ///
     #[prop_or_default]
     pub name: Option<AttrValue>,
+    #[prop_or_default]
+    pub form: Option<HtmlFormElement>,
     /// The variant to use.
     pub variant: IconButtonVariants,
     #[prop_or_default]
@@ -67,8 +72,30 @@ pub struct Props {
 
 #[function_component]
 pub fn IconButton(props: &Props) -> Html {
+    let node_ref = use_node_ref();
+    {
+        let node_ref = node_ref.clone();
+        let props = props.clone();
+        use_effect_with(props, move |props| {
+            let element = node_ref.get().unwrap();
+            let form_value = props.form.as_ref().map(|f| f.into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"form".into(), &form_value).unwrap();
+
+            let type_value = props.typepe.as_ref().map(|t| t.as_str().into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"type".into(), &type_value).unwrap();
+
+            let value_value = props.value.as_ref().map(|v| v.as_str().into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"value".into(), &value_value).unwrap();
+
+            let name_value = props.name.as_ref().map(|n| n.as_str().into()).unwrap_or(JsValue::NULL);
+            Reflect::set(&element, &"name".into(), &name_value).unwrap();
+            move || {}
+        });
+    }
+
     crate::import_material_web_module!("/md-web/icon-button.js");
     html! { <@{props.variant.as_tag_name()}
+        ref={node_ref}
         disabled={props.disabled}
         flip-icon-in-rtl={props.flip_icon_in_rtl.then(|| AttrValue::from(""))}
         href={props.href.clone()}
@@ -76,9 +103,6 @@ pub fn IconButton(props: &Props) -> Html {
         aria-label-selected={props.aria_label_selected.clone()}
         toggle={props.toggle.then(|| AttrValue::from(""))}
         selected={props.selected}
-        type={props.typepe.clone()}
-        value={props.value.clone().unwrap_or_default()}
-        name={props.name.clone()}
         onclick={props.onclick.clone()}
         oninput={props.oninput.clone()}
         onchange={props.onchange.clone()}
