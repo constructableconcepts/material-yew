@@ -17,6 +17,7 @@ pub struct Props {
 
 #[function_component(TextField)]
 pub fn textfield(props: &Props) -> Html {
+    crate::import_material_web_module!("/md-web/textfield.js");
     let oninput = props.oninput.clone();
     let oninput_cb = Callback::from(move |e: InputEvent| {
         if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {

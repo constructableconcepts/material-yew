@@ -1,6 +1,6 @@
 export const __dummy_loader = () => {};
 
-import { a6 as Progress, x, i, _ as __decorate, e } from './core.js';
+import { P as Progress, x, i, _ as __decorate, e } from './core.js';
 
 /**
  * @license

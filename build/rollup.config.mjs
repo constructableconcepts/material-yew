@@ -8,6 +8,11 @@ const config = {
         "./rollup_inputs/fab.js",
         "./rollup_inputs/chip.js",
         "./rollup_inputs/icon-button.js",
+        "./rollup_inputs/chips.js",
+        "./rollup_inputs/field.js",
+        "./rollup_inputs/select.js",
+        "./rollup_inputs/tabs.js",
+        "./rollup_inputs/textfield.js",
         "@material/web/checkbox/checkbox.js",
         "@material/web/radio/radio.js",
         "@material/web/menu/menu.js",
@@ -19,6 +24,10 @@ const config = {
         "@material/web/progress/linear-progress.js",
         "@material/web/slider/slider.js",
         "@material/web/switch/switch.js",
+        // Added new components below
+        "@material/web/dialog/dialog.js",
+        "@material/web/divider/divider.js",
+        "@material/web/ripple/ripple.js",
     ],
     plugins: [nodeResolve()],
     output: {

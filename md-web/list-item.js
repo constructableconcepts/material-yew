@@ -1,6 +1,6 @@
 export const __dummy_loader = () => {};
 
-import { o as mixinDelegatesAria, t as s, _ as __decorate, n, g as i, x, T as i$1, h as A, U as n$1, y as o, a2 as createRequestActivationEvent, i as i$2, e } from './core.js';
+import { m as mixinDelegatesAria, s, _ as __decorate, n, c as i, x, G as i$1, A, H as n$1, o, D as createRequestActivationEvent, i as i$2, e } from './core.js';
 
 /**
  * @license

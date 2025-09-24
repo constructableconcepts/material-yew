@@ -1,6 +1,6 @@
 export const __dummy_loader = () => {};
 
-import { i, m as styles$4, _ as __decorate, I as IconButton, e } from './core.js';
+import { i, a2 as styles$4, _ as __decorate, a3 as IconButton, e } from './core.js';
 
 /**
  * @license

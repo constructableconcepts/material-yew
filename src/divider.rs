@@ -10,6 +10,7 @@ pub struct Props {
 
 #[function_component(Divider)]
 pub fn divider(props: &Props) -> Html {
+    crate::import_material_web_module!("/md-web/divider.js");
     html! {
         <md-divider
             inset={props.inset.then(|| AttrValue::from(""))}

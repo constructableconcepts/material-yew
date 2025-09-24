@@ -1,6 +1,6 @@
 export const __dummy_loader = () => {};
 
-import { P as createDefaultCloseMenuEvent, L as CloseReason, Q as isClosableKey, o as mixinDelegatesAria, t as s, _ as __decorate, n, g as i, R as l, S as o, x, T as i$1, h as A, U as n$1, y as o$1, i as i$2, e } from './core.js';
+import { U as createDefaultCloseMenuEvent, B as CloseReason, V as isClosableKey, m as mixinDelegatesAria, s, _ as __decorate, n, c as i, l, R as o, x, G as i$1, A, H as n$1, o as o$1, i as i$2, e } from './core.js';
 
 /**
  * @license
