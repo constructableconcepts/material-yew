@@ -14,9 +14,9 @@ pub struct Props {
 pub fn progress(props: &Props) -> Html {
     html! {
         <md-progress
-            progress={props.progress.unwrap_or(0.0)}
-            indeterminate={props.indeterminate}
-            four_color={props.four_color}
+            progress={props.progress.unwrap_or(0.0).to_string()}
+            indeterminate={props.indeterminate.then(|| AttrValue::from(""))}
+            four-color={props.four_color.then(|| AttrValue::from(""))}
         />
     }
 }

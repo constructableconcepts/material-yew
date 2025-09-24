@@ -1,23 +1,4 @@
-            <h2>{ "Chips" }</h2>
-            <Chips label={Some("Chips Group".to_string())} selected={false} disabled={false} />
 
-            <h2>{ "Color" }</h2>
-            <Color value={Some("#2196f3".to_string())} disabled={false} />
-
-            <h2>{ "Dialog" }</h2>
-            <Dialog open={false} heading={Some("Dialog Heading".to_string())}>{ "Dialog content here." }</Dialog>
-
-            <h2>{ "Divider" }</h2>
-            <Divider inset={false} vertical={false} />
-
-            <h2>{ "Elevation" }</h2>
-            <Elevation level={Some(3)} />
-
-            <h2>{ "Field" }</h2>
-            <Field label={Some("Field Label".to_string())} value={Some("Field Value".to_string())} disabled={false}>{ "Field content" }</Field>
-
-            <h2>{ "Focus" }</h2>
-            <Focus disabled={false}>{ "Focusable content" }</Focus>
 use yew::prelude::*;
 use material_yew::*;
 

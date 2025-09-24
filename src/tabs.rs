@@ -11,7 +11,7 @@ pub struct Props {
 #[function_component(Tabs)]
 pub fn tabs(props: &Props) -> Html {
     html! {
-        <md-tabs active_index={props.active_index.unwrap_or(0)}>
+        <md-tabs active-index={props.active_index.map(|i| i.to_string())}>
             { for props.children.iter() }
         </md-tabs>
     }

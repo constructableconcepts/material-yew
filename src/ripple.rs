@@ -13,7 +13,10 @@ pub struct Props {
 #[function_component(Ripple)]
 pub fn ripple(props: &Props) -> Html {
     html! {
-        <md-ripple unbounded={props.unbounded} disabled={props.disabled}>
+        <md-ripple
+            unbounded={props.unbounded.then(|| AttrValue::from(""))}
+            disabled={props.disabled}
+        >
             { for props.children.iter() }
         </md-ripple>
     }

@@ -11,6 +11,9 @@ pub struct Props {
 #[function_component(Divider)]
 pub fn divider(props: &Props) -> Html {
     html! {
-        <md-divider inset={props.inset} vertical={props.vertical} />
+        <md-divider
+            inset={props.inset.then(|| AttrValue::from(""))}
+            vertical={props.vertical.then(|| AttrValue::from(""))}
+        />
     }
 }
