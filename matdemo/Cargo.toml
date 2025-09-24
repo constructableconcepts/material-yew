@@ -5,11 +5,9 @@ edition = "2021"
 
 [dependencies]
 yew = { version = "0.21", features = ["csr"] }
-material_yew = { path = "../src" }
+material-yew = { path = ".." }
 wasm-bindgen = "0.2"
 
-[lib]
-crate-type = ["cdylib", "rlib"]
 
 [profile.release]
 lto = true
