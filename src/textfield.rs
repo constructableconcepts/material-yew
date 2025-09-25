@@ -27,12 +27,16 @@ pub fn textfield(props: &Props) -> Html {
         }
     });
 
+    let tag = if props.outlined {
+        "md-outlined-text-field"
+    } else {
+        "md-filled-text-field"
+    };
     html! {
-        <md-text-field
+        <@{tag}
             label={props.label.clone().unwrap_or_default()}
             value={props.value.clone().unwrap_or_default()}
             disabled={props.disabled}
-            outlined={props.outlined.to_string()}
             oninput={oninput_cb}
         />
     }
