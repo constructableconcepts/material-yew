@@ -1,0 +1,14 @@
+{
+  "name": "material-yew",
+  "version": "1.0.0",
+  "description": "*Material Yew* is a components library for [Yew framework](https://yew.rs/) which is a wrapper around [Material Web Components](https://github.com/material-components/material-web) exposing Yew components. All modern browsers are supported.",
+  "main": "index.js",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@playwright/test": "^1.55.1",
+    "@types/node": "^24.5.2"
+  }
+}

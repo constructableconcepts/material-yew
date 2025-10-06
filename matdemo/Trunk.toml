@@ -1,0 +1,7 @@
+[static]
+dir = "../md-web"
+mount = "/md-web"
+
+[serve]
+port = 8080
+open = true

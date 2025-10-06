@@ -37,6 +37,9 @@ fn App() -> Html {
     }
 }
 
-fn main() {
+use wasm_bindgen::prelude::*;
+
+#[wasm_bindgen(start)]
+pub fn run_app() {
     yew::Renderer::<App>::new().render();
 }

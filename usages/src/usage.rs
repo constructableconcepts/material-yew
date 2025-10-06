@@ -17,10 +17,6 @@ pub fn test_menu(children: Html) -> Html {
             skip_restore_focus={false}
             default_focus={AttrValue::Static("<some default_focus>")}
             is_submenu={false}
-            onopening={Callback :: noop ()}
-            onopened={Callback :: noop ()}
-            onclosing={Callback :: noop ()}
-            onclosed={Callback :: noop ()}
         >
             {children}
         </Menu>
