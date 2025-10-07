@@ -15,7 +15,7 @@ mod ripple;
 mod select;
 mod tabs;
 
-pub use chips::Chips;
+pub use chips::ChipSet;
 pub use color::Color;
 pub use divider::Divider;
 pub use field::Field;

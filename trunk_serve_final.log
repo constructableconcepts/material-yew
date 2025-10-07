@@ -1,0 +1,38 @@
+2025-10-07T07:46:01.709663Z  INFO 🚀 Starting trunk 0.21.14
+2025-10-07T07:46:01.711803Z  INFO 📦 starting build
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /app/matdemo/Cargo.toml
+workspace: /app/Cargo.toml
+   Compiling material-yew v0.1.0 (/app)
+warning: function `js_value_or_null` is never used
+  --> src/lib.rs:93:4
+   |
+93 | fn js_value_or_null<T>(v: Option<T>) -> JsValue
+   |    ^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(dead_code)]` on by default
+
+warning: function `js_value_from_string_or_null` is never used
+   --> src/lib.rs:103:4
+    |
+103 | fn js_value_from_string_or_null(v: Option<&AttrValue>) -> Option<JsValue> {
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+warning: type alias `TypeaheadController` is never used
+ --> src/menu.rs:5:6
+  |
+5 | type TypeaheadController = AttrValue;
+  |      ^^^^^^^^^^^^^^^^^^^
+
+warning: `material-yew` (lib) generated 3 warnings
+   Compiling matdemo v0.1.0 (/app/matdemo)
+warning: unused import: `material_yew::*`
+ --> matdemo/src/main.rs:2:5
+  |
+2 | use material_yew::*;
+  |     ^^^^^^^^^^^^^^^
+  |
+  = note: `#[warn(unused_imports)]` on by default
+
+warning: `matdemo` (bin "matdemo") generated 1 warning (run `cargo fix --bin "matdemo"` to apply 1 suggestion)
+    Finished `dev` profile [unoptimized + debuginfo] target(s) in 1.33s

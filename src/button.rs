@@ -29,6 +29,10 @@ pub struct Props {
     /// Whether or not the button is disabled.
     #[prop_or(Some(false))]
     pub disabled: Option<bool>,
+    /// Whether or not the button is "soft-disabled" (disabled but still
+    /// focusable).
+    #[prop_or(Some(false))]
+    pub soft_disabled: Option<bool>,
     /// The URL that the link button points to.
     #[prop_or(Some(AttrValue::Static("")))]
     pub href: Option<AttrValue>,
@@ -36,6 +40,11 @@ pub struct Props {
     /// <code>_blank</code> to open in a new tab.
     #[prop_or(Some(AttrValue::Static("")))]
     pub target: Option<AttrValue>,
+    /// The filename to use when downloading the linked resource.
+    /// If not specified, the browser will determine a filename.
+    /// This is only applicable when the button is used as a link (`href` is set).
+    #[prop_or_default]
+    pub download: Option<AttrValue>,
     /// Whether to render the icon at the inline end of the label rather than the inline
     /// start.<br><em>Note:</em> Link buttons cannot have trailing icons.
     #[prop_or(Some(false))]
@@ -45,7 +54,7 @@ pub struct Props {
     pub has_icon: Option<bool>,
     ///
     #[prop_or(Some(AttrValue::Static("submit")))]
-    pub typepe: Option<AttrValue>,
+    pub r#type: Option<AttrValue>,
     ///
     #[prop_or(Some(AttrValue::Static("")))]
     pub value: Option<AttrValue>,
@@ -84,11 +93,13 @@ pub fn Button(props: &Props) -> Html {
     html! { <@{props.variant.as_tag_name()}
         ref={node_ref}
         disabled={props.disabled.unwrap_or(false)}
+        soft-disabled={props.soft_disabled.filter(|&v| v).map(|_| AttrValue::from(""))}
         href={props.href.clone()}
         target={props.target.clone()}
+        download={props.download.clone()}
         trailingIcon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
         hasIcon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
-        type={props.typepe.clone()}
+        type={props.r#type.clone()}
         value={props.value.clone().unwrap_or_default()}
         name={props.name.clone()}
         onclick={props.onclick.clone()}

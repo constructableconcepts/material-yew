@@ -19,7 +19,7 @@ impl FabVariants {
 pub struct Props {
     /// The FAB color variant to render.
     #[prop_or_default]
-    pub kind: Option<AttrValue>,
+    pub variant: Option<AttrValue>,
     /// The size of the FAB.<br>NOTE: Branded FABs cannot be sized to <code>small</code>, and
     /// Extended FABs do not have different sizes.
     #[prop_or_default]
@@ -30,19 +30,22 @@ pub struct Props {
     /// Lowers the FAB’s elevation.
     #[prop_or_default]
     pub lowered: bool,
-    /// The variant to use.
-    pub variant: FabVariants,
+    /// The type of FAB tag to use.
+    pub fab_type: FabVariants,
+    /// The icon to display in the FAB.
     #[prop_or_default]
-    pub children: Html,
+    pub icon: Html,
 }
 
 #[function_component]
 pub fn Fab(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/fab.js");
-    html! { <@{props.variant.as_tag_name()}
-        variant={props.kind.clone()}
+    html! { <@{props.fab_type.as_tag_name()}
+        variant={props.variant.clone()}
         size={props.size.clone()}
         label={props.label.clone()}
         lowered={props.lowered.then(|| AttrValue::from(""))}
-    > {props.children.clone()} </@> }
+    >
+        <span slot="icon">{props.icon.clone()}</span>
+    </@> }
 }

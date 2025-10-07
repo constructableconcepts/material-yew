@@ -30,10 +30,19 @@ pub struct Props {
     ///
     #[prop_or_default]
     pub target: Option<AttrValue>,
+    /// The filename to use when downloading the linked resource.
+    /// If not specified, the browser will determine a filename.
+    /// This is only applicable when the chip is used as a link (`href` is set).
+    #[prop_or_default]
+    pub download: Option<AttrValue>,
     /// Whether or not the chip is disabled.<br>Disabled chips are not focusable, unless
     /// <code>always-focusable</code> is set.
     #[prop_or_default]
     pub disabled: bool,
+    /// Whether or not the chip is "soft-disabled" (disabled but still
+    /// focusable).
+    #[prop_or_default]
+    pub soft_disabled: bool,
     /// When true, allow disabled chips to be focused with arrow keys.<br>Add this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed.
     #[prop_or_default]
     pub always_focusable: bool,
@@ -53,7 +62,9 @@ pub fn Chip(props: &Props) -> Html {
         elevated={props.elevated.then(|| AttrValue::from(""))}
         href={props.href.clone()}
         target={props.target.clone()}
+        download={props.download.clone()}
         disabled={props.disabled}
+        soft-disabled={props.soft_disabled.then(|| AttrValue::from(""))}
         always-focusable={props.always_focusable.then(|| AttrValue::from(""))}
         label={props.label.clone()}
     > {props.children.clone()} </@> }

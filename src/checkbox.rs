@@ -33,7 +33,7 @@ pub struct Props {
     pub labels: Option<NodeList>,
     ///
     #[prop_or_default]
-    pub validitype: Option<ValidityState>,
+    pub validity: Option<ValidityState>,
     ///
     #[prop_or_default]
     pub validation_message: Option<AttrValue>,
@@ -59,7 +59,7 @@ pub fn Checkbox(props: &Props) -> Html {
             let labels_value = props.labels.as_ref().map(|l| l.into()).unwrap_or(JsValue::NULL);
             Reflect::set(&element, &"labels".into(), &labels_value).unwrap();
 
-            let validity_value = props.validitype.as_ref().map(|v| v.into()).unwrap_or(JsValue::NULL);
+            let validity_value = props.validity.as_ref().map(|v| v.into()).unwrap_or(JsValue::NULL);
             Reflect::set(&element, &"validity".into(), &validity_value).unwrap();
 
             let validation_message_value = props.validation_message.as_ref().map(|m| m.as_str().into()).unwrap_or(JsValue::NULL);

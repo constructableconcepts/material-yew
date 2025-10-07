@@ -15,8 +15,11 @@ pub fn demo_pages() -> Html {
             <h2>{ "Chip" }</h2>
             <Chip variant={ChipVariants::Assist} label={"Demo Chip"} />
 
-            <h2>{ "Chips" }</h2>
-            <Chips label={Some("Chips Group".to_string())} />
+            <h2>{ "Chip Set" }</h2>
+            <ChipSet>
+                <Chip variant={ChipVariants::Assist} label={"Chip 1"} />
+                <Chip variant={ChipVariants::Assist} label={"Chip 2"} />
+            </ChipSet>
 
             <h2>{ "Circular Progress" }</h2>
             <CircularProgress value={50} max={100} />
@@ -25,7 +28,10 @@ pub fn demo_pages() -> Html {
             <Color value={Some("#2196f3".to_string())} />
 
             <h2>{ "Dialog" }</h2>
-            <Dialog open={false} heading={Some("Dialog Heading".to_string())}>{ "Dialog content here." }</Dialog>
+            <Dialog open={false}>
+                <div slot="headline">{"Dialog Heading"}</div>
+                <div slot="content">{"Dialog content here."}</div>
+            </Dialog>
 
             <h2>{ "Divider" }</h2>
             <Divider />
@@ -34,7 +40,7 @@ pub fn demo_pages() -> Html {
             <Elevation level={Some(3)} />
 
             <h2>{ "FAB" }</h2>
-            <Fab variant={FabVariants::Standard} label={"Add"} />
+            <Fab fab_type={FabVariants::Standard} label={"Add"} icon={html!{ <Icon icon={Some("add".to_string())} /> }} />
 
             <h2>{ "Field" }</h2>
             <Field label={Some("Field Label".to_string())}>{ "Field content" }</Field>
