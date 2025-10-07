@@ -25,21 +25,6 @@ pub struct Props {
     ///
     #[prop_or_default]
     pub name: Option<AttrValue>,
-    ///
-    #[prop_or_default]
-    pub form: Option<HTMLFormElement>,
-    ///
-    #[prop_or_default]
-    pub labels: Option<NodeList>,
-    ///
-    #[prop_or_default]
-    pub validity: Option<ValidityState>,
-    ///
-    #[prop_or_default]
-    pub validation_message: Option<AttrValue>,
-    ///
-    #[prop_or_default]
-    pub will_validate: Option<bool>,
     #[prop_or_default]
     pub onclick: Option<Callback<MouseEvent>>,
 }
@@ -47,30 +32,6 @@ pub struct Props {
 #[function_component]
 pub fn Checkbox(props: &Props) -> Html {
     let node_ref = use_node_ref();
-
-    {
-        let node_ref = node_ref.clone();
-        let props = props.clone();
-        use_effect_with(props, move |props| {
-            let element = node_ref.get().unwrap();
-            let form_value = props.form.as_ref().map(|f| f.into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"form".into(), &form_value).unwrap();
-
-            let labels_value = props.labels.as_ref().map(|l| l.into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"labels".into(), &labels_value).unwrap();
-
-            let validity_value = props.validity.as_ref().map(|v| v.into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"validity".into(), &validity_value).unwrap();
-
-            let validation_message_value = props.validation_message.as_ref().map(|m| m.as_str().into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"validationMessage".into(), &validation_message_value).unwrap();
-
-            let will_validate_value = props.will_validate.map(|v| v.into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"willValidate".into(), &will_validate_value).unwrap();
-
-            move || {}
-        });
-    }
 
     crate::import_material_web_module!("/md-web/checkbox.js");
     html! { <md-checkbox

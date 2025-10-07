@@ -97,8 +97,8 @@ pub fn Button(props: &Props) -> Html {
         href={props.href.clone()}
         target={props.target.clone()}
         download={props.download.clone()}
-        trailingIcon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
-        hasIcon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
+        trailing-icon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
+        has-icon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
         type={props.r#type.clone()}
         value={props.value.clone().unwrap_or_default()}
         name={props.name.clone()}
