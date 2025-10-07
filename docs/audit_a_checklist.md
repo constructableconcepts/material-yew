@@ -1,5 +1,5 @@
 # Mat-Yew Implementation Task List
-v.0.0.02
+v.0.0.03
 
 ## 1. Overview
 
@@ -16,21 +16,21 @@ This document lists the actionable implementation and bug-fixing tasks derived f
 ---
 
 ## 3. Button (`src/button.rs`)
-- [ ] **[BUG]** Rename the `typepe` prop to `type`.
-- [ ] **[FEATURE]** Add the missing `softDisabled: bool` prop.
-- [ ] **[FEATURE]** Add the missing `download: AttrValue` prop for link-buttons.
+- [x] **[BUG]** Rename the `typepe` prop to `type`.
+- [x] **[FEATURE]** Add the missing `softDisabled: bool` prop.
+- [x] **[FEATURE]** Add the missing `download: AttrValue` prop for link-buttons.
 - [ ] **[REFACTOR]** Ensure prop naming conventions are consistent (e.g., `trailing_icon` maps to `trailingIcon` attribute).
 - [ ] **[REFACTOR]** Investigate and potentially refactor the manual `form` association logic to be more robust.
 
 ## 4. Checkbox (`src/checkbox.rs`)
-- [ ] **[BUG]** Rename the `validitype` prop to `validity`.
+- [x] **[BUG]** Rename the `validitype` prop to `validity`.
 - [ ] **[REFACTOR]** Remove the `use_effect`-based implementation for form validation and element internals.
 - [ ] **[REFACTOR]** Simplify the public API by removing the `form`, `labels`, `validity`, `validation_message`, and `will_validate` props.
 - [ ] **[FEATURE]** Expose imperative methods like `check_validity()` on the component's ref instead of using props for validation state.
 
 ## 5. Chip (`src/chip.rs`)
-- [ ] **[FEATURE]** Add the missing `download: AttrValue` prop for link-based chips.
-- [ ] **[FEATURE]** Add the missing `softDisabled: bool` prop.
+- [x] **[FEATURE]** Add the missing `download: AttrValue` prop for link-based chips.
+- [x] **[FEATURE]** Add the missing `softDisabled: bool` prop.
 - [ ] **[REFACTOR]** Ensure prop naming conventions are consistent (e.g., `always_focusable` maps to `always-focusable`).
 - [ ] **[AUDIT]** Perform a full audit of the `Filter`, `Input`, and `Suggestion` chip variants to identify and implement their unique properties (e.g., `selected`, `removable`).
 
@@ -65,8 +65,8 @@ This document lists the actionable implementation and bug-fixing tasks derived f
 - [ ] **[DOCS]** Update documentation to explain that elevation level is controlled via CSS custom properties on the parent element.
 
 ## 11. FAB (`src/fab.rs`)
-- [ ] **[BUG]** Rename the `kind` prop to `variant` to match the `material-web` API.
-- [ ] **[BUG]** The component must be modified to accept an `icon: Html` prop that is rendered into a `<span slot="icon">...</span>`. The `children` prop should not be used for the icon.
+- [x] **[BUG]** Rename the `kind` prop to `variant` to match the `material-web` API.
+- [x] **[BUG]** The component must be modified to accept an `icon: Html` prop that is rendered into a `<span slot="icon">...</span>`. The `children` prop should not be used for the icon.
 - [ ] **[REFACTOR]** Create and use `FabVariant` and `FabSize` enums for the `variant` and `size` props to improve type safety.
 - [ ] **[AUDIT]** Audit the `md-branded-fab` variant to ensure its unique constraints (e.g., cannot be `small`) are handled.
 
@@ -74,3 +74,4 @@ This document lists the actionable implementation and bug-fixing tasks derived f
 *Appendix R - Revision History*
 - v.0.0.01: Initial creation of the audit checklist.
 - v.0.0.02: Converted checklist into an actionable task list based on user feedback.
+- v.0.0.03: Marked completed implementation tasks.
