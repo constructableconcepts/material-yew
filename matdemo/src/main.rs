@@ -1,5 +1,4 @@
 use yew::prelude::*;
-use material_yew::*;
 
 mod pages;
 

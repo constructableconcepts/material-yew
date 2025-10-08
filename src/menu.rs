@@ -2,7 +2,6 @@ use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::EventTarget;
 use yew::prelude::*;
 
-type TypeaheadController = AttrValue;
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// The ID of the element in the same root node in which the menu should align to. Overrides

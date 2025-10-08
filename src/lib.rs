@@ -63,8 +63,6 @@ pub use textfield::TextField;
 pub use dialog::Dialog;
 pub use elevation::Elevation;
 pub use icon::Icon;
-use wasm_bindgen::prelude::*;
-use yew::AttrValue;
 
 macro_rules! import_material_web_module {
     ($module:literal) => {{
@@ -90,19 +88,3 @@ pub fn load_core() {
     import_material_web_module!("/md-web/core.js");
 }
 
-fn js_value_or_null<T>(v: Option<T>) -> JsValue
-where
-    JsValue: From<T>,
-{
-    match v {
-        Some(v) => JsValue::from(v),
-        None => JsValue::NULL,
-    }
-}
-
-fn js_value_from_string_or_null(v: Option<&AttrValue>) -> Option<JsValue> {
-    match v {
-        Some(v) => Some(JsValue::from_str(&*v)),
-        None => None,
-    }
-}
