@@ -19,7 +19,7 @@ pub fn demo_pages() -> Html {
             <Chips label={Some("Chips Group".to_string())} />
 
             <h2>{ "Circular Progress" }</h2>
-            <CircularProgress value={50} max={100} />
+            <CircularProgress value={50.0} max={100.0} />
 
             <h2>{ "Color" }</h2>
             <Color value={Some("#2196f3".to_string())} />
@@ -34,7 +34,7 @@ pub fn demo_pages() -> Html {
             <Elevation level={Some(3)} />
 
             <h2>{ "FAB" }</h2>
-            <Fab variant={FabVariants::Standard} label={"Add"} />
+            <Fab style={FabStyle::Standard} label={"Add"} />
 
             <h2>{ "Field" }</h2>
             <Field label={Some("Field Label".to_string())}>{ "Field content" }</Field>

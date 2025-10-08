@@ -33,7 +33,7 @@ pub struct Props {
     pub labels: Option<NodeList>,
     ///
     #[prop_or_default]
-    pub validitype: Option<ValidityState>,
+    pub validity: Option<ValidityState>,
     ///
     #[prop_or_default]
     pub validation_message: Option<AttrValue>,
@@ -59,7 +59,7 @@ pub fn Checkbox(props: &Props) -> Html {
             let labels_value = props.labels.as_ref().map(|l| l.into()).unwrap_or(JsValue::NULL);
             Reflect::set(&element, &"labels".into(), &labels_value).unwrap();
 
-            let validity_value = props.validitype.as_ref().map(|v| v.into()).unwrap_or(JsValue::NULL);
+            let validity_value = props.validity.as_ref().map(|v| v.into()).unwrap_or(JsValue::NULL);
             Reflect::set(&element, &"validity".into(), &validity_value).unwrap();
 
             let validation_message_value = props.validation_message.as_ref().map(|m| m.as_str().into()).unwrap_or(JsValue::NULL);
@@ -83,4 +83,41 @@ pub fn Checkbox(props: &Props) -> Html {
         name={props.name.clone()}
         onclick={props.onclick.clone()}
     /> }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use gloo_utils::document;
+    use wasm_bindgen_test::*;
+    use yew::prelude::*;
+
+    wasm_bindgen_test_configure!(run_in_browser);
+
+    #[wasm_bindgen_test]
+    fn it_renders_correctly() {
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            checked: Some(true),
+            disabled: true,
+            indeterminate: None,
+            required: false,
+            value: Some("test-value".into()),
+            name: Some("test-name".into()),
+            form: None,
+            labels: None,
+            validity: None,
+            validation_message: None,
+            will_validate: None,
+            onclick: None,
+        };
+
+        yew::Renderer::<Checkbox>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("checked"));
+        assert!(rendered_html.contains("disabled"));
+        assert!(rendered_html.contains("value=\"test-value\""));
+        assert!(rendered_html.contains("name=\"test-name\""));
+    }
 }

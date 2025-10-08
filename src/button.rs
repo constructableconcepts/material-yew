@@ -45,7 +45,7 @@ pub struct Props {
     pub has_icon: Option<bool>,
     ///
     #[prop_or(Some(AttrValue::Static("submit")))]
-    pub typepe: Option<AttrValue>,
+    pub r#type: Option<AttrValue>,
     ///
     #[prop_or(Some(AttrValue::Static("")))]
     pub value: Option<AttrValue>,
@@ -88,9 +88,43 @@ pub fn Button(props: &Props) -> Html {
         target={props.target.clone()}
         trailingIcon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
         hasIcon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
-        type={props.typepe.clone()}
+        type={props.r#type.clone()}
         value={props.value.clone().unwrap_or_default()}
         name={props.name.clone()}
         onclick={props.onclick.clone()}
     > {props.children.clone()} </@> }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use gloo_utils::document;
+    use wasm_bindgen_test::*;
+    use yew::prelude::*;
+
+    wasm_bindgen_test_configure!(run_in_browser);
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_type() {
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            disabled: Some(false),
+            href: None,
+            target: None,
+            trailing_icon: Some(false),
+            has_icon: Some(false),
+            r#type: Some("button".into()),
+            value: None,
+            name: None,
+            form: None,
+            variant: ButtonVariants::Filled,
+            children: html! { "Test Button" },
+            onclick: None,
+        };
+
+        yew::Renderer::<Button>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("type=\"button\""));
+    }
 }

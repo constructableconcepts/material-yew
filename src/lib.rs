@@ -48,7 +48,7 @@ pub use button::{Button, ButtonVariants};
 pub use checkbox::Checkbox;
 pub use chip::{Chip, ChipVariants};
 pub use circular_progress::CircularProgress;
-pub use fab::{Fab, FabVariants};
+pub use fab::{Fab, FabStyle, FabVariant, FabSize};
 pub use icon_button::{IconButton, IconButtonVariants};
 pub use linear_progress::LinearProgress;
 pub use list::List;
