@@ -43,10 +43,10 @@ pub struct Props {
     /// Whether to display the icon or not.
     #[prop_or(Some(false))]
     pub has_icon: Option<bool>,
-    ///
+    /// The type of button. Valid values are "submit", "button", and "reset".
     #[prop_or(Some(AttrValue::Static("submit")))]
-    pub typepe: Option<AttrValue>,
-    ///
+    pub r#type: Option<AttrValue>,
+    /// The value of the button.
     #[prop_or(Some(AttrValue::Static("")))]
     pub value: Option<AttrValue>,
     ///
@@ -88,7 +88,7 @@ pub fn Button(props: &Props) -> Html {
         target={props.target.clone()}
         trailingIcon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
         hasIcon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
-        type={props.typepe.clone()}
+        type={props.r#type.clone()}
         value={props.value.clone().unwrap_or_default()}
         name={props.name.clone()}
         onclick={props.onclick.clone()}

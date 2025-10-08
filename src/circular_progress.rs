@@ -3,10 +3,10 @@ use yew::prelude::*;
 pub struct Props {
     /// Progress to display, a fraction between 0 and <code>max</code>.
     #[prop_or_default]
-    pub value: usize,
+    pub value: f32,
     /// Maximum progress to display, defaults to 1.
-    #[prop_or(1)]
-    pub max: usize,
+    #[prop_or(1.0)]
+    pub max: f32,
     /// Whether or not to display indeterminate progress, which gives no indication to how long an
     /// activity will take.
     #[prop_or_default]

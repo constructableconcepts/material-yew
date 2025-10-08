@@ -31,7 +31,7 @@ pub fn test_button(children: Html) -> Html {
             target={AttrValue::Static("<some target>")}
             trailing_icon={false}
             has_icon={false}
-            typepe={AttrValue::Static("<some typepe>")}
+            r#type={AttrValue::Static("<some type>")}
             value={AttrValue::Static("<some value>")}
             name={AttrValue::Static("<some name>")}
             variant={ButtonVariants :: Elevated}
@@ -162,11 +162,11 @@ pub fn test_sub_menu(children: Html) -> Html {
 pub fn test_fab(children: Html) -> Html {
     html! {
         <Fab
-            kind={AttrValue::Static("<some kind>")}
-            size={AttrValue::Static("<some size>")}
+            variant={FabVariant::Primary}
+            size={FabSize::Large}
             label={AttrValue::Static("<some label>")}
             lowered={false}
-            variant={FabVariants :: Standard}
+            fab_type={FabType::Standard}
         >
             {children}
         </Fab>
