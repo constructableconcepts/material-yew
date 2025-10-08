@@ -32,16 +32,17 @@ v.0.0.2
 - [ ] **Task: Rewrite Fundamentally Broken Components**
   - [ ] `Chip Set`: Delete `src/chips.rs` and create `src/chip_set.rs`.
   - [ ] `Chip Set`: Implement `<md-chip-set>` wrapper that accepts children via `<slot>`.
-  - [ ] `Chip Set`: Create Playwright test for keyboard navigation.
+  - [ ] `Chip Set`: Create unit test to verify children are rendered in the default slot.
   - [ ] `Dialog`: Delete `src/dialog.rs` and rewrite from scratch.
   - [ ] `Dialog`: Implement support for named slots (`headline`, `content`, `actions`).
   - [ ] `Dialog`: Expose `show()` and `close()` methods on the component ref.
   - [ ] `Dialog`: Expose `onopen`, `onclose`, etc. event callbacks.
-  - [ ] `Dialog`: Create Playwright test to verify slots, methods, and focus trapping.
+  - [ ] `Dialog`: Create unit test to verify content projection into named slots.
+  - [ ] `Dialog`: Create unit test to verify event callbacks are registered.
 - [ ] **Task: Correct Slot Implementations**
   - [ ] `Fab`: Change `children` prop to `icon: Html` in `src/fab.rs`.
   - [ ] `Fab`: Render the icon in `<span slot="icon">`.
-  - [ ] `Fab`: Create unit and Playwright tests for the icon slot.
+  - [ ] `Fab`: Create unit test for the icon slot.
 
 ## Phase 3: Adopt Idiomatic Yew Patterns & Architecture
 
@@ -49,7 +50,7 @@ v.0.0.2
   - [ ] `Checkbox`: Remove `use_effect` hook for validation.
   - [ ] `Checkbox`: Remove `validity`, `form`, `labels`, `validation_message`, `will_validate` props.
   - [ ] `Checkbox`: Expose `check_validity()` and `report_validity()` on component ref.
-  - [ ] `Checkbox`: Update tests to use ref methods for validation.
+  - [ ] `Checkbox`: Create unit tests for ref-based methods.
   - [ ] `Button`: Re-evaluate and refactor `form` property `use_effect` hook.
 - [ ] **Task: Correct `Elevation` Component Architecture**
   - [ ] `Elevation`: Remove `level` prop from `src/elevation.rs`.

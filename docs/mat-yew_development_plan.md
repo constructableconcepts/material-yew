@@ -49,8 +49,8 @@ This phase focuses on ensuring all `mat-yew` components expose the full feature 
   1.  **Chip Set:** Delete the existing `src/chips.rs`. Create a new `src/chip_set.rs` that renders `<md-chip-set>` and correctly accepts `md-assist-chip`, etc., as children via a `<slot>`. The component should have no props of its own.
   2.  **Dialog:** Delete the existing `src/dialog.rs`. Rewrite it from scratch to support projecting children into named slots (`headline`, `content`, `actions`). Expose `show()` and `close()` methods on the component's ref. Expose callbacks for all events (`onopen`, `onclose`, etc.).
 - **Testing:**
-    - **Chip Set:** Create a Playwright test to verify keyboard navigation and focus management between chips within the set.
-    - **Dialog:** Create a Playwright test that opens the dialog, verifies content in the correct slots, and closes it, ensuring focus is trapped and returned correctly.
+    - **Chip Set:** Create a unit test to verify that the `<md-chip-set>` element is rendered and that children are correctly placed in the default slot.
+    - **Dialog:** Create unit tests to verify that the dialog renders with the correct structure, that content is projected into the named slots (`headline`, `content`, `actions`), and that event callbacks are correctly registered.
 
 ### 3.3. Task: Correct Slot Implementations
 - **Objective:** Fix components that use default children instead of named slots.
@@ -58,7 +58,7 @@ This phase focuses on ensuring all `mat-yew` components expose the full feature 
 - **Actions:**
   1.  In `src/fab.rs`, change the `children` prop to a specific `icon: Html` prop.
   2.  Render the icon inside a `<span>` with the `slot="icon"` attribute.
-- **Testing:** Create a unit test and a Playwright screenshot test to verify the icon is correctly rendered inside the FAB.
+- **Testing:** Create a unit test to verify the icon is correctly rendered inside a `<span>` with `slot="icon"` within the FAB component.
 
 ## 4. Phase 3: Adopt Idiomatic Yew Patterns & Architecture
 
@@ -70,7 +70,7 @@ This phase focuses on refactoring components to use patterns that are more robus
 - **Actions:**
   1.  **Checkbox:** Remove the `use_effect` hook that sets validation properties. Remove the `validity`, `form`, `labels`, `validation_message`, and `will_validate` props. Expose `check_validity()` and `report_validity()` methods on the component's ref instead.
   2.  **Button:** Re-evaluate the `form` property's `use_effect` implementation and investigate a more robust, less imperative solution.
-- **Testing:** Update/create unit and integration tests to verify that form validation and association still work as expected through the new ref-based methods.
+- **Testing:** Update/create unit tests to verify that the component renders correctly without the imperative logic. Create new unit tests for any new components or modules created to handle the ref-based methods, ensuring they are callable.
 
 ### 4.2. Task: Correct `Elevation` Component Architecture
 - **Objective:** Fix the `Elevation` component to align with its intended use in `material-web`.
