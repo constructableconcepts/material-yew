@@ -87,6 +87,24 @@ This phase focuses on refactoring components to use patterns that are more robus
   2.  Create a Python script `scripts/verify_matdemo.py` that uses Playwright to navigate to the served page and capture a screenshot.
 - **Testing:** The successful execution of the scripts and a visual inspection of the resulting screenshot `matdemo.png` will complete this task.
 
+### 4.4. Task: Investigate and Fix `matdemo` Runtime Panic
+- **Objective:** Debug and resolve the runtime error in the `matdemo` application that prevents it from rendering.
+- **Analysis**: The `verify_matdemo.py` script fails with a `Locator expected to be visible` error, which indicates the WASM application is panicking during render and not mounting any DOM elements. This is likely due to an incorrect prop being passed to a component, which the Rust compiler did not catch.
+- **Actions:**
+  1.  Run the `matdemo` application with `trunk serve` and inspect the browser's developer console for panic messages.
+  2.  Identify the specific component and prop causing the panic.
+  3.  Correct the component usage in `matdemo/src/pages.rs`.
+- **Testing:** The successful rendering of the `matdemo` page and a passing run of the `verify_matdemo.py` script will confirm the fix.
+
+### 4.4. Task: Investigate and Fix `matdemo` Runtime Panic
+- **Objective:** Debug and resolve the runtime error in the `matdemo` application that prevents it from rendering.
+- **Analysis**: The `verify_matdemo.py` script fails with a `Locator expected to be visible` error, which indicates the WASM application is panicking during render and not mounting any DOM elements. This is likely due to an incorrect prop being passed to a component, which the Rust compiler did not catch.
+- **Actions:**
+  1.  Run the `matdemo` application with `trunk serve` and inspect the browser's developer console for panic messages.
+  2.  Identify the specific component and prop causing the panic.
+  3.  Correct the component usage in `matdemo/src/pages.rs`.
+- **Testing:** The successful rendering of the `matdemo` page and a passing run of the `verify_matdemo.py` script will confirm the fix.
+
 ## 5. Phase 4: Library-Wide DX and Documentation
 
 This phase focuses on global improvements that will benefit the entire library.
