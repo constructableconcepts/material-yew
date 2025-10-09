@@ -19,30 +19,30 @@ v.0.0.2
 
 ## Phase 2: API Parity and Feature Completeness
 
-- [ ] **Task: Implement All Missing Properties**
-  - [ ] `Button`: Add `softDisabled` and `download` props.
-  - [ ] `Button`: Add unit tests for new props.
-  - [ ] `Chip`: Add `download` and `softDisabled` props.
-  - [ ] `Chip`: Add unit tests for new props.
-  - [ ] `Dialog`: Add `returnValue`, `quick`, `type`, and `noFocusTrap` props.
-  - [ ] `Dialog`: Add unit tests for new props.
-  - [ ] `Divider`: Add `insetStart` and `insetEnd` props.
-  - [ ] `Divider`: Remove `vertical` prop.
-  - [ ] `Divider`: Add unit tests for new props.
-- [ ] **Task: Rewrite Fundamentally Broken Components**
-  - [ ] `Chip Set`: Delete `src/chips.rs` and create `src/chip_set.rs`.
-  - [ ] `Chip Set`: Implement `<md-chip-set>` wrapper that accepts children via `<slot>`.
-  - [ ] `Chip Set`: Create unit test to verify children are rendered in the default slot.
-  - [ ] `Dialog`: Delete `src/dialog.rs` and rewrite from scratch.
-  - [ ] `Dialog`: Implement support for named slots (`headline`, `content`, `actions`).
-  - [ ] `Dialog`: Expose `show()` and `close()` methods on the component ref.
-  - [ ] `Dialog`: Expose `onopen`, `onclose`, etc. event callbacks.
-  - [ ] `Dialog`: Create unit test to verify content projection into named slots.
-  - [ ] `Dialog`: Create unit test to verify event callbacks are registered.
-- [ ] **Task: Correct Slot Implementations**
-  - [ ] `Fab`: Change `children` prop to `icon: Html` in `src/fab.rs`.
-  - [ ] `Fab`: Render the icon in `<span slot="icon">`.
-  - [ ] `Fab`: Create unit test for the icon slot.
+- [x] **Task: Implement All Missing Properties**
+  - [x] `Button`: Add `softDisabled` and `download` props.
+  - [x] `Button`: Add unit tests for new props.
+  - [x] `Chip`: Add `download` and `softDisabled` props.
+  - [x] `Chip`: Add unit tests for new props.
+  - [x] `Dialog`: Add `returnValue`, `quick`, `type`, and `noFocusTrap` props.
+  - [x] `Dialog`: Add unit tests for new props.
+  - [x] `Divider`: Add `insetStart` and `insetEnd` props.
+  - [x] `Divider`: Remove `vertical` prop.
+  - [x] `Divider`: Add unit tests for new props.
+- [x] **Task: Rewrite Fundamentally Broken Components**
+  - [x] `Chip Set`: Delete `src/chips.rs` and create `src/chip_set.rs`.
+  - [x] `Chip Set`: Implement `<md-chip-set>` wrapper that accepts children via `<slot>`.
+  - [x] `Chip Set`: Create unit test to verify children are rendered in the default slot.
+  - [x] `Dialog`: Delete `src/dialog.rs` and rewrite from scratch.
+  - [x] `Dialog`: Implement support for named slots (`headline`, `content`, `actions`).
+  - [x] `Dialog`: Expose `show()` and `close()` methods on the component ref.
+  - [x] `Dialog`: Expose `onopen`, `onclose`, etc. event callbacks.
+  - [x] `Dialog`: Create unit test to verify content projection into named slots.
+  - [x] `Dialog`: Create unit test to verify event callbacks are registered.
+- [x] **Task: Correct Slot Implementations**
+  - [x] `Fab`: Change `children` prop to `icon: Html` in `src/fab.rs`.
+  - [x] `Fab`: Render the icon in `<span slot="icon">`.
+  - [x] `Fab`: Create unit test for the icon slot.
 
 ## Phase 3: Adopt Idiomatic Yew Patterns & Architecture
 

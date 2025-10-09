@@ -1,4 +1,3 @@
-
 use yew::prelude::*;
 use material_yew::*;
 
@@ -38,10 +37,10 @@ pub fn demo_pages() -> Html {
             <Divider />
 
             <h2>{ "Elevation" }</h2>
-            <Elevation level={Some(3)} />
+            <Elevation />
 
             <h2>{ "FAB" }</h2>
-            <Fab style={FabStyle::Standard} label={"Add"} />
+            <Fab style={FabStyle::Standard} label={"Add"} icon={html!{<Icon icon={"add".to_string()} />}} />
 
             <h2>{ "Field" }</h2>
             <Field label={Some("Field Label".to_string())}>{ "Field content" }</Field>
@@ -50,13 +49,13 @@ pub fn demo_pages() -> Html {
             <Focus>{ "Focusable content" }</Focus>
 
             <h2>{ "Icon" }</h2>
-            <Icon icon={Some("star".to_string())} />
+            <Icon icon={"star".to_string()} />
 
             <h2>{ "Icon Button" }</h2>
             <IconButton variant={IconButtonVariants::Standard}>{ "favorite" }</IconButton>
 
             <h2>{ "Linear Progress" }</h2>
-            <LinearProgress value={50} max={100} />
+            <LinearProgress />
 
             <h2>{ "List" }</h2>
             <List>
@@ -77,7 +76,7 @@ pub fn demo_pages() -> Html {
             <MenuItem>{ "Standalone Menu Item" }</MenuItem>
 
             <h2>{ "Progress" }</h2>
-            <Progress progress={Some(0.7)} />
+            <Progress />
 
             <h2>{ "Radio" }</h2>
             <Radio />
@@ -101,7 +100,7 @@ pub fn demo_pages() -> Html {
             <Switch selected={true} />
 
             <h2>{ "Tabs" }</h2>
-            <Tabs active_index={Some(0)}>{ "Tab content" }</Tabs>
+            <Tabs>{ "Tab content" }</Tabs>
 
             <h2>{ "TextField" }</h2>
             <TextField label={Some("Text Field".to_string())} />
