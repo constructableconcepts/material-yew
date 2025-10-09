@@ -1,0 +1,7 @@
+2025-10-08T23:54:51.928273Z  INFO 🚀 Starting trunk 0.21.14
+2025-10-08T23:54:52.019826Z  INFO 📦 starting build
+warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
+package:   /app/matdemo/Cargo.toml
+workspace: /app/Cargo.toml
+   Compiling material-yew v0.1.0 (/app)
+   Compiling matdemo v0.1.0 (/app/matdemo)

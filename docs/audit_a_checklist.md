@@ -3,19 +3,19 @@ v.0.0.2
 
 ## Phase 1: Critical Bug Fixes & API Standardization
 
-- [ ] **Task: Correct Property Typos and Naming**
-  - [ ] `Button`: Rename `typepe` to `r#type` in `src/button.rs`.
-  - [ ] `Button`: Update unit tests for `type` prop.
-  - [ ] `Checkbox`: Rename `validitype` to `validity` in `src/checkbox.rs`.
-  - [ ] `Checkbox`: Update unit tests for `validity` prop.
-  - [ ] `Fab`: Rename `kind` to `variant` in `src/fab.rs`.
-  - [ ] `Fab`: Update unit tests for `variant` prop.
-- [ ] **Task: Standardize Property Types**
-  - [ ] `Fab`: Create `FabVariant` and `FabSize` enums in `src/fab.rs`.
-  - [ ] `Fab`: Update `variant` and `size` props to use the new enums.
-  - [ ] `Fab`: Update unit tests to use enums.
-  - [ ] `CircularProgress`: Change `value` and `max` props to `f32` in `src/circular_progress.rs`.
-  - [ ] `CircularProgress`: Update unit tests for `value` and `max`.
+- [x] **Task: Correct Property Typos and Naming**
+  - [x] `Button`: Rename `typepe` to `r#type` in `src/button.rs`.
+  - [x] `Button`: Update unit tests for `type` prop.
+  - [x] `Checkbox`: Rename `validitype` to `validity` in `src/checkbox.rs`.
+  - [x] `Checkbox`: Update unit tests for `validity` prop.
+  - [x] `Fab`: Rename `kind` to `variant` in `src/fab.rs`.
+  - [x] `Fab`: Update unit tests for `variant` prop.
+- [x] **Task: Standardize Property Types**
+  - [x] `Fab`: Create `FabVariant` and `FabSize` enums in `src/fab.rs`.
+  - [x] `Fab`: Update `variant` and `size` props to use the new enums.
+  - [x] `Fab`: Update unit tests to use enums.
+  - [x] `CircularProgress`: Change `value` and `max` props to `f32` in `src/circular_progress.rs`.
+  - [x] `CircularProgress`: Update unit tests for `value` and `max`.
 
 ## Phase 2: API Parity and Feature Completeness
 
