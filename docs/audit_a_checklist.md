@@ -46,17 +46,17 @@ v.0.0.2
 
 ## Phase 3: Adopt Idiomatic Yew Patterns & Architecture
 
-- [ ] **Task: Refactor `use_effect` DOM Manipulation**
-  - [ ] `Checkbox`: Remove `use_effect` hook for validation.
-  - [ ] `Checkbox`: Remove `validity`, `form`, `labels`, `validation_message`, `will_validate` props.
-  - [ ] `Checkbox`: Expose `check_validity()` and `report_validity()` on component ref.
-  - [ ] `Checkbox`: Create unit tests for ref-based methods.
-  - [ ] `Button`: Re-evaluate and refactor `form` property `use_effect` hook.
-- [ ] **Task: Correct `Elevation` Component Architecture**
-  - [ ] `Elevation`: Remove `level` prop from `src/elevation.rs`.
-  - [ ] `Elevation`: Update component to be a simple, prop-less wrapper.
-  - [ ] `Elevation`: Update documentation to explain usage via CSS custom properties on the parent.
-  - [ ] `Elevation`: Create a `matdemo` example demonstrating correct usage.
+- [x] **Task: Refactor `use_effect` DOM Manipulation**
+  - [x] `Checkbox`: Remove `use_effect` hook for validation.
+  - [x] `Checkbox`: Remove `validity`, `form`, `labels`, `validation_message`, `will_validate` props.
+  - [x] `Checkbox`: Expose `check_validity()` and `report_validity()` on component ref.
+  - [x] `Checkbox`: Create unit tests for ref-based methods.
+  - [x] `Button`: Re-evaluate and refactor `form` property `use_effect` hook.
+- [x] **Task: Correct `Elevation` Component Architecture**
+  - [x] `Elevation`: Remove `level` prop from `src/elevation.rs`.
+  - [x] `Elevation`: Update component to be a simple, prop-less wrapper.
+  - [x] `Elevation`: Update documentation to explain usage via CSS custom properties on the parent.
+  - [x] `Elevation`: Create a `matdemo` example demonstrating correct usage.
 
 ## Phase 4: Library-Wide DX and Documentation
 

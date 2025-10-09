@@ -215,8 +215,6 @@ pub fn test_checkbox() -> Html {
             required={false}
             value={AttrValue::Static("<some value>")}
             name={AttrValue::Static("<some name>")}
-            validation_message={AttrValue::Static("<some validation_message>")}
-            will_validate={false}
             onclick={Callback :: noop ()}
         >
         </Checkbox>

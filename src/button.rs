@@ -59,8 +59,9 @@ pub struct Props {
     #[prop_or(Some(AttrValue::Static("")))]
     pub name: Option<AttrValue>,
     ///
+    /// The id of the form the button is associated with.
     #[prop_or_default]
-    pub form: Option<HTMLFormElement>,
+    pub form: Option<AttrValue>,
     /// The variant to use.
     pub variant: ButtonVariants,
     pub children: Html,
@@ -70,25 +71,8 @@ pub struct Props {
 
 #[function_component]
 pub fn Button(props: &Props) -> Html {
-    let node_ref = use_node_ref();
-
-    {
-        let node_ref = node_ref.clone();
-        let form = props.form.clone();
-        use_effect_with(form, move |form| {
-            let element = node_ref.get().unwrap();
-            let value = form
-                .as_ref()
-                .map(|f| f.into())
-                .unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"form".into(), &value).unwrap();
-            move || {}
-        });
-    }
-
     crate::import_material_web_module!("/md-web/button.js");
     html! { <@{props.variant.as_tag_name()}
-        ref={node_ref}
         disabled={props.disabled.unwrap_or(false)}
         soft-disabled={props.soft_disabled.filter(|&v| v).map(|_| AttrValue::from(""))}
         href={props.href.clone()}
@@ -99,6 +83,7 @@ pub fn Button(props: &Props) -> Html {
         type={props.r#type.clone()}
         value={props.value.clone().unwrap_or_default()}
         name={props.name.clone()}
+        form={props.form.clone()}
         onclick={props.onclick.clone()}
     > {props.children.clone()} </@> }
 }
@@ -126,7 +111,7 @@ mod tests {
             r#type: Some("button".into()),
             value: None,
             name: None,
-            form: None,
+            form: Some("my-form".into()),
             variant: ButtonVariants::Filled,
             children: html! { "Test Button" },
             onclick: None,
@@ -136,6 +121,7 @@ mod tests {
 
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("type=\"button\""));
+        assert!(rendered_html.contains("form=\"my-form\""));
     }
 
     #[wasm_bindgen_test]
