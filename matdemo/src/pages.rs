@@ -28,9 +28,9 @@ pub fn demo_pages() -> Html {
 
             <h2>{ "Dialog" }</h2>
             <Dialog
-                headline={html!{ <h2>{"Dialog"}</h2> }}
-                content={html!{ <p>{"A standard dialog."}</p> }}
-                actions={html!{ <Button variant={ButtonVariants::Text}>{ "Close" }</Button> }}
+                headline={html!{ <><h2>{"Dialog"}</h2></> }}
+                content={html!{ <><p>{"A standard dialog."}</p></> }}
+                actions={html!{ <><Button variant={ButtonVariants::Text}>{ "Close" }</Button></> }}
             />
 
             <h2>{ "Divider" }</h2>

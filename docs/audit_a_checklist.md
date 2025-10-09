@@ -57,6 +57,10 @@ v.0.0.2
   - [x] `Elevation`: Update component to be a simple, prop-less wrapper.
   - [x] `Elevation`: Update documentation to explain usage via CSS custom properties on the parent.
   - [x] `Elevation`: Create a `matdemo` example demonstrating correct usage.
+- [x] **Task: System Test and Fixes**
+  - [x] Create `scripts/run_matdemo.sh` to build and serve the demo application.
+  - [x] Create `scripts/verify_matdemo.py` to capture a screenshot of the demo application.
+  - [x] Execute the scripts and verify the screenshot.
 
 ## Phase 4: Library-Wide DX and Documentation
 

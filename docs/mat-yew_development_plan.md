@@ -80,6 +80,13 @@ This phase focuses on refactoring components to use patterns that are more robus
   3.  Update the component's documentation extensively to explain that elevation is controlled via CSS custom properties on the parent element.
 - **Testing:** Create a usage example in `matdemo` that demonstrates the correct way to apply elevation to a parent container.
 
+### 4.3. Task: System Test and Fixes
+- **Objective:** Perform a visual verification of the `matdemo` application to catch any rendering regressions after the Phase 3 refactoring.
+- **Actions:**
+  1.  Create a shell script `scripts/run_matdemo.sh` to build the `matdemo` crate and serve its `dist` directory.
+  2.  Create a Python script `scripts/verify_matdemo.py` that uses Playwright to navigate to the served page and capture a screenshot.
+- **Testing:** The successful execution of the scripts and a visual inspection of the resulting screenshot `matdemo.png` will complete this task.
+
 ## 5. Phase 4: Library-Wide DX and Documentation
 
 This phase focuses on global improvements that will benefit the entire library.
