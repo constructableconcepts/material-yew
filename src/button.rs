@@ -29,6 +29,9 @@ pub struct Props {
     /// Whether or not the button is disabled.
     #[prop_or(Some(false))]
     pub disabled: Option<bool>,
+    /// When true, the button's ripple and state are disabled, but the button remains focusable.
+    #[prop_or_default]
+    pub soft_disabled: Option<bool>,
     /// The URL that the link button points to.
     #[prop_or(Some(AttrValue::Static("")))]
     pub href: Option<AttrValue>,
@@ -36,6 +39,9 @@ pub struct Props {
     /// <code>_blank</code> to open in a new tab.
     #[prop_or(Some(AttrValue::Static("")))]
     pub target: Option<AttrValue>,
+    /// Tells the browser to download the linked file instead of navigating to it.
+    #[prop_or_default]
+    pub download: Option<AttrValue>,
     /// Whether to render the icon at the inline end of the label rather than the inline
     /// start.<br><em>Note:</em> Link buttons cannot have trailing icons.
     #[prop_or(Some(false))]
@@ -84,8 +90,10 @@ pub fn Button(props: &Props) -> Html {
     html! { <@{props.variant.as_tag_name()}
         ref={node_ref}
         disabled={props.disabled.unwrap_or(false)}
+        soft-disabled={props.soft_disabled.filter(|&v| v).map(|_| AttrValue::from(""))}
         href={props.href.clone()}
         target={props.target.clone()}
+        download={props.download.clone()}
         trailingIcon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
         hasIcon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
         type={props.r#type.clone()}
@@ -109,8 +117,10 @@ mod tests {
         let host = document().create_element("div").unwrap();
         let props = Props {
             disabled: Some(false),
+            soft_disabled: None,
             href: None,
             target: None,
+            download: None,
             trailing_icon: Some(false),
             has_icon: Some(false),
             r#type: Some("button".into()),
@@ -126,5 +136,32 @@ mod tests {
 
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("type=\"button\""));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_soft_disabled_and_download() {
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            disabled: Some(false),
+            soft_disabled: Some(true),
+            href: None,
+            target: None,
+            download: Some("file.txt".into()),
+            trailing_icon: Some(false),
+            has_icon: Some(false),
+            r#type: Some("button".into()),
+            value: None,
+            name: None,
+            form: None,
+            variant: ButtonVariants::Filled,
+            children: html! { "Test Button" },
+            onclick: None,
+        };
+
+        yew::Renderer::<Button>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("soft-disabled"));
+        assert!(rendered_html.contains("download=\"file.txt\""));
     }
 }

@@ -50,8 +50,9 @@ pub struct Props {
     pub lowered: bool,
     /// The style of the FAB to use.
     pub style: FabStyle,
+    /// The icon to display in the FAB.
     #[prop_or_default]
-    pub children: Html,
+    pub icon: Html,
 }
 
 #[function_component]
@@ -62,12 +63,15 @@ pub fn Fab(props: &Props) -> Html {
         size={props.size.as_ref().map(|s| s.to_string())}
         label={props.label.clone()}
         lowered={props.lowered.then(|| AttrValue::from(""))}
-    > {props.children.clone()} </@> }
+    >
+        <span slot="icon">{ props.icon.clone() }</span>
+    </@> }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::Icon;
     use gloo_utils::document;
     use wasm_bindgen_test::*;
     use yew::prelude::*;
@@ -83,7 +87,7 @@ mod tests {
             label: None,
             lowered: false,
             style: FabStyle::Standard,
-            children: html! {},
+            icon: html! {},
         };
 
         yew::Renderer::<Fab>::with_root_and_props(host.clone(), props).render();
@@ -91,5 +95,25 @@ mod tests {
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("variant=\"primary\""));
         assert!(rendered_html.contains("size=\"large\""));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_renders_icon_slot() {
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            variant: None,
+            size: None,
+            label: None,
+            lowered: false,
+            style: FabStyle::Standard,
+            icon: html! { <Icon icon={"star".to_string()} /> },
+        };
+
+        yew::Renderer::<Fab>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("<span slot=\"icon\">"));
+        assert!(rendered_html.contains("<md-icon>star</md-icon>"));
+        assert!(rendered_html.contains("</span>"));
     }
 }

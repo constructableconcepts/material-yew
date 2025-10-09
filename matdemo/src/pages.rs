@@ -16,7 +16,10 @@ pub fn demo_pages() -> Html {
             <Chip variant={ChipVariants::Assist} label={"Demo Chip"} />
 
             <h2>{ "Chips" }</h2>
-            <Chips label={Some("Chips Group".to_string())} />
+            <Chips>
+                <Chip variant={ChipVariants::Assist} label={"Chip 1"} />
+                <Chip variant={ChipVariants::Assist} label={"Chip 2"} />
+            </Chips>
 
             <h2>{ "Circular Progress" }</h2>
             <CircularProgress value={50.0} max={100.0} />
@@ -25,7 +28,11 @@ pub fn demo_pages() -> Html {
             <Color value={Some("#2196f3".to_string())} />
 
             <h2>{ "Dialog" }</h2>
-            <Dialog open={false} heading={Some("Dialog Heading".to_string())}>{ "Dialog content here." }</Dialog>
+            <Dialog
+                headline={html!{ <h2>{"Dialog"}</h2> }}
+                content={html!{ <p>{"A standard dialog."}</p> }}
+                actions={html!{ <Button variant={ButtonVariants::Text}>{ "Close" }</Button> }}
+            />
 
             <h2>{ "Divider" }</h2>
             <Divider />

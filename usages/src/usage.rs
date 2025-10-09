@@ -169,9 +169,8 @@ pub fn test_fab(children: Html) -> Html {
             label={AttrValue::Static("<some label>")}
             lowered={false}
             style={FabStyle::Standard}
-        >
-            {children}
-        </Fab>
+            icon={children}
+        />
     }
 }
 
