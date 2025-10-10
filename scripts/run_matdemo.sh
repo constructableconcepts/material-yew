@@ -5,18 +5,18 @@ set -e
 trap "echo '>>> Shutting down server...'; kill \$SERVER_PID 2>/dev/null" EXIT
 
 echo ">>> Cleaning previous build artifacts..."
-rm -rf matdemo/dist
+rm -rf dist
 
 echo ">>> Installing required Rust target..."
 rustup target add wasm32-unknown-unknown
 
 echo ">>> Building matdemo application..."
 # Build the application first and log the output. If this fails, the script will exit.
-(cd matdemo && trunk build)
+trunk build
 
 echo ">>> Build successful. Starting server..."
 # Serve the created `dist` directory in the background.
-python3 -m http.server --directory matdemo/dist 8080 &
+python3 -m http.server --directory dist 8080 &
 SERVER_PID=$!
 echo ">>> Server started with PID: $SERVER_PID"
 

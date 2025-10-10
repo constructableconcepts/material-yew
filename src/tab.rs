@@ -3,19 +3,20 @@ use wasm_bindgen::JsCast;
 use web_sys::Element;
 use yew::prelude::*;
 
-#[derive(Properties, PartialEq, Clone)]
+#[derive(Properties, PartialEq)]
 pub struct Props {
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
-    pub children: Children,
-    /// Customizable properties.
+    pub active: bool,
+    #[prop_or_default]
+    pub children: Html,
     #[prop_or_default]
     pub customizable: CustomizableProps,
 }
 
-#[function_component(Focus)]
-pub fn focus(props: &Props) -> Html {
+#[function_component]
+pub fn Tab(props: &Props) -> Html {
     let node_ref = use_node_ref();
     let customizable = props.customizable.clone();
     use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
@@ -36,9 +37,15 @@ pub fn focus(props: &Props) -> Html {
         }
     });
 
+    crate::import_material_web_module!("/md-web/tabs.js");
+
     html! {
-        <md-focus ref={node_ref} disabled={props.disabled}>
-            { for props.children.iter() }
-        </md-focus>
+        <md-tab
+            ref={node_ref}
+            disabled={props.disabled}
+            active={props.active.then_some(AttrValue::from(""))}
+        >
+            {props.children.clone()}
+        </md-tab>
     }
 }

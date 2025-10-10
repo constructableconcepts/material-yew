@@ -1,13 +1,11 @@
+use crate::customizable::CustomizableProps;
 use wasm_bindgen::{prelude::Closure, JsCast};
-use web_sys::EventTarget;
+use web_sys::{Element, EventTarget};
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    /// The ID of the element in the same root node in which the menu should align to. Overrides
-    /// setting `anchorElement = elementReference`.<br><strong>NOTE</strong>: anchor or
-    /// anchorElement must either be an HTMLElement or resolve to an HTMLElement in order for menu
-    /// to open.
+    /// The ID of the element in the same root node in which the menu should align to.
     #[prop_or_default]
     pub anchor: AttrValue,
     /// Whether the positioning algorithm should calculate relative to the parent of the anchor
@@ -65,14 +63,35 @@ pub struct Props {
     pub onclosed: Callback<Event>,
     #[prop_or_default]
     pub children: Html,
+    /// Customizable properties.
+    #[prop_or_default]
+    pub customizable: CustomizableProps,
 }
 
 #[function_component]
 pub fn Menu(props: &Props) -> Html {
     let node_ref = use_node_ref();
+    let customizable = props.customizable.clone();
+    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
+        if let Some(element) = node_ref.get() {
+            let element = element.dyn_ref::<Element>().unwrap();
+
+            if let Some(style) = &customizable.style {
+                element.set_attribute("style", style).unwrap();
+            }
+
+            if let Some(aria) = &customizable.aria {
+                for (key, value) in aria {
+                    if key.starts_with("aria-") {
+                        element.set_attribute(key, value).unwrap();
+                    }
+                }
+            }
+        }
+    });
 
     // The event handling here is verbose and could be improved with a macro,
-    // but for now, we'll leave it as-is to focus on the prop ergonomics task.
+    // but for now, we'll leave it as-is.
     {
         let node_ref = node_ref.clone();
         let onclosing = props.onclosing.clone();

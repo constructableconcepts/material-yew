@@ -26,13 +26,17 @@ def verify_matdemo(page: Page):
 
     # 1. Arrange: Go to the matdemo page.
     logger.info("Navigating to http://localhost:8080...")
-    page.goto("http://localhost:8080")
+    page.goto("http://localhost:8080", wait_until="load") # Wait for all resources to load
+
+    # Give the application a moment to run and potentially panic
+    logger.info("Pausing for 2 seconds to allow WASM to initialize...")
+    page.wait_for_timeout(2000)
 
     # 2. Assert: Wait for a known element to be visible to ensure the page has loaded.
-    # We'll wait for the "Button" heading to appear, using an exact match to avoid ambiguity.
-    logger.info("Waiting for 'Button' heading to be visible...")
-    button_heading = page.get_by_role("heading", name="Button", exact=True)
-    expect(button_heading).to_be_visible(timeout=10000) # Increased timeout
+    # We'll wait for the "Hello, World!" heading to appear.
+    logger.info("Waiting for 'Hello, World!' heading to be visible...")
+    hello_heading = page.get_by_role("heading", name="Hello, World!", exact=True)
+    expect(hello_heading).to_be_visible(timeout=10000)
 
     # 3. Screenshot: Capture the final result for visual verification.
     logger.info("Taking screenshot...")

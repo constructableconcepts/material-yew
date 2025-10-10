@@ -1,9 +1,22 @@
-use wasm_bindgen::{prelude::Closure, JsCast};
-use web_sys::HtmlElement;
+use crate::customizable::CustomizableProps;
+use wasm_bindgen::{prelude::*, JsCast};
+use web_sys::{Element, EventTarget};
 use yew::prelude::*;
 
+#[wasm_bindgen]
+extern "C" {
+    #[derive(Clone)]
+    type MdDialog;
+
+    #[wasm_bindgen(method)]
+    fn show(this: &MdDialog);
+
+    #[wasm_bindgen(method)]
+    fn close(this: &MdDialog);
+}
+
 /// A handle to imperatively control the Dialog component.
-#[derive(Debug, Clone, Default)]
+#[derive(Debug, Clone, Default, PartialEq)]
 pub struct DialogRef {
     node_ref: NodeRef,
 }
@@ -12,21 +25,16 @@ impl DialogRef {
     /// Shows the dialog.
     pub fn show(&self) {
         if let Some(element) = self.node_ref.get() {
-            if let Ok(dialog) = element.dyn_into::<HtmlElement>() {
-                // In a real scenario, you would use wasm-bindgen to call the `show()` method
-                // on the underlying material-web component. This is a simplification for now.
-                let _ = dialog.set_attribute("open", "true");
-            }
+            let dialog: &MdDialog = element.unchecked_ref();
+            dialog.show();
         }
     }
 
     /// Closes the dialog.
     pub fn close(&self) {
         if let Some(element) = self.node_ref.get() {
-            if let Ok(dialog) = element.dyn_into::<HtmlElement>() {
-                // In a real scenario, you would use wasm-bindgen to call the `close()` method.
-                let _ = dialog.remove_attribute("open");
-            }
+            let dialog: &MdDialog = element.unchecked_ref();
+            dialog.close();
         }
     }
 }
@@ -43,9 +51,27 @@ pub struct Props {
     /// The content to display in the `actions` slot (usually buttons).
     #[prop_or_default]
     pub actions: Html,
+    /// The content to display in the `icon` slot.
+    #[prop_or_default]
+    pub icon: Html,
+    /// Opens the dialog.
+    #[prop_or_default]
+    pub open: bool,
+    /// Skips the opening and closing animations.
+    #[prop_or_default]
+    pub quick: bool,
+    /// Gets or sets the dialog's return value.
+    #[prop_or_default]
+    pub return_value: AttrValue,
+    /// The type of dialog.
+    #[prop_or_default]
+    pub r#type: AttrValue,
+    /// Disables focus trapping.
+    #[prop_or_default]
+    pub no_focus_trap: bool,
     /// A handle to allow imperative control of the dialog.
     #[prop_or_default]
-    pub node_ref: NodeRef,
+    pub dialog_ref: DialogRef,
     /// Event fired when the dialog is opening.
     #[prop_or_default]
     pub onopen: Callback<Event>,
@@ -61,6 +87,9 @@ pub struct Props {
     /// Event fired when the dialog is canceled.
     #[prop_or_default]
     pub oncancel: Callback<Event>,
+    /// Customizable properties.
+    #[prop_or_default]
+    pub customizable: CustomizableProps,
 }
 
 /// A dialog component that provides a container for content and actions.
@@ -68,49 +97,71 @@ pub struct Props {
 /// [Material Design spec](https://m3.material.io/components/dialogs/overview)
 #[function_component(Dialog)]
 pub fn dialog(props: &Props) -> Html {
-    let node_ref = props.node_ref.clone();
+    let node_ref = props.dialog_ref.node_ref.clone();
+    let customizable = props.customizable.clone();
+    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
+        if let Some(element) = node_ref.get() {
+            let element = element.dyn_ref::<Element>().unwrap();
+
+            if let Some(style) = &customizable.style {
+                element.set_attribute("style", style).unwrap();
+            }
+
+            if let Some(aria) = &customizable.aria {
+                for (key, value) in aria {
+                    if key.starts_with("aria-") {
+                        element.set_attribute(key, value).unwrap();
+                    }
+                }
+            }
+        }
+    });
 
     use_effect_with(node_ref.clone(), {
         let props = props.clone();
         move |node_ref| {
-            if let Some(element) = node_ref.get() {
-                let onopen = props.onopen.clone();
-                let onopened = props.onopened.clone();
-                let onclose = props.onclose.clone();
-                let onclosed = props.onclosed.clone();
-                let oncancel = props.oncancel.clone();
+            let element = node_ref.get().unwrap();
+            let target: EventTarget = element.dyn_into().unwrap();
+            let mut listeners = Vec::new();
 
-                let open_closure = Closure::wrap(Box::new(move |e| onopen.emit(e)) as Box<dyn FnMut(_)>);
-                let opened_closure = Closure::wrap(Box::new(move |e| onopened.emit(e)) as Box<dyn FnMut(_)>);
-                let close_closure = Closure::wrap(Box::new(move |e| onclose.emit(e)) as Box<dyn FnMut(_)>);
-                let closed_closure = Closure::wrap(Box::new(move |e| onclosed.emit(e)) as Box<dyn FnMut(_)>);
-                let cancel_closure = Closure::wrap(Box::new(move |e| oncancel.emit(e)) as Box<dyn FnMut(_)>);
+            let events = [
+                ("open", props.onopen.clone()),
+                ("opened", props.onopened.clone()),
+                ("close", props.onclose.clone()),
+                ("closed", props.onclosed.clone()),
+                ("cancel", props.oncancel.clone()),
+            ];
 
-                element.add_event_listener_with_callback("open", open_closure.as_ref().unchecked_ref()).unwrap();
-                element.add_event_listener_with_callback("opened", opened_closure.as_ref().unchecked_ref()).unwrap();
-                element.add_event_listener_with_callback("close", close_closure.as_ref().unchecked_ref()).unwrap();
-                element.add_event_listener_with_callback("closed", closed_closure.as_ref().unchecked_ref()).unwrap();
-                element.add_event_listener_with_callback("cancel", cancel_closure.as_ref().unchecked_ref()).unwrap();
+            for (event_name, callback) in events {
+                let listener = Closure::<dyn FnMut(_)>::new(move |e| callback.emit(e));
+                target
+                    .add_event_listener_with_callback(event_name, listener.as_ref().unchecked_ref())
+                    .unwrap();
+                listeners.push(listener);
+            }
 
-                Box::new(move || {
-                    open_closure.forget();
-                    opened_closure.forget();
-                    close_closure.forget();
-                    closed_closure.forget();
-                    cancel_closure.forget();
-                }) as Box<dyn FnOnce()>
-            } else {
-                Box::new(|| {}) as Box<dyn FnOnce()>
+            move || {
+                for listener in listeners {
+                    drop(listener);
+                }
             }
         }
     });
 
     crate::import_material_web_module!("/md-web/dialog.js");
     html! {
-        <md-dialog ref={node_ref}>
-            <div slot="headline">{ props.headline.clone() }</div>
-            <div slot="content">{ props.content.clone() }</div>
-            <div slot="actions">{ props.actions.clone() }</div>
+        <md-dialog
+            ref={node_ref}
+            open={props.open}
+            quick={props.quick.then_some(AttrValue::from(""))}
+            returnValue={props.return_value.clone()}
+            type={props.r#type.clone()}
+            no-focus-trap={props.no_focus_trap.then_some(AttrValue::from(""))}
+        >
+            {props.icon.clone()}
+            {props.headline.clone()}
+            {props.content.clone()}
+            {props.actions.clone()}
         </md-dialog>
     }
 }
@@ -119,6 +170,7 @@ pub fn dialog(props: &Props) -> Html {
 mod tests {
     use super::*;
     use gloo_utils::document;
+    use std::collections::BTreeMap;
     use wasm_bindgen_test::*;
     use yew::prelude::*;
 
@@ -128,22 +180,66 @@ mod tests {
     fn it_renders_slots_correctly() {
         let host = document().create_element("div").unwrap();
         let props = Props {
-            headline: html! { <h1>{"Headline"}</h1> },
-            content: html! { <p>{"Content"}</p> },
-            actions: html! { <button>{"Action"}</button> },
-            node_ref: NodeRef::default(),
+            headline: html! { <h2 slot="headline">{"Headline"}</h2> },
+            content: html! { <p slot="content">{"Content"}</p> },
+            actions: html! { <div slot="actions"><button>{"Action"}</button></div> },
+            icon: html! { <span slot="icon" class="material-icons">{"settings"}</span> },
+            open: false,
+            quick: false,
+            return_value: AttrValue::default(),
+            r#type: AttrValue::default(),
+            no_focus_trap: false,
+            dialog_ref: DialogRef::default(),
             onopen: Callback::default(),
             onopened: Callback::default(),
             onclose: Callback::default(),
             onclosed: Callback::default(),
             oncancel: Callback::default(),
+            customizable: CustomizableProps::default(),
         };
 
         yew::Renderer::<Dialog>::with_root_and_props(host.clone(), props).render();
 
         let rendered_html = host.inner_html();
-        assert!(rendered_html.contains("<div slot=\"headline\"><h1>Headline</h1></div>"));
-        assert!(rendered_html.contains("<div slot=\"content\"><p>Content</p></div>"));
+        assert!(rendered_html.contains("<span slot=\"icon\""));
+        assert!(rendered_html.contains("<h2 slot=\"headline\">Headline</h2>"));
+        assert!(rendered_html.contains("<p slot=\"content\">Content</p>"));
         assert!(rendered_html.contains("<div slot=\"actions\"><button>Action</button></div>"));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_custom_style_and_aria() {
+        let host = document().create_element("div").unwrap();
+        let mut aria = BTreeMap::new();
+        aria.insert("aria-label".to_string(), "Custom Dialog".into());
+        let props = Props {
+            headline: html! {},
+            content: html! {},
+            actions: html! {},
+            icon: html! {},
+            open: false,
+            quick: false,
+            return_value: AttrValue::default(),
+            r#type: "alert".into(),
+            no_focus_trap: true,
+            dialog_ref: DialogRef::default(),
+            onopen: Callback::default(),
+            onopened: Callback::default(),
+            onclose: Callback::default(),
+            onclosed: Callback::default(),
+            oncancel: Callback::default(),
+            customizable: CustomizableProps {
+                style: Some("color: red;".into()),
+                aria: Some(aria),
+            },
+        };
+
+        yew::Renderer::<Dialog>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("style=\"color: red;\""));
+        assert!(rendered_html.contains("aria-label=\"Custom Dialog\""));
+        assert!(rendered_html.contains("type=\"alert\""));
+        assert!(rendered_html.contains("no-focus-trap"));
     }
 }

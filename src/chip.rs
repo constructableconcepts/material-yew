@@ -1,3 +1,6 @@
+use crate::customizable::CustomizableProps;
+use wasm_bindgen::JsCast;
+use web_sys::Element;
 use yew::prelude::*;
 
 #[derive(PartialEq)]
@@ -44,12 +47,37 @@ pub struct Props {
     /// The content of the chip's label.
     #[prop_or_default]
     pub children: Html,
+    /// Customizable properties.
+    #[prop_or_default]
+    pub customizable: CustomizableProps,
 }
 
 #[function_component]
 pub fn Chip(props: &Props) -> Html {
+    let node_ref = use_node_ref();
+    let customizable = props.customizable.clone();
+    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
+        if let Some(element) = node_ref.get() {
+            let element = element.dyn_ref::<Element>().unwrap();
+
+            if let Some(style) = &customizable.style {
+                element.set_attribute("style", style).unwrap();
+            }
+
+            if let Some(aria) = &customizable.aria {
+                for (key, value) in aria {
+                    if key.starts_with("aria-") {
+                        element.set_attribute(key, value).unwrap();
+                    }
+                }
+            }
+        }
+    });
+
     crate::import_material_web_module!("/md-web/chip.js");
+
     html! { <@{props.variant.as_tag_name()}
+        ref={node_ref}
         elevated={props.elevated.then_some(AttrValue::from(""))}
         href={props.href.clone()}
         target={props.target.clone()}
@@ -63,6 +91,7 @@ pub fn Chip(props: &Props) -> Html {
 mod tests {
     use super::*;
     use gloo_utils::document;
+    use std::collections::BTreeMap;
     use wasm_bindgen_test::*;
     use yew::prelude::*;
 
@@ -80,6 +109,7 @@ mod tests {
             always_focusable: false,
             variant: ChipVariants::Assist,
             children: html! { "Test Chip" },
+            customizable: CustomizableProps::default(),
         };
 
         yew::Renderer::<Chip>::with_root_and_props(host.clone(), props).render();
@@ -87,5 +117,32 @@ mod tests {
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("download=\"file.txt\""));
         assert!(rendered_html.contains("Test Chip"));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_custom_style_and_aria() {
+        let host = document().create_element("div").unwrap();
+        let mut aria = BTreeMap::new();
+        aria.insert("aria-label".to_string(), "Custom Chip".into());
+        let props = Props {
+            elevated: false,
+            href: AttrValue::default(),
+            target: AttrValue::default(),
+            download: AttrValue::default(),
+            disabled: false,
+            always_focusable: false,
+            variant: ChipVariants::Assist,
+            children: html! { "Test Chip" },
+            customizable: CustomizableProps {
+                style: Some("color: green;".into()),
+                aria: Some(aria),
+            },
+        };
+
+        yew::Renderer::<Chip>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("style=\"color: green;\""));
+        assert!(rendered_html.contains("aria-label=\"Custom Chip\""));
     }
 }

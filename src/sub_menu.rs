@@ -1,5 +1,6 @@
+use crate::customizable::CustomizableProps;
 use wasm_bindgen::{prelude::Closure, JsCast};
-use web_sys::EventTarget;
+use web_sys::{Element, EventTarget};
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -26,13 +27,35 @@ pub struct Props {
     pub onclosed: Callback<Event>,
     #[prop_or_default]
     pub children: Html,
+    /// Customizable properties.
+    #[prop_or_default]
+    pub customizable: CustomizableProps,
 }
 
 #[function_component]
 pub fn SubMenu(props: &Props) -> Html {
     let node_ref = use_node_ref();
+    let customizable = props.customizable.clone();
+    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
+        if let Some(element) = node_ref.get() {
+            let element = element.dyn_ref::<Element>().unwrap();
+
+            if let Some(style) = &customizable.style {
+                element.set_attribute("style", style).unwrap();
+            }
+
+            if let Some(aria) = &customizable.aria {
+                for (key, value) in aria {
+                    if key.starts_with("aria-") {
+                        element.set_attribute(key, value).unwrap();
+                    }
+                }
+            }
+        }
+    });
+
     // The event handling here is verbose and could be improved with a macro,
-    // but for now, we'll leave it as-is to focus on the prop ergonomics task.
+    // but for now, we'll leave it as-is.
     {
         let node_ref = node_ref.clone();
         let onclosing = props.onclosing.clone();
@@ -116,4 +139,43 @@ pub fn SubMenu(props: &Props) -> Html {
     >
         {props.children.clone()}
     </md-sub-menu> }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use gloo_utils::document;
+    use std::collections::BTreeMap;
+    use wasm_bindgen_test::*;
+    use yew::prelude::*;
+
+    wasm_bindgen_test_configure!(run_in_browser);
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_custom_style_and_aria() {
+        let host = document().create_element("div").unwrap();
+        let mut aria = BTreeMap::new();
+        aria.insert("aria-label".to_string(), "Custom Sub Menu".into());
+        let props = Props {
+            anchor_corner: "end-start".into(),
+            menu_corner: "start-start".into(),
+            hover_open_delay: 400,
+            hover_close_delay: 400,
+            onclosing: Callback::default(),
+            onopening: Callback::default(),
+            onopened: Callback::default(),
+            onclosed: Callback::default(),
+            children: html! {},
+            customizable: CustomizableProps {
+                style: Some("color: cyan;".into()),
+                aria: Some(aria),
+            },
+        };
+
+        yew::Renderer::<SubMenu>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("style=\"color: cyan;\""));
+        assert!(rendered_html.contains("aria-label=\"Custom Sub Menu\""));
+    }
 }

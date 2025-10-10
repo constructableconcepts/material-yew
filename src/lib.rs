@@ -5,6 +5,8 @@
 // - [`md-dialog`](https://material-web.dev/components/dialog/)
 // - [`md-select`](https://material-web.dev/components/select/)
 // - [`md-sub-menu` events](https://material-web.dev/components/menu/#events-2)
+pub mod customizable;
+pub use customizable::CustomizableProps;
 mod chip_set;
 mod color;
 mod divider;
@@ -14,6 +16,7 @@ mod progress;
 mod ripple;
 mod select;
 mod tabs;
+mod tab;
 
 pub use chip_set::ChipSet;
 pub use color::Color;
@@ -24,6 +27,7 @@ pub use progress::Progress;
 pub use ripple::Ripple;
 pub use select::Select;
 pub use tabs::Tabs;
+pub use tab::Tab;
 mod button;
 mod checkbox;
 mod chip;

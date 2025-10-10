@@ -1,3 +1,6 @@
+use crate::customizable::CustomizableProps;
+use wasm_bindgen::JsCast;
+use web_sys::Element;
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -62,12 +65,37 @@ pub struct Props {
     /// The name of the slider's end handle.
     #[prop_or_default]
     pub name_end: AttrValue,
+    /// Customizable properties.
+    #[prop_or_default]
+    pub customizable: CustomizableProps,
 }
 
 #[function_component]
 pub fn Slider(props: &Props) -> Html {
+    let node_ref = use_node_ref();
+    let customizable = props.customizable.clone();
+    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
+        if let Some(element) = node_ref.get() {
+            let element = element.dyn_ref::<Element>().unwrap();
+
+            if let Some(style) = &customizable.style {
+                element.set_attribute("style", style).unwrap();
+            }
+
+            if let Some(aria) = &customizable.aria {
+                for (key, value) in aria {
+                    if key.starts_with("aria-") {
+                        element.set_attribute(key, value).unwrap();
+                    }
+                }
+            }
+        }
+    });
+
     crate::import_material_web_module!("/md-web/slider.js");
+
     html! { <md-slider
+        ref={node_ref}
         disabled={props.disabled}
         min={props.min.to_string()}
         max={props.max.to_string()}
@@ -89,4 +117,54 @@ pub fn Slider(props: &Props) -> Html {
         name-start={props.name_start.clone()}
         name-end={props.name_end.clone()}
     />}
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use gloo_utils::document;
+    use std::collections::BTreeMap;
+    use wasm_bindgen_test::*;
+    use yew::prelude::*;
+
+    wasm_bindgen_test_configure!(run_in_browser);
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_custom_style_and_aria() {
+        let host = document().create_element("div").unwrap();
+        let mut aria = BTreeMap::new();
+        aria.insert("aria-label".to_string(), "Custom Slider".into());
+        let props = Props {
+            disabled: false,
+            min: 0.0,
+            max: 100.0,
+            value: 50.0,
+            value_start: 0.0,
+            value_end: 100.0,
+            value_label: AttrValue::default(),
+            value_label_start: AttrValue::default(),
+            value_label_end: AttrValue::default(),
+            aria_label_start: AttrValue::default(),
+            aria_value_text_start: AttrValue::default(),
+            aria_label_end: AttrValue::default(),
+            aria_value_text_end: AttrValue::default(),
+            step: 1.0,
+            ticks: false,
+            labeled: false,
+            range: false,
+            name: AttrValue::default(),
+            name_start: AttrValue::default(),
+            name_end: AttrValue::default(),
+            customizable: CustomizableProps {
+                style: Some("width: 300px;".into()),
+                aria: Some(aria),
+            },
+        };
+
+        yew::Renderer::<Slider>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("style=\"width: 300px;\""));
+        assert!(rendered_html.contains("aria-label=\"Custom Slider\""));
+    }
 }

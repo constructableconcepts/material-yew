@@ -1,3 +1,6 @@
+use crate::customizable::CustomizableProps;
+use wasm_bindgen::JsCast;
+use web_sys::Element;
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq, Clone)]
@@ -12,10 +15,33 @@ pub struct Props {
     pub outlined: bool,
     #[prop_or_default]
     pub oninput: Callback<InputEvent>,
+    /// Customizable properties.
+    #[prop_or_default]
+    pub customizable: CustomizableProps,
 }
 
 #[function_component(TextField)]
 pub fn textfield(props: &Props) -> Html {
+    let node_ref = use_node_ref();
+    let customizable = props.customizable.clone();
+    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
+        if let Some(element) = node_ref.get() {
+            let element = element.dyn_ref::<Element>().unwrap();
+
+            if let Some(style) = &customizable.style {
+                element.set_attribute("style", style).unwrap();
+            }
+
+            if let Some(aria) = &customizable.aria {
+                for (key, value) in aria {
+                    if key.starts_with("aria-") {
+                        element.set_attribute(key, value).unwrap();
+                    }
+                }
+            }
+        }
+    });
+
     crate::import_material_web_module!("/md-web/textfield.js");
 
     let tag = if props.outlined {
@@ -23,12 +49,49 @@ pub fn textfield(props: &Props) -> Html {
     } else {
         "md-filled-text-field"
     };
+
     html! {
         <@{tag}
+            ref={node_ref}
             label={props.label.clone()}
             value={props.value.clone()}
             disabled={props.disabled}
             oninput={props.oninput.clone()}
         />
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use gloo_utils::document;
+    use std::collections::BTreeMap;
+    use wasm_bindgen_test::*;
+    use yew::prelude::*;
+
+    wasm_bindgen_test_configure!(run_in_browser);
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_custom_style_and_aria() {
+        let host = document().create_element("div").unwrap();
+        let mut aria = BTreeMap::new();
+        aria.insert("aria-label".to_string(), "Custom Text Field".into());
+        let props = Props {
+            label: "Label".into(),
+            value: "Value".into(),
+            disabled: false,
+            outlined: false,
+            oninput: Callback::default(),
+            customizable: CustomizableProps {
+                style: Some("color: blue;".into()),
+                aria: Some(aria),
+            },
+        };
+
+        yew::Renderer::<TextField>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("style=\"color: blue;\""));
+        assert!(rendered_html.contains("aria-label=\"Custom Text Field\""));
     }
 }

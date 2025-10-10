@@ -1,14 +1,44 @@
+use crate::customizable::CustomizableProps;
+use wasm_bindgen::JsCast;
+use web_sys::Element;
 use yew::prelude::*;
+
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    pub children: Html,
+    #[prop_or_default]
+    pub children: Children,
+    /// Customizable properties.
+    #[prop_or_default]
+    pub customizable: CustomizableProps,
 }
 
 #[function_component]
 pub fn List(props: &Props) -> Html {
-    use_effect_with((), |_| {
-        crate::import_material_web_module!("/md-web/list.js")
+    let node_ref = use_node_ref();
+    let customizable = props.customizable.clone();
+    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
+        if let Some(element) = node_ref.get() {
+            let element = element.dyn_ref::<Element>().unwrap();
+
+            if let Some(style) = &customizable.style {
+                element.set_attribute("style", style).unwrap();
+            }
+
+            if let Some(aria) = &customizable.aria {
+                for (key, value) in aria {
+                    if key.starts_with("aria-") {
+                        element.set_attribute(key, value).unwrap();
+                    }
+                }
+            }
+        }
     });
-    html! { <md-list
-    > {props.children.clone()} </md-list> }
+
+    crate::import_material_web_module!("/md-web/list.js");
+
+    html! {
+        <md-list ref={node_ref}>
+            { for props.children.iter() }
+        </md-list>
+    }
 }

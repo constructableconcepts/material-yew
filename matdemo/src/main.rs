@@ -18,5 +18,6 @@ fn main() {
     wasm_logger::init(wasm_logger::Config::default());
     console_error_panic_hook::set_once();
     info!("Starting matdemo application");
-    yew::Renderer::<App>::new().render();
+    let renderer = yew::Renderer::<App>::new().render();
+    std::mem::forget(renderer);
 }
