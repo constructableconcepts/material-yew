@@ -10,7 +10,7 @@ pub struct Props {
     #[prop_or_default]
     pub active: bool,
     #[prop_or_default]
-    pub children: Html,
+    pub children: Children,
     #[prop_or_default]
     pub customizable: CustomizableProps,
 }
@@ -37,15 +37,13 @@ pub fn Tab(props: &Props) -> Html {
         }
     });
 
-    crate::import_material_web_module!("/md-web/tabs.js");
-
     html! {
         <md-tab
             ref={node_ref}
             disabled={props.disabled}
             active={props.active.then_some(AttrValue::from(""))}
         >
-            {props.children.clone()}
+            { for props.children.iter() }
         </md-tab>
     }
 }

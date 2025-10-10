@@ -18,17 +18,26 @@ However, a critical bug remains:
 
 This proves that the rendering failure is located within the `matdemo/src/pages.rs` file, specifically within the `DemoPages` component or one of its many children.
 
-## 3. Handoff Notes & Prompt Steps
+## 3. Session Debrief & Handoff (IMPORTANT)
+
+**MANDATE:** Before beginning your work, you MUST review the detailed handoff notes from the previous session. These documents contain critical information about the debugging process, including all attempted fixes and their outcomes. Failure to review this context will likely result in repeating failed attempts.
+
+-   **Handoff Notes:** `docs/handoff_notes.md`
+-   **Open Issues:** `docs/open_issues.md`
+
+The bug has been successfully isolated to the `Tabs` component, but multiple attempts to fix it have failed. The solution is non-obvious. Proceed with a new, comprehensive analysis.
+
+## 4. Original Prompt Steps
 
 The immediate goal is to isolate and fix the component that is causing the silent rendering failure. The recommended approach is a methodical "divide and conquer" strategy.
 
-### 3.1. Step 1: Confirm Baseline
+### 4.1. Step 1: Confirm Baseline
 
 1.  **Restore `App` Component**: Ensure `matdemo/src/main.rs` is rendering the full `<pages::DemoPages />` component.
 2.  **Restore Verification Script**: Ensure `scripts/verify_matdemo.py` is checking for the original heading (e.g., `"Button"`), not a temporary test value.
 3.  **Run the Test**: Execute `./scripts/run_matdemo.sh` and confirm that it fails with the `Locator expected to be visible` error, which establishes the baseline for the bug.
 
-### 3.2. Step 2: Isolate the Faulty Component
+### 4.2. Step 2: Isolate the Faulty Component
 
 1.  **Open `pages.rs`**: The primary workspace for this task is `matdemo/src/pages.rs`.
 2.  **Comment Out Components**: Systematically comment out components within the `DemoPages` component's `html!` macro. It is efficient to comment out large blocks of components first.
@@ -37,13 +46,13 @@ The immediate goal is to isolate and fix the component that is causing the silen
     -   Continue this process until the page renders some content successfully. The component (or block of components) that was last commented out is the source of the failure.
 4.  **Narrow Down**: Once a failing block is identified, uncomment its children one by one to pinpoint the single faulty component.
 
-### 3.3. Step 3: Debug and Implement the Fix
+### 4.3. Step 3: Debug and Implement the Fix
 
 1.  **Analyze the Component**: Once the specific failing component is identified, investigate its source code in the `src/` directory.
 2.  **Identify the Root Cause**: The error is likely a subtle logic issue that prevents Yew from rendering but doesn't trigger a panic (e.g., an infinite loop, incorrect state management, or a subtle issue with how props are handled internally).
 3.  **Correct the Code**: Implement a fix for the identified bug.
 
-### 3.4. Step 4: Verify the Final Fix
+### 4.4. Step 4: Verify the Final Fix
 
 1.  **Restore `pages.rs`**: Uncomment all components in `matdemo/src/pages.rs`.
 2.  **Restore Verification Script**: Return `scripts/verify_matdemo.py` to its original state, asserting that the `"Button"` heading is visible.
@@ -52,5 +61,6 @@ The immediate goal is to isolate and fix the component that is causing the silen
 5.  **Submit**: Commit the changes.
 
 ## Appendix R - Revision History
+- v.0.0.3: Added session debrief and handoff notes.
 - v.0.0.2: Updated prompt to reflect completion of Audit B and focus on debugging the silent rendering failure.
 - v.0.0.1: Initial prompt creation.
