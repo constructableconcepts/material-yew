@@ -4,14 +4,14 @@ v.0.0.3
 ## Phase 5: API and Component Refactoring (from Audit `B`)
 
 ### Task: Library-Wide DX and API Standardization
-- [ ] **B-1: Prop Ergonomics:** Refactor all components to remove `Option<T>` wrappers from props where a default value is sufficient, using `#[prop_or_default]` for cleaner APIs.
+- [x] **B-1: Prop Ergonomics:** Refactor all components to remove `Option<T>` wrappers from props where a default value is sufficient, using `#[prop_or_default]` for cleaner APIs.
 - [ ] **B-2: Prop Naming:** Ensure all component props consistently use `snake_case` and correctly map to the `kebab-case` attributes of the underlying web components.
 - [ ] **B-3: Form Integration:** Develop a reusable pattern for `mixinConstraintValidation` to provide a consistent form validation API (`checkValidity`, `reportValidity`) and implement it where applicable (starting with `Checkbox`).
 
 ### Task: Library-Wide Customization and Accessibility
-- [ ] **B-4: Reusable Pattern:** Create a reusable module or macro to handle the delegation of arbitrary `style` and `aria-*` attributes.
-- [ ] **B-5: Implementation:** Implement the new pattern across all relevant components.
-- [ ] **B-6: Unit Tests:** Add unit tests for `style` and `aria` props for each component.
+- [x] **B-4: Reusable Pattern:** Create a reusable module or macro to handle the delegation of arbitrary `style` and `aria-*` attributes.
+- [x] **B-5: Implementation:** Implement the new pattern across all relevant components.
+- [x] **B-6: Unit Tests:** Add unit tests for `style` and `aria` props for each component.
 
 ### Task: Button Component Refinements
 - [ ] **B-7: Icon Handling:** Refactor the `Button` component to use a dedicated `icon: Html` prop, removing the need for the manual `has_icon` boolean.
