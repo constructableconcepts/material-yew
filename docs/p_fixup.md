@@ -10,8 +10,8 @@ To investigate, identify, and resolve the runtime panic currently occurring in t
 The previous development session completed Phases 1, 2, and 3 of the systemic development plan. As part of this work, a new system test was created to provide visual verification of the `matdemo` application. This test uncovered a critical bug: although the entire workspace compiles successfully, the `matdemo` application fails to render in a browser, indicating a runtime panic.
 
 This task is a direct continuation of that work. The agent should familiarize itself with the completed tasks by reviewing the following documents:
--   **Systemic Audit Report**: `docs/feature_audit_a.md`
--   **Development Checklist**: `docs/audit_a_checklist.md` (Note the new task at the end of Phase 3)
+-   **Systemic Audit Report**: `docs/feature_audit_b.md`
+-   **Development Checklist**: `docs/audit_b_checklist.md` (Note the new task at the end of Phase 3)
 
 The immediate goal is to fix the bug that prevents the `matdemo` application from running.
 
