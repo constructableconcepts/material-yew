@@ -16,26 +16,19 @@ pub struct Props {
     /// the behavior of the <code>icons</code> property.
     #[prop_or_default]
     pub show_only_selected_icon: bool,
-    /// When true, require the switch to be selected when participating in form submission.<br>https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/checkbox#validation
+    /// When true, require the switch to be selected when participating in form submission.
     #[prop_or_default]
     pub required: bool,
-    /// The value associated with this switch on form submission. <code>null</code> is submitted
-    /// when <code>selected</code> is <code>false</code>.
+    /// The value associated with this switch on form submission.
     #[prop_or_default]
     pub value: AttrValue,
-    ///
+    /// The name of the switch.
     #[prop_or_default]
-    pub name: Option<AttrValue>,
-    ///
+    pub name: AttrValue,
     #[prop_or_default]
-    pub validation_message: Option<AttrValue>,
-    ///
+    pub oninput: Callback<InputEvent>,
     #[prop_or_default]
-    pub will_validate: bool,
-    #[prop_or_default]
-    pub oninput: Option<Callback<InputEvent>>,
-    #[prop_or_default]
-    pub onchange: Option<Callback<Event>>,
+    pub onchange: Callback<Event>,
 }
 
 #[function_component]
@@ -44,13 +37,11 @@ pub fn Switch(props: &Props) -> Html {
     html! { <md-switch
         disabled={props.disabled}
         selected={props.selected}
-        icons={props.icons.then(|| AttrValue::from(""))}
-        show-only-selected-icon={props.show_only_selected_icon.then(|| AttrValue::from(""))}
+        icons={props.icons.then_some(AttrValue::from(""))}
+        show-only-selected-icon={props.show_only_selected_icon.then_some(AttrValue::from(""))}
         required={props.required}
         value={props.value.clone()}
         name={props.name.clone()}
-        validation-message={props.validation_message.clone()}
-        will-validate={props.will_validate.then(|| AttrValue::from(""))}
         oninput={props.oninput.clone()}
         onchange={props.onchange.clone()}
     />}

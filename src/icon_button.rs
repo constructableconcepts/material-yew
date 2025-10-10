@@ -1,7 +1,5 @@
-use js_sys::Reflect;
-use wasm_bindgen::JsValue;
-use web_sys::HtmlFormElement;
 use yew::prelude::*;
+
 #[derive(PartialEq, Clone)]
 pub enum IconButtonVariants {
     Standard,
@@ -29,80 +27,62 @@ pub struct Props {
     /// Flips the icon if it is in an RTL context at startup.
     #[prop_or_default]
     pub flip_icon_in_rtl: bool,
-    /// Sets the underlying <code>HTMLAnchorElement</code>’s <code>href</code> resource attribute.
+    /// Sets the underlying `HTMLAnchorElement`’s `href` resource attribute.
     #[prop_or_default]
-    pub href: Option<AttrValue>,
-    /// Sets the underlying <code>HTMLAnchorElement</code>’s <code>target</code> attribute.
+    pub href: AttrValue,
+    /// Sets the underlying `HTMLAnchorElement`’s `target` attribute.
     #[prop_or_default]
-    pub target: Option<AttrValue>,
-    /// The <code>aria-label</code> of the button when the button is toggleable and selected.
+    pub target: AttrValue,
+    /// The `aria-label` of the button when the button is toggleable and selected.
     #[prop_or_default]
-    pub aria_label_selected: Option<AttrValue>,
+    pub aria_label_selected: AttrValue,
     /// When true, the button will toggle between selected and unselected states
     #[prop_or_default]
     pub toggle: bool,
     /// Sets the selected state. When false, displays the default icon. When true, displays the
-    /// selected icon, or the default icon If no <code>slot=&quot;selected&quot;</code> icon is
+    /// selected icon, or the default icon If no `slot="selected"` icon is
     /// provided.
     #[prop_or_default]
     pub selected: bool,
-    ///
+    /// The default behavior of the button. May be "button", "reset", or "submit" (default).
+    #[prop_or(AttrValue::from("submit"))]
+    pub r#type: AttrValue,
+    /// The value added to a form with the button's name when the button submits a form.
     #[prop_or_default]
-    pub typepe: Option<AttrValue>,
-    ///
+    pub value: AttrValue,
+    /// The name of the button.
     #[prop_or_default]
-    pub value: Option<AttrValue>,
-    ///
+    pub name: AttrValue,
+    /// The id of the form the button is associated with.
     #[prop_or_default]
-    pub name: Option<AttrValue>,
-    #[prop_or_default]
-    pub form: Option<HtmlFormElement>,
+    pub form: AttrValue,
     /// The variant to use.
     pub variant: IconButtonVariants,
     #[prop_or_default]
     pub children: Html,
-
     #[prop_or_default]
-    pub onclick: Option<Callback<MouseEvent>>,
+    pub onclick: Callback<MouseEvent>,
     #[prop_or_default]
-    pub oninput: Option<Callback<InputEvent>>,
+    pub oninput: Callback<InputEvent>,
     #[prop_or_default]
-    pub onchange: Option<Callback<Event>>,
+    pub onchange: Callback<Event>,
 }
 
 #[function_component]
 pub fn IconButton(props: &Props) -> Html {
-    let node_ref = use_node_ref();
-    {
-        let node_ref = node_ref.clone();
-        let props = props.clone();
-        use_effect_with(props, move |props| {
-            let element = node_ref.get().unwrap();
-            let form_value = props.form.as_ref().map(|f| f.into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"form".into(), &form_value).unwrap();
-
-            let type_value = props.typepe.as_ref().map(|t| t.as_str().into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"type".into(), &type_value).unwrap();
-
-            let value_value = props.value.as_ref().map(|v| v.as_str().into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"value".into(), &value_value).unwrap();
-
-            let name_value = props.name.as_ref().map(|n| n.as_str().into()).unwrap_or(JsValue::NULL);
-            Reflect::set(&element, &"name".into(), &name_value).unwrap();
-            move || {}
-        });
-    }
-
     crate::import_material_web_module!("/md-web/icon-button.js");
     html! { <@{props.variant.as_tag_name()}
-        ref={node_ref}
         disabled={props.disabled}
-        flip-icon-in-rtl={props.flip_icon_in_rtl.then(|| AttrValue::from(""))}
+        flip-icon-in-rtl={props.flip_icon_in_rtl.then_some(AttrValue::from(""))}
         href={props.href.clone()}
         target={props.target.clone()}
         aria-label-selected={props.aria_label_selected.clone()}
-        toggle={props.toggle.then(|| AttrValue::from(""))}
+        toggle={props.toggle.then_some(AttrValue::from(""))}
         selected={props.selected}
+        type={props.r#type.clone()}
+        value={props.value.clone()}
+        name={props.name.clone()}
+        form={props.form.clone()}
         onclick={props.onclick.clone()}
         oninput={props.oninput.clone()}
         onchange={props.onchange.clone()}

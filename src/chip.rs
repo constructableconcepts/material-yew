@@ -21,30 +21,27 @@ impl ChipVariants {
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
-    ///
+    /// Whether the chip is elevated.
     #[prop_or_default]
     pub elevated: bool,
-    ///
+    /// The URL that the chip links to.
     #[prop_or_default]
-    pub href: Option<AttrValue>,
-    ///
+    pub href: AttrValue,
+    /// The target of the link.
     #[prop_or_default]
-    pub target: Option<AttrValue>,
+    pub target: AttrValue,
     /// Tells the browser to download the linked file instead of navigating to it.
     #[prop_or_default]
-    pub download: Option<AttrValue>,
-    /// Whether or not the chip is disabled.<br>Disabled chips are not focusable, unless
-    /// <code>always-focusable</code> is set.
+    pub download: AttrValue,
+    /// Whether or not the chip is disabled.
     #[prop_or_default]
     pub disabled: bool,
-    /// When true, allow disabled chips to be focused with arrow keys.<br>Add this when a chip needs increased visibility when disabled. See https://www.w3.org/WAI/ARIA/apg/practices/keyboard-interface/#kbd_disabled_controls for more guidance on when this is needed.
+    /// When true, allow disabled chips to be focused with arrow keys.
     #[prop_or_default]
     pub always_focusable: bool,
-    /// The label of the chip.
-    #[prop_or_default]
-    pub label: Option<AttrValue>,
     /// The variant to use.
     pub variant: ChipVariants,
+    /// The content of the chip's label.
     #[prop_or_default]
     pub children: Html,
 }
@@ -53,13 +50,12 @@ pub struct Props {
 pub fn Chip(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/chip.js");
     html! { <@{props.variant.as_tag_name()}
-        elevated={props.elevated.then(|| AttrValue::from(""))}
+        elevated={props.elevated.then_some(AttrValue::from(""))}
         href={props.href.clone()}
         target={props.target.clone()}
         download={props.download.clone()}
         disabled={props.disabled}
-        always-focusable={props.always_focusable.then(|| AttrValue::from(""))}
-        label={props.label.clone()}
+        always-focusable={props.always_focusable.then_some(AttrValue::from(""))}
     > {props.children.clone()} </@> }
 }
 
@@ -77,19 +73,19 @@ mod tests {
         let host = document().create_element("div").unwrap();
         let props = Props {
             elevated: false,
-            href: None,
-            target: None,
-            download: Some("file.txt".into()),
+            href: AttrValue::default(),
+            target: AttrValue::default(),
+            download: "file.txt".into(),
             disabled: false,
             always_focusable: false,
-            label: Some("Test Chip".into()),
             variant: ChipVariants::Assist,
-            children: html! {},
+            children: html! { "Test Chip" },
         };
 
         yew::Renderer::<Chip>::with_root_and_props(host.clone(), props).render();
 
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("download=\"file.txt\""));
+        assert!(rendered_html.contains("Test Chip"));
     }
 }

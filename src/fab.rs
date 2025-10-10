@@ -16,19 +16,21 @@ impl FabStyle {
     }
 }
 
-#[derive(Display, PartialEq, Clone, Copy)]
+#[derive(Display, PartialEq, Clone, Copy, Default)]
 #[strum(serialize_all = "lowercase")]
 pub enum FabVariant {
+    #[default]
     Surface,
     Primary,
     Secondary,
     Tertiary,
 }
 
-#[derive(Display, PartialEq, Clone, Copy)]
+#[derive(Display, PartialEq, Clone, Copy, Default)]
 #[strum(serialize_all = "lowercase")]
 pub enum FabSize {
     Small,
+    #[default]
     Medium,
     Large,
 }
@@ -37,14 +39,14 @@ pub enum FabSize {
 pub struct Props {
     /// The FAB color variant to render.
     #[prop_or_default]
-    pub variant: Option<FabVariant>,
+    pub variant: FabVariant,
     /// The size of the FAB.<br>NOTE: Branded FABs cannot be sized to <code>small</code>, and
     /// Extended FABs do not have different sizes.
     #[prop_or_default]
-    pub size: Option<FabSize>,
+    pub size: FabSize,
     /// The text to display on the FAB.
     #[prop_or_default]
-    pub label: Option<AttrValue>,
+    pub label: AttrValue,
     /// Lowers the FAB’s elevation.
     #[prop_or_default]
     pub lowered: bool,
@@ -59,10 +61,10 @@ pub struct Props {
 pub fn Fab(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/fab.js");
     html! { <@{props.style.as_tag_name()}
-        variant={props.variant.as_ref().map(|v| v.to_string())}
-        size={props.size.as_ref().map(|s| s.to_string())}
+        variant={props.variant.to_string()}
+        size={props.size.to_string()}
         label={props.label.clone()}
-        lowered={props.lowered.then(|| AttrValue::from(""))}
+        lowered={props.lowered.then_some(AttrValue::from(""))}
     >
         <span slot="icon">{ props.icon.clone() }</span>
     </@> }
@@ -82,9 +84,9 @@ mod tests {
     fn it_renders_with_enums() {
         let host = document().create_element("div").unwrap();
         let props = Props {
-            variant: Some(FabVariant::Primary),
-            size: Some(FabSize::Large),
-            label: None,
+            variant: FabVariant::Primary,
+            size: FabSize::Large,
+            label: AttrValue::default(),
             lowered: false,
             style: FabStyle::Standard,
             icon: html! {},
@@ -101,9 +103,9 @@ mod tests {
     fn it_renders_icon_slot() {
         let host = document().create_element("div").unwrap();
         let props = Props {
-            variant: None,
-            size: None,
-            label: None,
+            variant: FabVariant::default(),
+            size: FabSize::default(),
+            label: AttrValue::default(),
             lowered: false,
             style: FabStyle::Standard,
             icon: html! { <Icon icon={"star".to_string()} /> },

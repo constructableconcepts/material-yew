@@ -1,6 +1,3 @@
-use js_sys::Reflect;
-use wasm_bindgen::JsValue;
-use web_sys::HtmlFormElement as HTMLFormElement;
 use yew::prelude::*;
 
 #[derive(PartialEq)]
@@ -27,61 +24,60 @@ impl ButtonVariants {
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Whether or not the button is disabled.
-    #[prop_or(Some(false))]
-    pub disabled: Option<bool>,
+    #[prop_or_default]
+    pub disabled: bool,
     /// When true, the button's ripple and state are disabled, but the button remains focusable.
     #[prop_or_default]
-    pub soft_disabled: Option<bool>,
+    pub soft_disabled: bool,
     /// The URL that the link button points to.
-    #[prop_or(Some(AttrValue::Static("")))]
-    pub href: Option<AttrValue>,
-    /// Where to display the linked <code>href</code> URL for a link button. Common options include
-    /// <code>_blank</code> to open in a new tab.
-    #[prop_or(Some(AttrValue::Static("")))]
-    pub target: Option<AttrValue>,
+    #[prop_or_default]
+    pub href: AttrValue,
+    /// Where to display the linked `href` URL for a link button. Common options include
+    /// `_blank` to open in a new tab.
+    #[prop_or_default]
+    pub target: AttrValue,
     /// Tells the browser to download the linked file instead of navigating to it.
     #[prop_or_default]
-    pub download: Option<AttrValue>,
+    pub download: AttrValue,
     /// Whether to render the icon at the inline end of the label rather than the inline
     /// start.<br><em>Note:</em> Link buttons cannot have trailing icons.
-    #[prop_or(Some(false))]
-    pub trailing_icon: Option<bool>,
+    #[prop_or_default]
+    pub trailing_icon: bool,
     /// Whether to display the icon or not.
-    #[prop_or(Some(false))]
-    pub has_icon: Option<bool>,
-    ///
-    #[prop_or(Some(AttrValue::Static("submit")))]
-    pub r#type: Option<AttrValue>,
-    ///
-    #[prop_or(Some(AttrValue::Static("")))]
-    pub value: Option<AttrValue>,
-    ///
-    #[prop_or(Some(AttrValue::Static("")))]
-    pub name: Option<AttrValue>,
-    ///
+    #[prop_or_default]
+    pub has_icon: bool,
+    /// The default behavior of the button. May be "button", "reset", or "submit" (default).
+    #[prop_or(AttrValue::from("submit"))]
+    pub r#type: AttrValue,
+    /// The value added to a form with the button's name when the button submits a form.
+    #[prop_or_default]
+    pub value: AttrValue,
+    /// The name of the button.
+    #[prop_or_default]
+    pub name: AttrValue,
     /// The id of the form the button is associated with.
     #[prop_or_default]
-    pub form: Option<AttrValue>,
+    pub form: AttrValue,
     /// The variant to use.
     pub variant: ButtonVariants,
     pub children: Html,
-    #[prop_or(None)]
-    pub onclick: Option<Callback<MouseEvent>>,
+    #[prop_or_default]
+    pub onclick: Callback<MouseEvent>,
 }
 
 #[function_component]
 pub fn Button(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/button.js");
     html! { <@{props.variant.as_tag_name()}
-        disabled={props.disabled.unwrap_or(false)}
-        soft-disabled={props.soft_disabled.filter(|&v| v).map(|_| AttrValue::from(""))}
+        disabled={props.disabled}
+        soft-disabled={props.soft_disabled.then_some(AttrValue::from(""))}
         href={props.href.clone()}
         target={props.target.clone()}
         download={props.download.clone()}
-        trailingIcon={props.trailing_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
-        hasIcon={props.has_icon.filter(|&v| v).map(|_| AttrValue::from(""))}
+        trailingIcon={props.trailing_icon.then_some(AttrValue::from(""))}
+        hasIcon={props.has_icon.then_some(AttrValue::from(""))}
         type={props.r#type.clone()}
-        value={props.value.clone().unwrap_or_default()}
+        value={props.value.clone()}
         name={props.name.clone()}
         form={props.form.clone()}
         onclick={props.onclick.clone()}
@@ -101,20 +97,20 @@ mod tests {
     fn it_renders_with_type() {
         let host = document().create_element("div").unwrap();
         let props = Props {
-            disabled: Some(false),
-            soft_disabled: None,
-            href: None,
-            target: None,
-            download: None,
-            trailing_icon: Some(false),
-            has_icon: Some(false),
-            r#type: Some("button".into()),
-            value: None,
-            name: None,
-            form: Some("my-form".into()),
+            disabled: false,
+            soft_disabled: false,
+            href: AttrValue::default(),
+            target: AttrValue::default(),
+            download: AttrValue::default(),
+            trailing_icon: false,
+            has_icon: false,
+            r#type: "button".into(),
+            value: AttrValue::default(),
+            name: AttrValue::default(),
+            form: "my-form".into(),
             variant: ButtonVariants::Filled,
             children: html! { "Test Button" },
-            onclick: None,
+            onclick: Callback::default(),
         };
 
         yew::Renderer::<Button>::with_root_and_props(host.clone(), props).render();
@@ -128,20 +124,20 @@ mod tests {
     fn it_renders_with_soft_disabled_and_download() {
         let host = document().create_element("div").unwrap();
         let props = Props {
-            disabled: Some(false),
-            soft_disabled: Some(true),
-            href: None,
-            target: None,
-            download: Some("file.txt".into()),
-            trailing_icon: Some(false),
-            has_icon: Some(false),
-            r#type: Some("button".into()),
-            value: None,
-            name: None,
-            form: None,
+            disabled: false,
+            soft_disabled: true,
+            href: AttrValue::default(),
+            target: AttrValue::default(),
+            download: "file.txt".into(),
+            trailing_icon: false,
+            has_icon: false,
+            r#type: "button".into(),
+            value: AttrValue::default(),
+            name: AttrValue::default(),
+            form: AttrValue::default(),
             variant: ButtonVariants::Filled,
             children: html! { "Test Button" },
-            onclick: None,
+            onclick: Callback::default(),
         };
 
         yew::Renderer::<Button>::with_root_and_props(host.clone(), props).render();

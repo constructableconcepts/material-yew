@@ -1,23 +1,21 @@
 use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::EventTarget;
 use yew::prelude::*;
+
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// The anchorCorner to set on the submenu.
-    #[prop_or_default]
-    pub anchor_corner: Option<AttrValue>,
+    #[prop_or(AttrValue::from("end-start"))]
+    pub anchor_corner: AttrValue,
     /// The menuCorner to set on the submenu.
-    #[prop_or_default]
-    pub menu_corner: Option<AttrValue>,
+    #[prop_or(AttrValue::from("start-start"))]
+    pub menu_corner: AttrValue,
     /// The delay between mouseenter and submenu opening.
     #[prop_or(400)]
-    pub hover_open_delay: usize,
+    pub hover_open_delay: u32,
     /// The delay between ponterleave and the submenu closing.
     #[prop_or(400)]
-    pub hover_close_delay: usize,
-    /// READONLY: self-identifies as a menu item and sets its identifying attribute
-    #[prop_or(true)]
-    pub is_sub_menu: bool,
+    pub hover_close_delay: u32,
     #[prop_or_default]
     pub onclosing: Callback<Event>,
     #[prop_or_default]
@@ -33,6 +31,8 @@ pub struct Props {
 #[function_component]
 pub fn SubMenu(props: &Props) -> Html {
     let node_ref = use_node_ref();
+    // The event handling here is verbose and could be improved with a macro,
+    // but for now, we'll leave it as-is to focus on the prop ergonomics task.
     {
         let node_ref = node_ref.clone();
         let onclosing = props.onclosing.clone();
@@ -113,7 +113,6 @@ pub fn SubMenu(props: &Props) -> Html {
        menu-corner={props.menu_corner.clone()}
        hover-open-delay={props.hover_open_delay.to_string()}
        hover-close-delay={props.hover_close_delay.to_string()}
-       is-sub-menu={props.is_sub_menu.then(|| AttrValue::from(""))}
     >
         {props.children.clone()}
     </md-sub-menu> }

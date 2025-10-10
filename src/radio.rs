@@ -1,4 +1,5 @@
 use yew::prelude::*;
+
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Whether or not the radio is disabled.
@@ -7,16 +8,16 @@ pub struct Props {
     /// The element value to use in form submission when checked.
     #[prop_or_default]
     pub value: AttrValue,
-    ///
+    /// Whether or not the radio is checked.
     #[prop_or_default]
     pub checked: bool,
-    ///
+    /// The name of the radio group.
     #[prop_or_default]
-    pub name: Option<AttrValue>,
+    pub name: AttrValue,
     #[prop_or_default]
-    pub oninput: Option<Callback<InputEvent>>,
+    pub oninput: Callback<InputEvent>,
     #[prop_or_default]
-    pub onchange: Option<Callback<Event>>,
+    pub onchange: Callback<Event>,
 }
 
 #[function_component]
@@ -25,10 +26,8 @@ pub fn Radio(props: &Props) -> Html {
     html! { <md-radio
         disabled={props.disabled}
         value={props.value.clone()}
-        checked={props.checked.then(|| AttrValue::from(""))}
+        checked={props.checked.then_some(AttrValue::from(""))}
         name={props.name.clone()}
-        // ~form={props.form.clone()}
-        // ~labels={props.labels.clone()}
         oninput={props.oninput.clone()}
         onchange={props.onchange.clone()}
     /> }

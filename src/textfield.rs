@@ -1,31 +1,22 @@
 use yew::prelude::*;
-use web_sys::HtmlInputElement;
 
 #[derive(Properties, PartialEq, Clone)]
 pub struct Props {
     #[prop_or_default]
-    pub label: Option<String>,
+    pub label: AttrValue,
     #[prop_or_default]
-    pub value: Option<String>,
+    pub value: AttrValue,
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
     pub outlined: bool,
     #[prop_or_default]
-    pub oninput: Option<Callback<String>>,
+    pub oninput: Callback<InputEvent>,
 }
 
 #[function_component(TextField)]
 pub fn textfield(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/textfield.js");
-    let oninput = props.oninput.clone();
-    let oninput_cb = Callback::from(move |e: InputEvent| {
-        if let Some(input) = e.target_dyn_into::<HtmlInputElement>() {
-            if let Some(cb) = &oninput {
-                cb.emit(input.value());
-            }
-        }
-    });
 
     let tag = if props.outlined {
         "md-outlined-text-field"
@@ -34,10 +25,10 @@ pub fn textfield(props: &Props) -> Html {
     };
     html! {
         <@{tag}
-            label={props.label.clone().unwrap_or_default()}
-            value={props.value.clone().unwrap_or_default()}
+            label={props.label.clone()}
+            value={props.value.clone()}
             disabled={props.disabled}
-            oninput={oninput_cb}
+            oninput={props.oninput.clone()}
         />
     }
 }

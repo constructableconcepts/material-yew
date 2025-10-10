@@ -14,19 +14,19 @@ pub fn demo_pages() -> Html {
             <Checkbox />
 
             <h2>{ "Chip" }</h2>
-            <Chip variant={ChipVariants::Assist} label={"Demo Chip"} />
+            <Chip variant={ChipVariants::Assist}>{ "Demo Chip" }</Chip>
 
             <h2>{ "Chip Set" }</h2>
             <ChipSet>
-                <Chip variant={ChipVariants::Assist} label={"Chip 1"} />
-                <Chip variant={ChipVariants::Assist} label={"Chip 2"} />
+                <Chip variant={ChipVariants::Assist}>{ "Chip 1" }</Chip>
+                <Chip variant={ChipVariants::Assist}>{ "Chip 2" }</Chip>
             </ChipSet>
 
             <h2>{ "Circular Progress" }</h2>
             <CircularProgress value={50.0} max={100.0} />
 
             <h2>{ "Color" }</h2>
-            <Color value={Some("#2196f3".to_string())} />
+            <Color value={"#2196f3"} />
 
             <h2>{ "Dialog" }</h2>
             <Dialog
@@ -42,16 +42,16 @@ pub fn demo_pages() -> Html {
             <Elevation />
 
             <h2>{ "FAB" }</h2>
-            <Fab style={FabStyle::Standard} label={"Add"} icon={html!{<Icon icon={"add".to_string()} />}} />
+            <Fab style={FabStyle::Standard} label={"Add"} icon={html!{<Icon icon={"add"} />}} />
 
             <h2>{ "Field" }</h2>
-            <Field label={Some("Field Label".to_string())}>{ "Field content" }</Field>
+            <Field label={"Field Label"}>{ "Field content" }</Field>
 
             <h2>{ "Focus" }</h2>
             <Focus>{ "Focusable content" }</Focus>
 
             <h2>{ "Icon" }</h2>
-            <Icon icon={"star".to_string()} />
+            <Icon icon={"star"} />
 
             <h2>{ "Icon Button" }</h2>
             <IconButton variant={IconButtonVariants::Standard}>{ "favorite" }</IconButton>
@@ -87,7 +87,7 @@ pub fn demo_pages() -> Html {
             <Ripple>{ "Rippled content" }</Ripple>
 
             <h2>{ "Select" }</h2>
-            <Select label={Some("Select Label".to_string())}>
+            <Select label={"Select Label"}>
                 <MenuItem>{ "Option 1" }</MenuItem>
                 <MenuItem>{ "Option 2" }</MenuItem>
             </Select>
@@ -105,7 +105,7 @@ pub fn demo_pages() -> Html {
             <Tabs>{ "Tab content" }</Tabs>
 
             <h2>{ "TextField" }</h2>
-            <TextField label={Some("Text Field".to_string())} />
+            <TextField label={"Text Field"} />
         </div>
     }
 }
