@@ -61,10 +61,10 @@ v.0.0.2
   - [x] Create `scripts/run_matdemo.sh` to build and serve the demo application.
   - [x] Create `scripts/verify_matdemo.py` to capture a screenshot of the demo application.
   - [x] Execute the scripts and verify the screenshot.
-- [ ] **Task: Investigate and Fix `matdemo` Runtime Panic**
-  - [ ] Debug the `matdemo` application to identify the root cause of the rendering panic.
-  - [ ] Implement a fix for the runtime error.
-  - [ ] Verify the fix by successfully running the `verify_matdemo.py` script and capturing a screenshot.
+- [x] **Task: Investigate and Fix `matdemo` Runtime Panic**
+  - [x] Debug the `matdemo` application to identify the root cause of the rendering panic.
+  - [x] Implement a fix for the runtime error.
+  - [x] Verify the fix by successfully running the `verify_matdemo.py` script and capturing a screenshot.
 
 ## Phase 4: Library-Wide DX and Documentation
 
