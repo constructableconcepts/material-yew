@@ -39,9 +39,12 @@ def verify_matdemo(page: Page):
     expect(button_heading).to_be_visible(timeout=10000)
 
     # 3. Screenshot: Capture the final result for visual verification.
+    logger.info("Scrolling to the bottom of the page...")
+    page.evaluate("window.scrollTo(0, document.body.scrollHeight)")
+    page.wait_for_timeout(1000) # wait for scroll
     logger.info("Taking screenshot...")
-    page.screenshot(path="matdemo.png")
-    logger.info("Screenshot saved to matdemo.png")
+    page.screenshot(path="jules-scratch/verification/verification.png")
+    logger.info("Screenshot saved to jules-scratch/verification/verification.png")
 
 def main():
     with sync_playwright() as p:

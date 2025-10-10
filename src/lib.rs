@@ -5,8 +5,6 @@
 // - [`md-dialog`](https://material-web.dev/components/dialog/)
 // - [`md-select`](https://material-web.dev/components/select/)
 // - [`md-sub-menu` events](https://material-web.dev/components/menu/#events-2)
-pub mod customizable;
-pub use customizable::CustomizableProps;
 mod chip_set;
 mod color;
 mod divider;

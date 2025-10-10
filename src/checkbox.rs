@@ -1,6 +1,4 @@
-use crate::customizable::CustomizableProps;
 use wasm_bindgen::{prelude::*, JsCast};
-use web_sys::Element;
 use yew::prelude::*;
 
 #[wasm_bindgen]
@@ -71,9 +69,10 @@ pub struct Props {
     pub checkbox_ref: CheckboxRef,
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
-    /// Customizable properties.
     #[prop_or_default]
-    pub customizable: CustomizableProps,
+    pub id: Option<AttrValue>,
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
 }
 
 /// A checkbox component.
@@ -82,24 +81,6 @@ pub struct Props {
 #[function_component(Checkbox)]
 pub fn checkbox(props: &Props) -> Html {
     let node_ref = props.checkbox_ref.node_ref.clone();
-    let customizable = props.customizable.clone();
-    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
-        if let Some(element) = node_ref.get() {
-            let element = element.dyn_ref::<Element>().unwrap();
-
-            if let Some(style) = &customizable.style {
-                element.set_attribute("style", style).unwrap();
-            }
-
-            if let Some(aria) = &customizable.aria {
-                for (key, value) in aria {
-                    if key.starts_with("aria-") {
-                        element.set_attribute(key, value).unwrap();
-                    }
-                }
-            }
-        }
-    });
     crate::import_material_web_module!("/md-web/checkbox.js");
 
     html! { <md-checkbox
@@ -111,6 +92,8 @@ pub fn checkbox(props: &Props) -> Html {
         value={props.value.clone()}
         name={props.name.clone()}
         onclick={props.onclick.clone()}
+        id={props.id.clone()}
+        style={props.style.clone()}
     /> }
 }
 
@@ -118,9 +101,7 @@ pub fn checkbox(props: &Props) -> Html {
 mod tests {
     use super::*;
     use gloo_utils::document;
-    use std::collections::BTreeMap;
     use wasm_bindgen_test::*;
-    use yew::prelude::*;
 
     wasm_bindgen_test_configure!(run_in_browser);
 
@@ -136,7 +117,8 @@ mod tests {
             name: "test-name".into(),
             checkbox_ref: CheckboxRef::default(),
             onclick: Callback::default(),
-            customizable: CustomizableProps::default(),
+            id: None,
+            style: None,
         };
 
         yew::Renderer::<Checkbox>::with_root_and_props(host.clone(), props).render();
@@ -149,10 +131,8 @@ mod tests {
     }
 
     #[wasm_bindgen_test]
-    fn it_renders_with_custom_style_and_aria() {
+    fn it_renders_with_custom_style_and_id() {
         let host = document().create_element("div").unwrap();
-        let mut aria = BTreeMap::new();
-        aria.insert("aria-label".to_string(), "Custom Checkbox".into());
         let props = Props {
             checked: false,
             disabled: false,
@@ -162,16 +142,14 @@ mod tests {
             name: AttrValue::default(),
             checkbox_ref: CheckboxRef::default(),
             onclick: Callback::default(),
-            customizable: CustomizableProps {
-                style: Some("color: blue;".into()),
-                aria: Some(aria),
-            },
+            id: Some("custom-id".into()),
+            style: Some("color: blue;".into()),
         };
 
         yew::Renderer::<Checkbox>::with_root_and_props(host.clone(), props).render();
 
         let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("id=\"custom-id\""));
         assert!(rendered_html.contains("style=\"color: blue;\""));
-        assert!(rendered_html.contains("aria-label=\"Custom Checkbox\""));
     }
 }

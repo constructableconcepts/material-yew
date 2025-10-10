@@ -1,6 +1,3 @@
-use crate::customizable::CustomizableProps;
-use wasm_bindgen::JsCast;
-use web_sys::Element;
 use yew::prelude::*;
 
 /// A component that displays a set of chips.
@@ -10,34 +7,16 @@ use yew::prelude::*;
 pub struct ChipSetProps {
     #[prop_or_default]
     pub children: Children,
-    /// Customizable properties.
     #[prop_or_default]
-    pub customizable: CustomizableProps,
+    pub id: Option<AttrValue>,
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
 }
 
 #[function_component(ChipSet)]
 pub fn chip_set(props: &ChipSetProps) -> Html {
-    let node_ref = use_node_ref();
-    let customizable = props.customizable.clone();
-    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
-        if let Some(element) = node_ref.get() {
-            let element = element.dyn_ref::<Element>().unwrap();
-
-            if let Some(style) = &customizable.style {
-                element.set_attribute("style", style).unwrap();
-            }
-
-            if let Some(aria) = &customizable.aria {
-                for (key, value) in aria {
-                    if key.starts_with("aria-") {
-                        element.set_attribute(key, value).unwrap();
-                    }
-                }
-            }
-        }
-    });
     html! {
-        <md-chip-set ref={node_ref}>
+        <md-chip-set id={props.id.clone()} style={props.style.clone()}>
             { for props.children.iter() }
         </md-chip-set>
     }

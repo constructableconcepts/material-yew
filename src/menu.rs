@@ -1,6 +1,5 @@
-use crate::customizable::CustomizableProps;
 use wasm_bindgen::{prelude::Closure, JsCast};
-use web_sys::{Element, EventTarget};
+use web_sys::EventTarget;
 use yew::prelude::*;
 
 #[derive(Properties, PartialEq)]
@@ -63,32 +62,15 @@ pub struct Props {
     pub onclosed: Callback<Event>,
     #[prop_or_default]
     pub children: Html,
-    /// Customizable properties.
     #[prop_or_default]
-    pub customizable: CustomizableProps,
+    pub id: Option<AttrValue>,
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
 }
 
 #[function_component]
 pub fn Menu(props: &Props) -> Html {
     let node_ref = use_node_ref();
-    let customizable = props.customizable.clone();
-    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
-        if let Some(element) = node_ref.get() {
-            let element = element.dyn_ref::<Element>().unwrap();
-
-            if let Some(style) = &customizable.style {
-                element.set_attribute("style", style).unwrap();
-            }
-
-            if let Some(aria) = &customizable.aria {
-                for (key, value) in aria {
-                    if key.starts_with("aria-") {
-                        element.set_attribute(key, value).unwrap();
-                    }
-                }
-            }
-        }
-    });
 
     // The event handling here is verbose and could be improved with a macro,
     // but for now, we'll leave it as-is.
@@ -168,6 +150,8 @@ pub fn Menu(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/menu.js");
     html! { <md-menu
        ref={node_ref}
+       id={props.id.clone()}
+       style={props.style.clone()}
        anchor={props.anchor.clone()}
        positioning={props.positioning.clone()}
        quick={props.quick.then_some(AttrValue::from(""))}

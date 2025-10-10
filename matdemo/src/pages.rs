@@ -91,10 +91,7 @@ pub fn demo_pages() -> Html {
             <div style="position: relative;">
                 <Button
                     variant={ButtonVariants::Outlined}
-                    customizable={CustomizableProps {
-                        id: Some("menu-anchor".into()),
-                        ..Default::default()
-                    }}
+                    id="menu-anchor"
                     onclick={toggle_menu.clone()}
                 >{ "Open Menu" }</Button>
                 <Menu anchor="menu-anchor" open={*menu_open}>

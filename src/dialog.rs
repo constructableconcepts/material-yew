@@ -1,6 +1,5 @@
-use crate::customizable::CustomizableProps;
 use wasm_bindgen::{prelude::*, JsCast};
-use web_sys::{Element, EventTarget};
+use web_sys::EventTarget;
 use yew::prelude::*;
 
 #[wasm_bindgen]
@@ -87,9 +86,10 @@ pub struct Props {
     /// Event fired when the dialog is canceled.
     #[prop_or_default]
     pub oncancel: Callback<Event>,
-    /// Customizable properties.
     #[prop_or_default]
-    pub customizable: CustomizableProps,
+    pub id: Option<AttrValue>,
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
 }
 
 /// A dialog component that provides a container for content and actions.
@@ -98,25 +98,6 @@ pub struct Props {
 #[function_component(Dialog)]
 pub fn dialog(props: &Props) -> Html {
     let node_ref = props.dialog_ref.node_ref.clone();
-    let customizable = props.customizable.clone();
-    use_effect_with((node_ref.clone(), customizable), |(node_ref, customizable)| {
-        if let Some(element) = node_ref.get() {
-            let element = element.dyn_ref::<Element>().unwrap();
-
-            if let Some(style) = &customizable.style {
-                element.set_attribute("style", style).unwrap();
-            }
-
-            if let Some(aria) = &customizable.aria {
-                for (key, value) in aria {
-                    if key.starts_with("aria-") {
-                        element.set_attribute(key, value).unwrap();
-                    }
-                }
-            }
-        }
-    });
-
     use_effect_with(node_ref.clone(), {
         let props = props.clone();
         move |node_ref| {
@@ -157,6 +138,8 @@ pub fn dialog(props: &Props) -> Html {
             returnValue={props.return_value.clone()}
             type={props.r#type.clone()}
             no-focus-trap={props.no_focus_trap.then_some(AttrValue::from(""))}
+            id={props.id.clone()}
+            style={props.style.clone()}
         >
             {props.icon.clone()}
             {props.headline.clone()}
@@ -170,9 +153,7 @@ pub fn dialog(props: &Props) -> Html {
 mod tests {
     use super::*;
     use gloo_utils::document;
-    use std::collections::BTreeMap;
     use wasm_bindgen_test::*;
-    use yew::prelude::*;
 
     wasm_bindgen_test_configure!(run_in_browser);
 
@@ -195,7 +176,8 @@ mod tests {
             onclose: Callback::default(),
             onclosed: Callback::default(),
             oncancel: Callback::default(),
-            customizable: CustomizableProps::default(),
+            id: None,
+            style: None,
         };
 
         yew::Renderer::<Dialog>::with_root_and_props(host.clone(), props).render();
@@ -208,10 +190,8 @@ mod tests {
     }
 
     #[wasm_bindgen_test]
-    fn it_renders_with_custom_style_and_aria() {
+    fn it_renders_with_custom_style_and_id() {
         let host = document().create_element("div").unwrap();
-        let mut aria = BTreeMap::new();
-        aria.insert("aria-label".to_string(), "Custom Dialog".into());
         let props = Props {
             headline: html! {},
             content: html! {},
@@ -228,17 +208,15 @@ mod tests {
             onclose: Callback::default(),
             onclosed: Callback::default(),
             oncancel: Callback::default(),
-            customizable: CustomizableProps {
-                style: Some("color: red;".into()),
-                aria: Some(aria),
-            },
+            id: Some("custom-id".into()),
+            style: Some("color: red;".into()),
         };
 
         yew::Renderer::<Dialog>::with_root_and_props(host.clone(), props).render();
 
         let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("id=\"custom-id\""));
         assert!(rendered_html.contains("style=\"color: red;\""));
-        assert!(rendered_html.contains("aria-label=\"Custom Dialog\""));
         assert!(rendered_html.contains("type=\"alert\""));
         assert!(rendered_html.contains("no-focus-trap"));
     }
