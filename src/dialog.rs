@@ -36,13 +36,13 @@ impl DialogRef {
 pub struct Props {
     /// The content to display in the `headline` slot.
     #[prop_or_default]
-    pub headline: Children,
+    pub headline: Html,
     /// The content to display in the main `content` slot.
     #[prop_or_default]
-    pub content: Children,
+    pub content: Html,
     /// The content to display in the `actions` slot (usually buttons).
     #[prop_or_default]
-    pub actions: Children,
+    pub actions: Html,
     /// A handle to allow imperative control of the dialog.
     #[prop_or_default]
     pub node_ref: NodeRef,
@@ -108,9 +108,9 @@ pub fn dialog(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/dialog.js");
     html! {
         <md-dialog ref={node_ref}>
-            <div slot="headline">{ for props.headline.iter() }</div>
-            <div slot="content">{ for props.content.iter() }</div>
-            <div slot="actions">{ for props.actions.iter() }</div>
+            <div slot="headline">{ props.headline.clone() }</div>
+            <div slot="content">{ props.content.clone() }</div>
+            <div slot="actions">{ props.actions.clone() }</div>
         </md-dialog>
     }
 }
@@ -128,9 +128,9 @@ mod tests {
     fn it_renders_slots_correctly() {
         let host = document().create_element("div").unwrap();
         let props = Props {
-            headline: Children::new(vec![html! { <h1>{"Headline"}</h1> }]),
-            content: Children::new(vec![html! { <p>{"Content"}</p> }]),
-            actions: Children::new(vec![html! { <button>{"Action"}</button> }]),
+            headline: html! { <h1>{"Headline"}</h1> },
+            content: html! { <p>{"Content"}</p> },
+            actions: html! { <button>{"Action"}</button> },
             node_ref: NodeRef::default(),
             onopen: Callback::default(),
             onopened: Callback::default(),

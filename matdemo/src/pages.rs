@@ -1,8 +1,10 @@
 use yew::prelude::*;
 use material_yew::*;
+use log::info;
 
 #[function_component(DemoPages)]
 pub fn demo_pages() -> Html {
+    info!("Rendering DemoPages component");
     html! {
         <div>
             <h2>{ "Button" }</h2>
@@ -14,11 +16,11 @@ pub fn demo_pages() -> Html {
             <h2>{ "Chip" }</h2>
             <Chip variant={ChipVariants::Assist} label={"Demo Chip"} />
 
-            <h2>{ "Chips" }</h2>
-            <Chips>
+            <h2>{ "Chip Set" }</h2>
+            <ChipSet>
                 <Chip variant={ChipVariants::Assist} label={"Chip 1"} />
                 <Chip variant={ChipVariants::Assist} label={"Chip 2"} />
-            </Chips>
+            </ChipSet>
 
             <h2>{ "Circular Progress" }</h2>
             <CircularProgress value={50.0} max={100.0} />

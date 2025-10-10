@@ -5,7 +5,7 @@
 // - [`md-dialog`](https://material-web.dev/components/dialog/)
 // - [`md-select`](https://material-web.dev/components/select/)
 // - [`md-sub-menu` events](https://material-web.dev/components/menu/#events-2)
-mod chips;
+mod chip_set;
 mod color;
 mod divider;
 mod field;
@@ -15,7 +15,7 @@ mod ripple;
 mod select;
 mod tabs;
 
-pub use chips::Chips;
+pub use chip_set::ChipSet;
 pub use color::Color;
 pub use divider::Divider;
 pub use field::Field;

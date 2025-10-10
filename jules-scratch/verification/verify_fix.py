@@ -36,8 +36,8 @@ def verify_matdemo(page: Page):
 
     # 3. Screenshot: Capture the final result for visual verification.
     logger.info("Taking screenshot...")
-    page.screenshot(path="matdemo.png")
-    logger.info("Screenshot saved to matdemo.png")
+    page.screenshot(path="jules-scratch/verification/verification.png")
+    logger.info("Screenshot saved to jules-scratch/verification/verification.png")
 
 def main():
     with sync_playwright() as p:
