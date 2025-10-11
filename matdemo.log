@@ -2,9 +2,5 @@
 >>> Installing required Rust target...
 info: component 'rust-std' for target 'wasm32-unknown-unknown' is up to date
 >>> Building matdemo application...
-2025-10-11T09:27:56.123998Z  INFO 🚀 Starting trunk 0.21.14
-2025-10-11T09:27:56.125944Z  INFO 📦 starting build
-warning: profiles for the non root package will be ignored, specify profiles at the workspace root:
-package:   /app/matdemo/Cargo.toml
-workspace: /app/Cargo.toml
-   Compiling material-yew v0.1.0 (/app)
+2025-10-11T22:02:25.719055Z  INFO 🚀 Starting trunk 0.21.14
+2025-10-11T22:02:25.772236Z  INFO 📦 starting build

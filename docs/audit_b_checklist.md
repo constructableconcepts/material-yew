@@ -33,11 +33,11 @@ v.0.0.3
 - [x] **B-15: Imperative Handle:** Refactor `DialogRef` to correctly call the `show()` and `close()` methods on the underlying web component, rather than directly manipulating attributes.
 
 ### Task: Divider Component API Correction
-- [ ] **B-16: `inset` Prop:** Add the missing `inset: bool` prop to support equal padding on both sides.
+- [x] **B-16: `inset` Prop:** Add the missing `inset: bool` prop to support equal padding on both sides.
 
 ### Task: Fab Component API Completion
-- [ ] **B-17: `disabled` Prop:** Add the missing `disabled` prop.
-- [ ] **B-18: `style` Prop:** Rename the `style` prop to `fab_style` to avoid confusion with the standard HTML `style` attribute.
+- [x] **B-17: `disabled` Prop:** Add the missing `disabled` prop.
+- [x] **B-18: `style` Prop:** Rename the `style` prop to `fab_style` to avoid confusion with the standard HTML `style` attribute.
 
 ## Phase 6: Documentation
 - [ ] **B-19: Comprehensive Documentation Pass**

@@ -1,0 +1,10 @@
+[package]
+name = "modaldemo"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+yew = "0.21.0"
+material-yew = { path = ".." }
+wasm-logger = "0.2.0"
+log = "0.4.20"
