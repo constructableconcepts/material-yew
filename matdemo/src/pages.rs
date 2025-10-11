@@ -31,12 +31,12 @@ pub fn demo_pages() -> Html {
             <Checkbox />
 
             <h2>{ "Chip" }</h2>
-            <Chip variant={ChipVariants::Assist}>{ "Demo Chip" }</Chip>
+            <AssistChip>{ "Demo Chip" }</AssistChip>
 
             <h2>{ "Chip Set" }</h2>
             <ChipSet>
-                <Chip variant={ChipVariants::Assist}>{ "Chip 1" }</Chip>
-                <Chip variant={ChipVariants::Assist}>{ "Chip 2" }</Chip>
+                <AssistChip>{ "Chip 1" }</AssistChip>
+                <AssistChip>{ "Chip 2" }</AssistChip>
             </ChipSet>
 
             <h2>{ "Circular Progress" }</h2>
