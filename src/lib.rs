@@ -34,6 +34,7 @@ mod fab;
 mod icon_button;
 mod linear_progress;
 mod list;
+pub mod form_element;
 mod list_item;
 mod menu;
 mod menu_item;

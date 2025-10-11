@@ -1,22 +1,10 @@
-use wasm_bindgen::{prelude::*, JsCast};
+use crate::form_element::FormElementRef;
 use yew::prelude::*;
-
-#[wasm_bindgen]
-extern "C" {
-    #[derive(Clone)]
-    type MdCheckbox;
-
-    #[wasm_bindgen(method)]
-    fn checkValidity(this: &MdCheckbox) -> bool;
-
-    #[wasm_bindgen(method)]
-    fn reportValidity(this: &MdCheckbox) -> bool;
-}
 
 /// A handle to imperatively control the Checkbox component.
 #[derive(Debug, Clone, Default, PartialEq)]
 pub struct CheckboxRef {
-    node_ref: NodeRef,
+    form_element_ref: FormElementRef,
 }
 
 impl CheckboxRef {
@@ -24,22 +12,14 @@ impl CheckboxRef {
     ///
     /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/checkValidity
     pub fn check_validity(&self) -> bool {
-        if let Some(element) = self.node_ref.get() {
-            let checkbox: &MdCheckbox = element.unchecked_ref();
-            return checkbox.checkValidity();
-        }
-        false
+        self.form_element_ref.check_validity()
     }
 
     /// Checks the checkbox's validity and reports it to the user.
     ///
     /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/reportValidity
     pub fn report_validity(&self) -> bool {
-        if let Some(element) = self.node_ref.get() {
-            let checkbox: &MdCheckbox = element.unchecked_ref();
-            return checkbox.reportValidity();
-        }
-        false
+        self.form_element_ref.report_validity()
     }
 }
 
@@ -80,7 +60,7 @@ pub struct Props {
 /// [Material Design spec](https://m3.material.io/components/checkbox/overview)
 #[function_component(Checkbox)]
 pub fn checkbox(props: &Props) -> Html {
-    let node_ref = props.checkbox_ref.node_ref.clone();
+    let node_ref = props.checkbox_ref.form_element_ref.node_ref.clone();
     crate::import_material_web_module!("/md-web/checkbox.js");
 
     html! { <md-checkbox
@@ -151,5 +131,27 @@ mod tests {
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("id=\"custom-id\""));
         assert!(rendered_html.contains("style=\"color: blue;\""));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_handles_validation() {
+        let checkbox_ref = CheckboxRef::default();
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            checked: false,
+            disabled: false,
+            indeterminate: false,
+            required: true,
+            value: "on".into(),
+            name: AttrValue::default(),
+            checkbox_ref: checkbox_ref.clone(),
+            onclick: Callback::default(),
+            id: None,
+            style: None,
+        };
+
+        yew::Renderer::<Checkbox>::with_root_and_props(host.clone(), props).render();
+
+        assert!(!checkbox_ref.check_validity());
     }
 }

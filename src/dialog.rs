@@ -135,7 +135,7 @@ pub fn dialog(props: &Props) -> Html {
             ref={node_ref}
             open={props.open}
             quick={props.quick.then_some(AttrValue::from(""))}
-            returnValue={props.return_value.clone()}
+            return-value={props.return_value.clone()}
             type={props.r#type.clone()}
             no-focus-trap={props.no_focus_trap.then_some(AttrValue::from(""))}
             id={props.id.clone()}
