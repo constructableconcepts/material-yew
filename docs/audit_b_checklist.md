@@ -17,11 +17,11 @@ v.0.0.3
 - [x] **B-7: Icon Handling:** Refactor the `Button` component to use a dedicated `icon: Html` prop, removing the need for the manual `has_icon` boolean.
 
 ### Task: Chip Component Refactoring
-- [ ] **B-8: Variant-Specific Props:** Add the missing props required by different chip variants:
-    - [ ] `selected: bool` and `removable: bool` for the `Filter` variant.
-    - [ ] `avatar: bool` for the `Input` variant.
-- [ ] **B-9: Label Prop:** Remove the deprecated `label` prop and use `children` exclusively for the chip's content to align with the reference implementation.
-- [ ] **B-10: Icon Prop:** Add a dedicated `icon: Html` prop for the leading icon.
+- [x] **B-8: Variant-Specific Props:** Add the missing props required by different chip variants:
+    - [x] `selected: bool` and `removable: bool` for the `Filter` variant.
+    - [x] `avatar: bool` for the `Input` variant.
+- [x] **B-9: Label Prop:** Remove the deprecated `label` prop and use `children` exclusively for the chip's content to align with the reference implementation.
+- [x] **B-10: Icon Prop:** Add a dedicated `icon: Html` prop for the leading icon.
 
 ### Task: ChipSet Component Implementation
 - [ ] **B-11: Keyboard Navigation:** Implement the full keyboard navigation and focus management logic from the `material-web` reference to make the component accessible and fully functional.
