@@ -14,7 +14,7 @@ v.0.0.3
 - [x] **B-6: Unit Tests:** Add unit tests for `style` and `aria` props for each component.
 
 ### Task: Button Component Refinements
-- [ ] **B-7: Icon Handling:** Refactor the `Button` component to use a dedicated `icon: Html` prop, removing the need for the manual `has_icon` boolean.
+- [x] **B-7: Icon Handling:** Refactor the `Button` component to use a dedicated `icon: Html` prop, removing the need for the manual `has_icon` boolean.
 
 ### Task: Chip Component Refactoring
 - [ ] **B-8: Variant-Specific Props:** Add the missing props required by different chip variants:
@@ -36,7 +36,7 @@ v.0.0.3
 - [ ] **B-16: `inset` Prop:** Add the missing `inset: bool` prop to support equal padding on both sides.
 
 ### Task: Fab Component API Completion
-- [ ] **B-17: `disabled` Prop:** Add the missing `disabled: bool` prop.
+- [ ] **B-17: `disabled` Prop:** Add the missing `disabled` prop.
 - [ ] **B-18: `style` Prop:** Rename the `style` prop to `fab_style` to avoid confusion with the standard HTML `style` attribute.
 
 ## Phase 6: Documentation

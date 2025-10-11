@@ -43,9 +43,9 @@ pub struct Props {
     /// start.<br><em>Note:</em> Link buttons cannot have trailing icons.
     #[prop_or_default]
     pub trailing_icon: bool,
-    /// Whether to display the icon or not.
+    /// The icon to display in the button.
     #[prop_or_default]
-    pub has_icon: bool,
+    pub icon: Html,
     /// The default behavior of the button. May be "button", "reset", or "submit" (default).
     #[prop_or(AttrValue::from("submit"))]
     pub r#type: AttrValue,
@@ -73,6 +73,12 @@ pub struct Props {
 pub fn Button(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/button.js");
 
+    let icon = if props.icon != html! {} {
+        html! { <span slot="icon">{props.icon.clone()}</span> }
+    } else {
+        html! {}
+    };
+
     html! { <@{props.variant.as_tag_name()}
         disabled={props.disabled}
         soft-disabled={props.soft_disabled.then_some(AttrValue::from(""))}
@@ -80,7 +86,6 @@ pub fn Button(props: &Props) -> Html {
         target={props.target.clone()}
         download={props.download.clone()}
         trailing-icon={props.trailing_icon.then_some(AttrValue::from(""))}
-        has-icon={props.has_icon.then_some(AttrValue::from(""))}
         type={props.r#type.clone()}
         value={props.value.clone()}
         name={props.name.clone()}
@@ -88,12 +93,16 @@ pub fn Button(props: &Props) -> Html {
         onclick={props.onclick.clone()}
         id={props.id.clone()}
         style={props.style.clone()}
-    > {props.children.clone()} </@> }
+    >
+        {icon}
+        {props.children.clone()}
+    </@> }
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::Icon;
     use gloo_utils::document;
     use wasm_bindgen_test::*;
 
@@ -109,7 +118,7 @@ mod tests {
             target: AttrValue::default(),
             download: AttrValue::default(),
             trailing_icon: false,
-            has_icon: false,
+            icon: html! {},
             r#type: "button".into(),
             value: AttrValue::default(),
             name: AttrValue::default(),
@@ -138,7 +147,7 @@ mod tests {
             target: AttrValue::default(),
             download: "file.txt".into(),
             trailing_icon: false,
-            has_icon: false,
+            icon: html! {},
             r#type: "button".into(),
             value: AttrValue::default(),
             name: AttrValue::default(),
@@ -167,7 +176,7 @@ mod tests {
             target: AttrValue::default(),
             download: AttrValue::default(),
             trailing_icon: false,
-            has_icon: false,
+            icon: html! {},
             r#type: "button".into(),
             value: AttrValue::default(),
             name: AttrValue::default(),
@@ -184,5 +193,35 @@ mod tests {
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("id=\"custom-id\""));
         assert!(rendered_html.contains("style=\"color: red;\""));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_icon() {
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            disabled: false,
+            soft_disabled: false,
+            href: AttrValue::default(),
+            target: AttrValue::default(),
+            download: AttrValue::default(),
+            trailing_icon: false,
+            icon: html! { <Icon icon="star" /> },
+            r#type: "button".into(),
+            value: AttrValue::default(),
+            name: AttrValue::default(),
+            form: AttrValue::default(),
+            variant: ButtonVariants::Filled,
+            children: html! { "Test Button" },
+            onclick: Callback::default(),
+            id: None,
+            style: None,
+        };
+
+        yew::Renderer::<Button>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("<span slot=\"icon\">"));
+        assert!(rendered_html.contains("<md-icon>star</md-icon>"));
+        assert!(rendered_html.contains("</span>"));
     }
 }
