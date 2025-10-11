@@ -52,6 +52,9 @@ pub struct Props {
     pub lowered: bool,
     /// The style of the FAB to use.
     pub fab_style: FabStyle,
+    /// Disables the FAB.
+    #[prop_or_default]
+    pub disabled: bool,
     /// The icon to display in the FAB.
     #[prop_or_default]
     pub icon: Html,
@@ -70,6 +73,7 @@ pub fn Fab(props: &Props) -> Html {
         size={props.size.to_string()}
         label={props.label.clone()}
         lowered={props.lowered.then_some(AttrValue::from(""))}
+        disabled={props.disabled}
         id={props.id.clone()}
         style={props.style.clone()}
     >
@@ -95,6 +99,7 @@ mod tests {
             label: AttrValue::default(),
             lowered: false,
             fab_style: FabStyle::Standard,
+            disabled: false,
             icon: html! {},
             id: None,
             style: None,
@@ -116,6 +121,7 @@ mod tests {
             label: AttrValue::default(),
             lowered: false,
             fab_style: FabStyle::Standard,
+            disabled: false,
             icon: html! { <Icon icon={"star".to_string()} /> },
             id: None,
             style: None,
@@ -138,6 +144,7 @@ mod tests {
             label: AttrValue::default(),
             lowered: false,
             fab_style: FabStyle::Standard,
+            disabled: false,
             icon: html! {},
             id: Some("custom-id".into()),
             style: Some("color: purple;".into()),
@@ -148,5 +155,26 @@ mod tests {
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("id=\"custom-id\""));
         assert!(rendered_html.contains("style=\"color: purple;\""));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_renders_as_disabled() {
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            variant: FabVariant::default(),
+            size: FabSize::default(),
+            label: AttrValue::default(),
+            lowered: false,
+            fab_style: FabStyle::Standard,
+            disabled: true,
+            icon: html! {},
+            id: None,
+            style: None,
+        };
+
+        yew::Renderer::<Fab>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("disabled"));
     }
 }

@@ -65,6 +65,7 @@ pub fn demo_pages() -> Html {
 
             <h2>{ "FAB" }</h2>
             <Fab fab_style={FabStyle::Standard} variant={FabVariant::Primary} label="Add" icon={html!{ <Icon icon="add" /> }} />
+            <Fab fab_style={FabStyle::Standard} variant={FabVariant::Primary} label="Disabled" icon={html!{ <Icon icon="add" /> }} disabled={true} />
 
             <h2>{ "Field" }</h2>
             <Field label="Field Label">{ "Field content" }</Field>
