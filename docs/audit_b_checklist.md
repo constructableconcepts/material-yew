@@ -24,13 +24,13 @@ v.0.0.3
 - [x] **B-10: Icon Prop:** Add a dedicated `icon: Html` prop for the leading icon.
 
 ### Task: ChipSet Component Implementation
-- [ ] **B-11: Keyboard Navigation:** Implement the full keyboard navigation and focus management logic from the `material-web` reference to make the component accessible and fully functional.
+- [x] **B-11: Keyboard Navigation:** Implement the full keyboard navigation and focus management logic from the `material-web` reference to make the component accessible and fully functional.
 
 ### Task: Dialog Component API Enhancement
-- [ ] **B-12: Declarative API:** Add an `open: bool` prop for standard, declarative control over the dialog's visibility.
-- [ ] **B-13: API Parity:** Add the missing props from the `material-web` reference: `quick`, `returnValue`, `type`, and `noFocusTrap`.
-- [ ] **B-14: Icon Slot:** Add support for the `icon` slot via a dedicated `icon: Html` prop.
-- [ ] **B-15: Imperative Handle:** Refactor `DialogRef` to correctly call the `show()` and `close()` methods on the underlying web component, rather than directly manipulating attributes.
+- [x] **B-12: Declarative API:** Add an `open: bool` prop for standard, declarative control over the dialog's visibility.
+- [x] **B-13: API Parity:** Add the missing props from the `material-web` reference: `quick`, `returnValue`, `type`, and `noFocusTrap`.
+- [x] **B-14: Icon Slot:** Add support for the `icon` slot via a dedicated `icon: Html` prop.
+- [x] **B-15: Imperative Handle:** Refactor `DialogRef` to correctly call the `show()` and `close()` methods on the underlying web component, rather than directly manipulating attributes.
 
 ### Task: Divider Component API Correction
 - [ ] **B-16: `inset` Prop:** Add the missing `inset: bool` prop to support equal padding on both sides.
