@@ -1,4 +1,23 @@
+use crate::form_element::FormElementRef;
 use yew::prelude::*;
+
+/// A handle to imperatively control the Switch component.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct SwitchRef {
+    form_element_ref: FormElementRef,
+}
+
+impl SwitchRef {
+    /// Checks the switch's validity.
+    pub fn check_validity(&self) -> bool {
+        self.form_element_ref.check_validity()
+    }
+
+    /// Checks the switch's validity and reports it to the user.
+    pub fn report_validity(&self) -> bool {
+        self.form_element_ref.report_validity()
+    }
+}
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -25,6 +44,9 @@ pub struct Props {
     /// The name of the switch.
     #[prop_or_default]
     pub name: AttrValue,
+    /// A handle to allow imperative control of the switch.
+    #[prop_or_default]
+    pub switch_ref: SwitchRef,
     #[prop_or_default]
     pub oninput: Callback<InputEvent>,
     #[prop_or_default]
@@ -37,9 +59,11 @@ pub struct Props {
 
 #[function_component]
 pub fn Switch(props: &Props) -> Html {
+    let node_ref = props.switch_ref.form_element_ref.node_ref.clone();
     crate::import_material_web_module!("/md-web/switch.js");
 
     html! { <md-switch
+        ref={node_ref}
         disabled={props.disabled}
         selected={props.selected}
         icons={props.icons.then_some(AttrValue::from(""))}
@@ -73,6 +97,7 @@ mod tests {
             required: false,
             value: AttrValue::default(),
             name: AttrValue::default(),
+            switch_ref: SwitchRef::default(),
             oninput: Callback::default(),
             onchange: Callback::default(),
             id: Some("custom-id".into()),
@@ -84,5 +109,29 @@ mod tests {
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("id=\"custom-id\""));
         assert!(rendered_html.contains("style=\"color: hotpink;\""));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_handles_validation() {
+        let switch_ref = SwitchRef::default();
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            disabled: false,
+            selected: false,
+            icons: false,
+            show_only_selected_icon: false,
+            required: true,
+            value: AttrValue::default(),
+            name: AttrValue::default(),
+            switch_ref: switch_ref.clone(),
+            oninput: Callback::default(),
+            onchange: Callback::default(),
+            id: None,
+            style: None,
+        };
+
+        yew::Renderer::<Switch>::with_root_and_props(host.clone(), props).render();
+
+        assert!(!switch_ref.check_validity());
     }
 }

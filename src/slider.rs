@@ -1,4 +1,23 @@
+use crate::form_element::FormElementRef;
 use yew::prelude::*;
+
+/// A handle to imperatively control the Slider component.
+#[derive(Debug, Clone, Default, PartialEq)]
+pub struct SliderRef {
+    form_element_ref: FormElementRef,
+}
+
+impl SliderRef {
+    /// Checks the slider's validity.
+    pub fn check_validity(&self) -> bool {
+        self.form_element_ref.check_validity()
+    }
+
+    /// Checks the slider's validity and reports it to the user.
+    pub fn report_validity(&self) -> bool {
+        self.form_element_ref.report_validity()
+    }
+}
 
 #[derive(Properties, PartialEq)]
 pub struct Props {
@@ -62,6 +81,9 @@ pub struct Props {
     /// The name of the slider's end handle.
     #[prop_or_default]
     pub name_end: AttrValue,
+    /// A handle to allow imperative control of the slider.
+    #[prop_or_default]
+    pub slider_ref: SliderRef,
     #[prop_or_default]
     pub id: Option<AttrValue>,
     #[prop_or_default]
@@ -70,9 +92,11 @@ pub struct Props {
 
 #[function_component]
 pub fn Slider(props: &Props) -> Html {
+    let node_ref = props.slider_ref.form_element_ref.node_ref.clone();
     crate::import_material_web_module!("/md-web/slider.js");
 
     html! { <md-slider
+        ref={node_ref}
         disabled={props.disabled}
         min={props.min.to_string()}
         max={props.max.to_string()}
@@ -130,6 +154,7 @@ mod tests {
             name: AttrValue::default(),
             name_start: AttrValue::default(),
             name_end: AttrValue::default(),
+            slider_ref: SliderRef::default(),
             id: Some("custom-id".into()),
             style: Some("width: 300px;".into()),
         };
@@ -139,5 +164,40 @@ mod tests {
         let rendered_html = host.inner_html();
         assert!(rendered_html.contains("id=\"custom-id\""));
         assert!(rendered_html.contains("style=\"width: 300px;\""));
+    }
+
+    #[wasm_bindgen_test]
+    fn it_handles_validation() {
+        let slider_ref = SliderRef::default();
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            disabled: false,
+            min: 0.0,
+            max: 100.0,
+            value: 50.0,
+            value_start: 0.0,
+            value_end: 100.0,
+            value_label: AttrValue::default(),
+            value_label_start: AttrValue::default(),
+            value_label_end: AttrValue::default(),
+            aria_label_start: AttrValue::default(),
+            aria_value_text_start: AttrValue::default(),
+            aria_label_end: AttrValue::default(),
+            aria_value_text_end: AttrValue::default(),
+            step: 1.0,
+            ticks: false,
+            labeled: false,
+            range: false,
+            name: AttrValue::default(),
+            name_start: AttrValue::default(),
+            name_end: AttrValue::default(),
+            slider_ref: slider_ref.clone(),
+            id: None,
+            style: None,
+        };
+
+        yew::Renderer::<Slider>::with_root_and_props(host.clone(), props).render();
+
+        assert!(slider_ref.check_validity());
     }
 }
