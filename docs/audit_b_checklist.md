@@ -6,7 +6,7 @@ v.0.0.3
 ### Task: Library-Wide DX and API Standardization
 - [x] **B-1: Prop Ergonomics:** Refactor all components to remove `Option<T>` wrappers from props where a default value is sufficient, using `#[prop_or_default]` for cleaner APIs.
 - [x] **B-2: Prop Naming:** Ensure all component props consistently use `snake_case` and correctly map to the `kebab-case` attributes of the underlying web components.
-- [ ] **B-3: Form Integration:** Develop a reusable pattern for `mixinConstraintValidation` to provide a consistent form validation API (`checkValidity`, `reportValidity`) and implement it where applicable (starting with `Checkbox`).
+- [x] **B-3: Form Integration:** Develop a reusable pattern for `mixinConstraintValidation` to provide a consistent form validation API (`checkValidity`, `reportValidity`) and implement it where applicable (starting with `Checkbox`).
 
 ### Task: Library-Wide Customization and Accessibility
 - [x] **B-4: Reusable Pattern:** Create a reusable module or macro to handle the delegation of arbitrary `style` and `aria-*` attributes.
