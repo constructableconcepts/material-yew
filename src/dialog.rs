@@ -129,7 +129,7 @@ pub fn dialog(props: &Props) -> Html {
         }
     });
 
-    crate::import_material_web_module!("/md-web/dialog.js");
+    crate::import_material_web_module!("/md-web/dialog.v2.js");
     html! {
         <md-dialog
             ref={node_ref}
