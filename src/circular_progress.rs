@@ -1,5 +1,6 @@
 use yew::prelude::*;
 
+/// Properties for the `CircularProgress` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Progress to display, a fraction between 0 and <code>max</code>.
@@ -15,12 +16,17 @@ pub struct Props {
     /// Whether or not to render indeterminate mode using 4 colors instead of one.
     #[prop_or_default]
     pub four_color: bool,
+    /// The id of the component.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the component.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A circular progress indicator component.
+///
+/// [Material Design spec](https://m3.material.io/components/progress-indicators/overview)
 #[function_component]
 pub fn CircularProgress(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/circular-progress.js");

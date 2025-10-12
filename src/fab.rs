@@ -1,9 +1,12 @@
 use strum::Display;
 use yew::prelude::*;
 
+/// The style of the FAB.
 #[derive(PartialEq, Clone, Copy)]
 pub enum FabStyle {
+    /// The standard FAB style.
     Standard,
+    /// The branded FAB style.
     Branded,
 }
 
@@ -16,25 +19,35 @@ impl FabStyle {
     }
 }
 
+/// The color variant of the FAB.
 #[derive(Display, PartialEq, Clone, Copy, Default)]
 #[strum(serialize_all = "lowercase")]
 pub enum FabVariant {
+    /// The surface color variant.
     #[default]
     Surface,
+    /// The primary color variant.
     Primary,
+    /// The secondary color variant.
     Secondary,
+    /// The tertiary color variant.
     Tertiary,
 }
 
+/// The size of the FAB.
 #[derive(Display, PartialEq, Clone, Copy, Default)]
 #[strum(serialize_all = "lowercase")]
 pub enum FabSize {
+    /// A small FAB.
     Small,
+    /// A medium FAB.
     #[default]
     Medium,
+    /// A large FAB.
     Large,
 }
 
+/// Properties for the `Fab` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// The FAB color variant to render.
@@ -58,12 +71,17 @@ pub struct Props {
     /// The icon to display in the FAB.
     #[prop_or_default]
     pub icon: Html,
+    /// The id of the FAB.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the FAB.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A floating action button (FAB) component.
+///
+/// [Material Design spec](https://m3.material.io/components/floating-action-button/overview)
 #[function_component]
 pub fn Fab(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/fab.js");

@@ -1,5 +1,6 @@
 use yew::prelude::*;
 
+/// Properties for the `Divider` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct Props {
     /// Increases the leading space of the divider.
@@ -11,12 +12,17 @@ pub struct Props {
     /// Indents the divider with equal padding on both sides.
     #[prop_or_default]
     pub inset: bool,
+    /// The id of the divider.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the divider.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A divider component that separates content.
+///
+/// [Material Design spec](https://m3.material.io/components/divider/overview)
 #[function_component(Divider)]
 pub fn divider(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/divider.js");

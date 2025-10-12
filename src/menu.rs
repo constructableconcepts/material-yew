@@ -2,6 +2,7 @@ use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::EventTarget;
 use yew::prelude::*;
 
+/// Properties for the `Menu` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// The ID of the element in the same root node in which the menu should align to.
@@ -52,22 +53,32 @@ pub struct Props {
     /// Whether or not the current menu is a submenu.
     #[prop_or_default]
     pub is_submenu: bool,
+    /// Event fired when the menu is closing.
     #[prop_or_default]
     pub onclosing: Callback<Event>,
+    /// Event fired when the menu is opening.
     #[prop_or_default]
     pub onopening: Callback<Event>,
+    /// Event fired when the menu has opened.
     #[prop_or_default]
     pub onopened: Callback<Event>,
+    /// Event fired when the menu has closed.
     #[prop_or_default]
     pub onclosed: Callback<Event>,
+    /// The content of the menu.
     #[prop_or_default]
     pub children: Html,
+    /// The id of the menu.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the menu.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A menu component.
+///
+/// [Material Design spec](https://m3.material.io/components/menus/overview)
 #[function_component]
 pub fn Menu(props: &Props) -> Html {
     let node_ref = use_node_ref();

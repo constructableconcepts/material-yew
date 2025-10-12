@@ -22,7 +22,7 @@ pub struct FormElementRef {
 impl FormElementRef {
     /// Checks the element's validity.
     ///
-    /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/checkValidity
+    /// <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/checkValidity>
     pub fn check_validity(&self) -> bool {
         if let Some(element) = self.node_ref.get() {
             let form_element: &FormElement = element.unchecked_ref();
@@ -33,7 +33,7 @@ impl FormElementRef {
 
     /// Checks the element's validity and reports it to the user.
     ///
-    /// https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/reportValidity
+    /// <https://developer.mozilla.org/en-US/docs/Web/API/HTMLInputElement/reportValidity>
     pub fn report_validity(&self) -> bool {
         if let Some(element) = self.node_ref.get() {
             let form_element: &FormElement = element.unchecked_ref();

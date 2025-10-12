@@ -1,11 +1,17 @@
 use yew::prelude::*;
 
+/// Defines the variants of the button component.
 #[derive(PartialEq)]
 pub enum ButtonVariants {
+    /// A button with a shadow effect.
     Elevated,
+    /// A button with a solid background color.
     Filled,
+    /// A button with a less prominent background color.
     FilledTonal,
+    /// A button with a border and no background color.
     Outlined,
+    /// A button with no border or background color.
     Text,
 }
 
@@ -60,15 +66,20 @@ pub struct Props {
     pub form: AttrValue,
     /// The variant to use.
     pub variant: ButtonVariants,
+    /// The content of the button.
     pub children: Html,
+    /// The callback to be called when the button is clicked.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
+    /// The id of the button.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the button.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A button component that can be used for various actions.
 #[function_component]
 pub fn Button(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/button.js");

@@ -1,10 +1,15 @@
 use yew::prelude::*;
 
+/// The variants of the icon button.
 #[derive(PartialEq, Clone)]
 pub enum IconButtonVariants {
+    /// The standard icon button.
     Standard,
+    /// The filled icon button.
     Filled,
+    /// The filled tonal icon button.
     FilledTonal,
+    /// The outlined icon button.
     Outlined,
 }
 
@@ -19,6 +24,7 @@ impl IconButtonVariants {
     }
 }
 
+/// Properties for the `IconButton` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct Props {
     /// Disables the icon button and makes it non-interactive.
@@ -58,20 +64,29 @@ pub struct Props {
     pub form: AttrValue,
     /// The variant to use.
     pub variant: IconButtonVariants,
+    /// The content of the icon button.
     #[prop_or_default]
     pub children: Html,
+    /// The callback to be called when the icon button is clicked.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
+    /// The callback to be called when the icon button receives input.
     #[prop_or_default]
     pub oninput: Callback<InputEvent>,
+    /// The callback to be called when the icon button's value changes.
     #[prop_or_default]
     pub onchange: Callback<Event>,
+    /// The id of the icon button.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the icon button.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// An icon button component.
+///
+/// [Material Design spec](https://m3.material.io/components/icon-buttons/overview)
 #[function_component]
 pub fn IconButton(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/icon-button.js");

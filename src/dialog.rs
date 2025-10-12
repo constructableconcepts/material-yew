@@ -86,8 +86,10 @@ pub struct Props {
     /// Event fired when the dialog is canceled.
     #[prop_or_default]
     pub oncancel: Callback<Event>,
+    /// The id of the dialog.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the dialog.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }

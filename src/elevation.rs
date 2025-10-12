@@ -20,10 +20,13 @@ use yew::prelude::*;
 ///   <Elevation />
 /// </div>
 /// ```
+/// Properties for the `Elevation` component.
 #[derive(Properties, PartialEq, Clone, Default)]
 pub struct Props {
+    /// The id of the elevation component.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the elevation component.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }

@@ -19,27 +19,38 @@ impl TextFieldRef {
     }
 }
 
+/// Properties for the `TextField` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct Props {
+    /// The label for the text field.
     #[prop_or_default]
     pub label: AttrValue,
+    /// The value of the text field.
     #[prop_or_default]
     pub value: AttrValue,
+    /// Whether or not the text field is disabled.
     #[prop_or_default]
     pub disabled: bool,
+    /// Whether or not the text field is outlined.
     #[prop_or_default]
     pub outlined: bool,
     /// A handle to allow imperative control of the textfield.
     #[prop_or_default]
     pub textfield_ref: TextFieldRef,
+    /// The callback to be called when the text field receives input.
     #[prop_or_default]
     pub oninput: Callback<InputEvent>,
+    /// The id of the text field.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the text field.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A text field component.
+///
+/// [Material Design spec](https://m3.material.io/components/text-fields/overview)
 #[function_component(TextField)]
 pub fn textfield(props: &Props) -> Html {
     let node_ref = props.textfield_ref.form_element_ref.node_ref.clone();

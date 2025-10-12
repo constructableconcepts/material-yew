@@ -1,19 +1,29 @@
 use yew::prelude::*;
 
+/// Properties for the `Tabs` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct Props {
+    /// The index of the active tab.
     #[prop_or(0)]
     pub active_index: u32,
+    /// The tabs to display.
     #[prop_or_default]
     pub children: Children,
+    /// The id of the tabs.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the tabs.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A tabs component.
+///
+/// [Material Design spec](https://m3.material.io/components/tabs/overview)
 #[function_component(Tabs)]
 pub fn tabs(props: &Props) -> Html {
+    crate::import_material_web_module!("/md-web/tabs.js");
+
     html! {
         <md-tabs
             active-index={props.active_index.to_string()}

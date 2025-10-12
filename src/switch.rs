@@ -19,6 +19,7 @@ impl SwitchRef {
     }
 }
 
+/// Properties for the `Switch` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Disables the switch and makes it non-interactive.
@@ -47,16 +48,23 @@ pub struct Props {
     /// A handle to allow imperative control of the switch.
     #[prop_or_default]
     pub switch_ref: SwitchRef,
+    /// The callback to be called when the switch receives input.
     #[prop_or_default]
     pub oninput: Callback<InputEvent>,
+    /// The callback to be called when the switch's value changes.
     #[prop_or_default]
     pub onchange: Callback<Event>,
+    /// The id of the switch.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the switch.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A switch component.
+///
+/// [Material Design spec](https://m3.material.io/components/switch/overview)
 #[function_component]
 pub fn Switch(props: &Props) -> Html {
     let node_ref = props.switch_ref.form_element_ref.node_ref.clone();

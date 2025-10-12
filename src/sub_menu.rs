@@ -2,6 +2,7 @@ use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::EventTarget;
 use yew::prelude::*;
 
+/// Properties for the `SubMenu` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// The anchorCorner to set on the submenu.
@@ -16,22 +17,32 @@ pub struct Props {
     /// The delay between ponterleave and the submenu closing.
     #[prop_or(400)]
     pub hover_close_delay: u32,
+    /// Event fired when the submenu is closing.
     #[prop_or_default]
     pub onclosing: Callback<Event>,
+    /// Event fired when the submenu is opening.
     #[prop_or_default]
     pub onopening: Callback<Event>,
+    /// Event fired when the submenu has opened.
     #[prop_or_default]
     pub onopened: Callback<Event>,
+    /// Event fired when the submenu has closed.
     #[prop_or_default]
     pub onclosed: Callback<Event>,
+    /// The content of the submenu.
     #[prop_or_default]
     pub children: Html,
+    /// The id of the submenu.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the submenu.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A submenu component.
+///
+/// [Material Design spec](https://m3.material.io/components/menus/overview)
 #[function_component]
 pub fn SubMenu(props: &Props) -> Html {
     let node_ref = use_node_ref();

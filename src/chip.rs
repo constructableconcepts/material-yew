@@ -1,5 +1,6 @@
 use yew::prelude::*;
 
+/// Properties for the `AssistChip` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct AssistChipProps {
     /// Whether the chip is elevated.
@@ -26,12 +27,15 @@ pub struct AssistChipProps {
     /// The icon to display in the chip.
     #[prop_or_default]
     pub icon: Html,
+    /// The id of the chip.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the chip.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// Properties for the `FilterChip` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct FilterChipProps {
     /// Whether the chip is elevated.
@@ -64,12 +68,15 @@ pub struct FilterChipProps {
     /// The icon to display in the chip.
     #[prop_or_default]
     pub icon: Html,
+    /// The id of the chip.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the chip.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// Properties for the `InputChip` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct InputChipProps {
     /// The URL that the chip links to.
@@ -99,12 +106,15 @@ pub struct InputChipProps {
     /// The icon to display in the chip.
     #[prop_or_default]
     pub icon: Html,
+    /// The id of the chip.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the chip.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// Properties for the `SuggestionChip` component.
 #[derive(Properties, PartialEq, Clone)]
 pub struct SuggestionChipProps {
     /// Whether the chip is elevated.
@@ -131,12 +141,17 @@ pub struct SuggestionChipProps {
     /// The icon to display in the chip.
     #[prop_or_default]
     pub icon: Html,
+    /// The id of the chip.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the chip.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// An assist chip component.
+///
+/// [Material Design spec](https://m3.material.io/components/chips/overview)
 #[function_component]
 pub fn AssistChip(props: &AssistChipProps) -> Html {
     html! {
@@ -156,6 +171,9 @@ pub fn AssistChip(props: &AssistChipProps) -> Html {
     }
 }
 
+/// A filter chip component.
+///
+/// [Material Design spec](https://m3.material.io/components/chips/overview)
 #[function_component]
 pub fn FilterChip(props: &FilterChipProps) -> Html {
     html! {
@@ -177,6 +195,9 @@ pub fn FilterChip(props: &FilterChipProps) -> Html {
     }
 }
 
+/// An input chip component.
+///
+/// [Material Design spec](https://m3.material.io/components/chips/overview)
 #[function_component]
 pub fn InputChip(props: &InputChipProps) -> Html {
     html! {
@@ -197,6 +218,9 @@ pub fn InputChip(props: &InputChipProps) -> Html {
     }
 }
 
+/// A suggestion chip component.
+///
+/// [Material Design spec](https://m3.material.io/components/chips/overview)
 #[function_component]
 pub fn SuggestionChip(props: &SuggestionChipProps) -> Html {
     html! {

@@ -1,5 +1,6 @@
 use yew::prelude::*;
 
+/// Properties for the `MenuItem` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Disables the item and makes it non-selectable and non-interactive.
@@ -27,14 +28,20 @@ pub struct Props {
     /// The value that the menu item represents.
     #[prop_or_default]
     pub value: AttrValue,
+    /// The content of the menu item.
     #[prop_or_default]
     pub children: Html,
+    /// The id of the menu item.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the menu item.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A menu item component.
+///
+/// [Material Design spec](https://m3.material.io/components/menus/overview)
 #[function_component]
 pub fn MenuItem(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/menu-item.js");

@@ -19,6 +19,7 @@ impl SliderRef {
     }
 }
 
+/// Properties for the `Slider` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Whether or not the slider is disabled.
@@ -84,12 +85,17 @@ pub struct Props {
     /// A handle to allow imperative control of the slider.
     #[prop_or_default]
     pub slider_ref: SliderRef,
+    /// The id of the slider.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the slider.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A slider component.
+///
+/// [Material Design spec](https://m3.material.io/components/sliders/overview)
 #[function_component]
 pub fn Slider(props: &Props) -> Html {
     let node_ref = props.slider_ref.form_element_ref.node_ref.clone();

@@ -47,10 +47,13 @@ pub struct Props {
     /// A handle to allow imperative control of the checkbox.
     #[prop_or_default]
     pub checkbox_ref: CheckboxRef,
+    /// The callback to be called when the checkbox is clicked.
     #[prop_or_default]
     pub onclick: Callback<MouseEvent>,
+    /// The id of the checkbox.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the checkbox.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }

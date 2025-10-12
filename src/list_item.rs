@@ -16,16 +16,23 @@ pub struct Props {
     /// <code>href</code> is set.
     #[prop_or_default]
     pub target: AttrValue,
+    /// The content of the list item.
     #[prop_or_default]
     pub children: Html,
+    /// The callback to be called when the list item is focused.
     #[prop_or_default]
     pub onfocus: Callback<FocusEvent>,
+    /// The id of the list item.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the list item.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A list item component.
+///
+/// [Material Design spec](https://m3.material.io/components/lists/overview)
 #[function_component]
 pub fn ListItem(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/list-item.js");

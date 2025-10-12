@@ -19,6 +19,7 @@ impl RadioRef {
     }
 }
 
+/// Properties for the `Radio` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// Whether or not the radio is disabled.
@@ -36,16 +37,23 @@ pub struct Props {
     /// A handle to allow imperative control of the radio.
     #[prop_or_default]
     pub radio_ref: RadioRef,
+    /// The callback to be called when the radio receives input.
     #[prop_or_default]
     pub oninput: Callback<InputEvent>,
+    /// The callback to be called when the radio's value changes.
     #[prop_or_default]
     pub onchange: Callback<Event>,
+    /// The id of the radio.
     #[prop_or_default]
     pub id: Option<AttrValue>,
+    /// The style of the radio.
     #[prop_or_default]
     pub style: Option<AttrValue>,
 }
 
+/// A radio button component.
+///
+/// [Material Design spec](https://m3.material.io/components/radio-button/overview)
 #[function_component]
 pub fn Radio(props: &Props) -> Html {
     let node_ref = props.radio_ref.form_element_ref.node_ref.clone();
