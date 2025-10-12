@@ -5,11 +5,17 @@ v.1.0.0
 
 To execute the comprehensive refactoring and enhancement plan detailed in the **`docs/mat-yew_development_plan.md`**. This initiative is the direct result of the systemic findings from **Feature Audit `B`** (`docs/feature_audit_b.md`) and aims to elevate the `material-yew` library to a production-ready state.
 
-## 2. Current Status: Stable
+## 2. Current Status: Blocked
 
-The project is currently in a **stable state**. The critical rendering failure that previously blocked development has been resolved. All components now render correctly, and the `matdemo` application is fully functional.
+**The project is currently blocked by a persistent visual bug in the `md-dialog` component.**
 
-The development team is now proceeding with the tasks outlined in the **`docs/audit_b_checklist.md`**.
+While debugging a separate issue, two visual bugs were discovered:
+1.  The dialog appears "faded" because its background is transparent.
+2.  The dialog's internal layout is broken, causing the headline to cover the content.
+
+A definitive fix has been identified via live debugging, but it fails to apply correctly during the `trunk` build process, likely due to an aggressive and undiscovered caching issue. All attempts to clear the cache have failed.
+
+For a full summary of the investigation, see the **`docs/handoff_notes_modal_bug.md`**.
 
 ## 3. Background
 
