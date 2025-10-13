@@ -43,25 +43,30 @@ def live_debug_modal(page: Page, css_override: str, screenshot_filename: str):
         page.wait_for_timeout(200) # Give styles a moment to apply
 
     # Take the screenshot
-    screenshot_path = f"jules-scratch/verification/{screenshot_filename}"
+    screenshot_path = f"test_outs/{screenshot_filename}"
     os.makedirs(os.path.dirname(screenshot_path), exist_ok=True)
     logger.info(f"Taking screenshot: {screenshot_path}")
     page.screenshot(path=screenshot_path)
     logger.info("Screenshot taken.")
 
 def main():
-    # This script is intended to be called by other scripts that will pass in the CSS and filename.
-    # For standalone testing, you can uncomment and modify the lines below.
-    # css_to_test = "md-dialog .scroller { z-index: 1 !important; }"
-    # filename_for_shot = "test_screenshot.png"
-    # with sync_playwright() as p:
-    #     browser = p.chromium.launch(headless=True)
-    #     page = browser.new_page()
-    #     try:
-    #         live_debug_modal(page, css_to_test, filename_for_shot)
-    #     finally:
-    #         browser.close()
-    pass
+    css_to_test = """
+md-dialog .container {
+    background-color: var(--md-dialog-container-color, var(--md-sys-color-surface-container-high, #ece6f0));
+}
+
+md-dialog .scroller {
+    z-index: 1;
+}
+"""
+    filename_for_shot = "live_debug_screenshot.png"
+    with sync_playwright() as p:
+        browser = p.chromium.launch(headless=True)
+        page = browser.new_page()
+        try:
+            live_debug_modal(page, css_to_test, filename_for_shot)
+        finally:
+            browser.close()
 
 
 if __name__ == "__main__":

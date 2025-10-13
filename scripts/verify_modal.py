@@ -21,7 +21,7 @@ def test_modal_demo(page: Page):
     This test verifies that the modal demo works correctly.
     """
     # Define screenshot directory and ensure it exists
-    screenshot_dir = "jules-scratch/verification"
+    screenshot_dir = "test_outs"
     os.makedirs(screenshot_dir, exist_ok=True)
 
     # Set up the console message handler
