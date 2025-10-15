@@ -1,26 +1,32 @@
 [package]
 name = "material-yew"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-indexmap = "2.0.2"
-js-sys = "0.3.64"
-wasm-bindgen = "0.2.87"
-yew = { version = "0.21", features = ["csr"] }
+indexmap = "2.11.4"
+js-sys = "0.3.81"
+strum = { version = "0.26.2", features = ["derive"] }
+wasm-bindgen = "0.2.104"
+yew = { version = "0.21", features = ["csr", "ssr"] }
 
 [dependencies.web-sys]
-version = "0.3.64"
+version = "0.3.81"
 features = [
     "HtmlFormElement",
     "CustomEvent"
 ]
 
+[dev-dependencies]
+gloo-utils = "0.2.0"
+wasm-bindgen-test = "0.3.42"
+
 [workspace]
 members = [
     "build",
     "usages",
-    "matdemo"
+    "matdemo",
+    "modaldemo"
 ]

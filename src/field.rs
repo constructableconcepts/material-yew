@@ -3,22 +3,28 @@ use yew::prelude::*;
 #[derive(Properties, PartialEq, Clone)]
 pub struct Props {
     #[prop_or_default]
-    pub label: Option<String>,
+    pub label: AttrValue,
     #[prop_or_default]
-    pub value: Option<String>,
+    pub value: AttrValue,
     #[prop_or_default]
     pub disabled: bool,
     #[prop_or_default]
     pub children: Children,
+    #[prop_or_default]
+    pub id: Option<AttrValue>,
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
 }
 
 #[function_component(Field)]
 pub fn field(props: &Props) -> Html {
     html! {
         <md-field
-            label={props.label.clone().unwrap_or_default()}
-            value={props.value.clone().unwrap_or_default()}
+            label={props.label.clone()}
+            value={props.value.clone()}
             disabled={props.disabled}
+            id={props.id.clone()}
+            style={props.style.clone()}
         >
             { for props.children.iter() }
         </md-field>

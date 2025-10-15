@@ -5,11 +5,11 @@
 ### Example
 
 ```rust
-use material_yew::Button;
+use material_yew::{Button, ButtonVariants};
 use yew::html;
 
 html! {
-    <Button label="Click me!" />
+    <Button variant={ButtonVariants::Filled}>{"Click me!"}</Button>
 };
 ```
 

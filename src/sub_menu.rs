@@ -1,38 +1,54 @@
 use wasm_bindgen::{prelude::Closure, JsCast};
 use web_sys::EventTarget;
 use yew::prelude::*;
+
+/// Properties for the `SubMenu` component.
 #[derive(Properties, PartialEq)]
 pub struct Props {
     /// The anchorCorner to set on the submenu.
-    #[prop_or_default]
-    pub anchor_corner: Option<AttrValue>,
+    #[prop_or(AttrValue::from("end-start"))]
+    pub anchor_corner: AttrValue,
     /// The menuCorner to set on the submenu.
-    #[prop_or_default]
-    pub menu_corner: Option<AttrValue>,
+    #[prop_or(AttrValue::from("start-start"))]
+    pub menu_corner: AttrValue,
     /// The delay between mouseenter and submenu opening.
     #[prop_or(400)]
-    pub hover_open_delay: usize,
+    pub hover_open_delay: u32,
     /// The delay between ponterleave and the submenu closing.
     #[prop_or(400)]
-    pub hover_close_delay: usize,
-    /// READONLY: self-identifies as a menu item and sets its identifying attribute
-    #[prop_or(true)]
-    pub is_sub_menu: bool,
+    pub hover_close_delay: u32,
+    /// Event fired when the submenu is closing.
     #[prop_or_default]
     pub onclosing: Callback<Event>,
+    /// Event fired when the submenu is opening.
     #[prop_or_default]
     pub onopening: Callback<Event>,
+    /// Event fired when the submenu has opened.
     #[prop_or_default]
     pub onopened: Callback<Event>,
+    /// Event fired when the submenu has closed.
     #[prop_or_default]
     pub onclosed: Callback<Event>,
+    /// The content of the submenu.
     #[prop_or_default]
     pub children: Html,
+    /// The id of the submenu.
+    #[prop_or_default]
+    pub id: Option<AttrValue>,
+    /// The style of the submenu.
+    #[prop_or_default]
+    pub style: Option<AttrValue>,
 }
 
+/// A submenu component.
+///
+/// [Material Design spec](https://m3.material.io/components/menus/overview)
 #[function_component]
 pub fn SubMenu(props: &Props) -> Html {
     let node_ref = use_node_ref();
+
+    // The event handling here is verbose and could be improved with a macro,
+    // but for now, we'll leave it as-is.
     {
         let node_ref = node_ref.clone();
         let onclosing = props.onclosing.clone();
@@ -109,12 +125,46 @@ pub fn SubMenu(props: &Props) -> Html {
     crate::import_material_web_module!("/md-web/sub-menu.js");
     html! { <md-sub-menu
         ref={node_ref}
+        id={props.id.clone()}
+        style={props.style.clone()}
        anchor-corner={props.anchor_corner.clone()}
        menu-corner={props.menu_corner.clone()}
        hover-open-delay={props.hover_open_delay.to_string()}
        hover-close-delay={props.hover_close_delay.to_string()}
-       is-sub-menu={props.is_sub_menu.then(|| AttrValue::from(""))}
     >
         {props.children.clone()}
     </md-sub-menu> }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use gloo_utils::document;
+    use wasm_bindgen_test::*;
+
+    wasm_bindgen_test_configure!(run_in_browser);
+
+    #[wasm_bindgen_test]
+    fn it_renders_with_custom_style_and_id() {
+        let host = document().create_element("div").unwrap();
+        let props = Props {
+            anchor_corner: "end-start".into(),
+            menu_corner: "start-start".into(),
+            hover_open_delay: 400,
+            hover_close_delay: 400,
+            onclosing: Callback::default(),
+            onopening: Callback::default(),
+            onopened: Callback::default(),
+            onclosed: Callback::default(),
+            children: html! {},
+            id: Some("custom-id".into()),
+            style: Some("color: cyan;".into()),
+        };
+
+        yew::Renderer::<SubMenu>::with_root_and_props(host.clone(), props).render();
+
+        let rendered_html = host.inner_html();
+        assert!(rendered_html.contains("id=\"custom-id\""));
+        assert!(rendered_html.contains("style=\"color: cyan;\""));
+    }
 }

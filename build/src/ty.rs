@@ -1,4 +1,3 @@
-use proc_macro2::{Ident, Span};
 use serde::Deserialize;
 
 #[derive(Debug, Clone, Deserialize, PartialEq)]

@@ -1,5 +1,4 @@
 use convert_case::{Case, Casing};
-use eyre::ensure;
 use proc_macro2::{Ident, Span, TokenStream};
 use quote::quote;
 
@@ -10,7 +9,7 @@ pub fn gen_component(component_name: &str, mut variants: Vec<Component>) -> Stri
     if variants.len() == 1 {
         let mut component = variants.pop().unwrap();
         assert_eq!(format!("md-{component_name}"), component.name);
-        let mut properties = &mut component.properties;
+        let properties = &mut component.properties;
         if properties.len() == 1 && properties[0].ty.0.ends_with("[]") {
             properties.clear();
         }

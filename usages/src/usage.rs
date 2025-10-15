@@ -31,7 +31,7 @@ pub fn test_button(children: Html) -> Html {
             target={AttrValue::Static("<some target>")}
             trailing_icon={false}
             has_icon={false}
-            typepe={AttrValue::Static("<some typepe>")}
+            r#type={AttrValue::Static("<some type>")}
             value={AttrValue::Static("<some value>")}
             name={AttrValue::Static("<some name>")}
             variant={ButtonVariants :: Elevated}
@@ -45,6 +45,8 @@ pub fn test_button(children: Html) -> Html {
 pub fn test_circular_progress() -> Html {
     html! {
         <CircularProgress
+            value={0.5}
+            max={1.0}
             indeterminate={true}
             four_color={false}
         >
@@ -162,14 +164,13 @@ pub fn test_sub_menu(children: Html) -> Html {
 pub fn test_fab(children: Html) -> Html {
     html! {
         <Fab
-            kind={AttrValue::Static("<some kind>")}
-            size={AttrValue::Static("<some size>")}
+            variant={Some(FabVariant::Primary)}
+            size={Some(FabSize::Large)}
             label={AttrValue::Static("<some label>")}
             lowered={false}
-            variant={FabVariants :: Standard}
-        >
-            {children}
-        </Fab>
+            style={FabStyle::Standard}
+            icon={children}
+        />
     }
 }
 
@@ -214,8 +215,6 @@ pub fn test_checkbox() -> Html {
             required={false}
             value={AttrValue::Static("<some value>")}
             name={AttrValue::Static("<some name>")}
-            validation_message={AttrValue::Static("<some validation_message>")}
-            will_validate={false}
             onclick={Callback :: noop ()}
         >
         </Checkbox>
